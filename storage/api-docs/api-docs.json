@@ -34,6 +34,9 @@
                     }
                 },
                 "responses": {
+                    "429": {
+                        "description": "محدودیت ارسال: لطفاً کمی صبر کرده و دوباره تلاش کنید"
+                    },
                     "200": {
                         "description": "OTP ارسال شد",
                         "content": {
@@ -109,6 +112,62 @@
                     },
                     "400": {
                         "description": "کد نادرست یا منقضی‌شده"
+                    }
+                }
+            }
+        },
+        "/api/v1/user/register/resend-otp": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "ارسال مجدد کد OTP",
+                "description": "ارسال مجدد همان کد OTP در صورتی که قبلاً ارسال شده باشد",
+                "operationId": "resendOtp",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "phone"
+                                ],
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "09123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "کد تایید مجدداً ارسال شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 1234
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "درخواست اولیه ارسال نشده یا کد منقضی شده"
+                    },
+                    "429": {
+                        "description": "تعداد درخواست زیاد است"
                     }
                 }
             }

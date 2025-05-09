@@ -29,6 +29,10 @@ class RegisterController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *     response=429,
+     *     description="محدودیت ارسال: لطفاً کمی صبر کرده و دوباره تلاش کنید"
+     *      ),
+     *     @OA\Response(
      *         response=200,
      *         description="OTP ارسال شد",
      *         @OA\JsonContent(
@@ -44,10 +48,19 @@ class RegisterController extends Controller
         $request->validate(['phone' => 'required|ir_mobile|unique:users,phone']);
 
         try {
+            $otpKey = 'otp_' . $request->phone;
+            $throttleKey = 'otp_send_throttle_' . $request->phone;
+
+            // بررسی محدودیت زمانی برای ارسال
+            if (Cache::has($throttleKey)) {
+                return response()->json(['message' => 'لطفاً کمی صبر کرده و سپس تلاش کنید'], 429);
+            }
 
             $otp = rand(1000, 9999);
-            Cache::put('otp_' . $request->phone, $otp, now()->addMinutes(2));
+            Cache::put($otpKey, $otp, now()->addMinutes(2));
+            Cache::put($throttleKey, true, now()->addSeconds(60));
 
+            // ارسال پیامک (در حالت واقعی)
             // SmsService::send($request->phone, "کد تایید شما: $otp");
 
             return response()->json(['message' => 'کد تایید ارسال شد', 'code' => $otp]);
@@ -56,6 +69,7 @@ class RegisterController extends Controller
             return response()->json(['message' => 'ارسال کد با خطا مواجه شد'], 500);
         }
     }
+
 
     /**
      * @OA\Post(
@@ -108,6 +122,68 @@ class RegisterController extends Controller
             return response()->json(['message' => 'خطا در تایید کد'], 500);
         }
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/v1/user/register/resend-otp",
+     *     summary="ارسال مجدد کد OTP",
+     *     description="ارسال مجدد همان کد OTP در صورتی که قبلاً ارسال شده باشد",
+     *     operationId="resendOtp",
+     *     tags={"Authentication"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"phone"},
+     *             @OA\Property(property="phone", type="string", example="09123456789")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="کد تایید مجدداً ارسال شد",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="code", type="integer", example=1234)
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="درخواست اولیه ارسال نشده یا کد منقضی شده"),
+     *     @OA\Response(response=429, description="تعداد درخواست زیاد است")
+     * )
+     */
+    public function resendOtp(Request $request): JsonResponse
+    {
+        $request->validate(['phone' => 'required|ir_mobile']);
+
+        try {
+            $otpKey = 'otp_' . $request->phone;
+            $throttleKey = 'otp_resend_throttle_' . $request->phone;
+
+            // بررسی وجود OTP قبلی
+            $otp = Cache::get($otpKey);
+            if (!$otp) {
+                return response()->json(['message' => 'کدی برای ارسال مجدد یافت نشد. لطفاً ابتدا درخواست اولیه ارسال کد را انجام دهید'], 400);
+            }
+
+            // بررسی محدودیت زمانی برای ارسال مجدد
+            if (Cache::has($throttleKey)) {
+                return response()->json(['message' => 'لطفاً کمی صبر کرده و سپس تلاش کنید'], 429);
+            }
+
+            // تمدید اعتبار OTP و ست کردن throttle
+            Cache::put($otpKey, $otp, now()->addMinutes(2));
+            Cache::put($throttleKey, true, now()->addSeconds(60));
+
+            // ارسال مجدد (ارسال واقعی باید با سرویس پیامک انجام شود)
+            // SmsService::send($request->phone, "کد تایید شما: $otp");
+
+            return response()->json(['message' => 'کد تایید مجدداً ارسال شد', 'code' => $otp]);
+
+        } catch (\Throwable $e) {
+            Log::error('خطا در ارسال مجدد OTP', ['error' => $e->getMessage(), 'phone' => $request->phone ?? null]);
+            return response()->json(['message' => 'ارسال مجدد کد با خطا مواجه شد'], 500);
+        }
+    }
+
+
 
     /**
      * @OA\Post(
