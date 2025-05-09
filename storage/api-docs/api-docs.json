@@ -1,0 +1,203 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My API",
+        "description": "مستندات API برای ثبت‌نام و احراز هویت کاربران",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/user/register/send-otp": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "ارسال کد تایید",
+                "description": "ارسال کد OTP به شماره موبایل",
+                "operationId": "sendOtp",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "phone"
+                                ],
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "09123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OTP ارسال شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 1234
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "خطای اعتبارسنجی"
+                    }
+                }
+            }
+        },
+        "/api/user/register/verify-otp": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "تایید کد OTP",
+                "description": "بررسی صحت کد ارسال‌شده",
+                "operationId": "verifyOtp",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "phone",
+                                    "otp"
+                                ],
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "09123456789"
+                                    },
+                                    "otp": {
+                                        "type": "integer",
+                                        "example": 1234
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "شماره تایید شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "کد نادرست یا منقضی‌شده"
+                    }
+                }
+            }
+        },
+        "/api/user/register/complete-profile": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "تکمیل اطلاعات کاربر",
+                "description": "پس از تایید شماره، ثبت اطلاعات کامل انجام می‌شود",
+                "operationId": "completeProfile",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "phone",
+                                    "username",
+                                    "national_id",
+                                    "full_name",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "09123456789"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "myuser"
+                                    },
+                                    "national_id": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "full_name": {
+                                        "type": "string",
+                                        "example": "علی محمدی"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "mysecurepass"
+                                    },
+                                    "referral_code": {
+                                        "type": "string",
+                                        "example": "ABCD1234",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ثبت‌نام کامل شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "شماره تایید نشده"
+                    },
+                    "422": {
+                        "description": "خطای اعتبارسنجی"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        }
+    ]
+}
