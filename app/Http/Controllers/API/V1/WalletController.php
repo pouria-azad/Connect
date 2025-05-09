@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Wallet\DepositRequest;
+use App\Http\Requests\V1\Wallet\depositRequest;
 use App\Http\Requests\V1\Wallet\requestWithdrawRequest;
 use App\Http\Requests\V1\Wallet\TransferRequest;
 use App\Http\Resources\V1\WalletTransactionResource;
@@ -54,7 +54,7 @@ class WalletController extends Controller
      *     )
      * )
      */
-    public function deposit(DepositRequest $request): JsonResponse
+    public function deposit(depositRequest $request): JsonResponse
     {
         $user = auth()->user();
         DB::transaction(function () use ($user, $request) {

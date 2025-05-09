@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\V1\Wallet;
+namespace App\Http\Requests\V1\SupportTicket;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DepositRequest extends FormRequest
+class storeSupportTicketRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -22,8 +22,7 @@ class DepositRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => 'required|integer|min:1000',
-            'description' => 'nullable|string',
+            'subject' => 'required|string|max:255',
         ];
     }
 }

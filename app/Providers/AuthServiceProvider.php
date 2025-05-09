@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Enums\UserRole;
+use App\Models\Announcement;
+use App\Models\SupportTicket;
 use App\Models\User;
+use App\Policies\AnnouncementPolicy;
+use App\Policies\SupportTicketPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,4 +30,9 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole(UserRole::Admin);
         });
     }
+
+    protected $policies = [
+        Announcement::class => AnnouncementPolicy::class,
+        SupportTicket::class => SupportTicketPolicy::class,
+    ];
 }
