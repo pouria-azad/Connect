@@ -16,7 +16,7 @@ class RegisterController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/user/register/send-otp",
+     *     path="/api/v1/user/register/send-otp",
      *     summary="ارسال کد تایید",
      *     description="ارسال کد OTP به شماره موبایل",
      *     operationId="sendOtp",
@@ -59,7 +59,7 @@ class RegisterController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/user/register/verify-otp",
+     *     path="/api/v1/user/register/verify-otp",
      *     summary="تایید کد OTP",
      *     description="بررسی صحت کد ارسال‌شده",
      *     operationId="verifyOtp",
@@ -111,7 +111,7 @@ class RegisterController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/user/register/complete-profile",
+     *     path="/api/v1/user/register/complete-profile",
      *     summary="تکمیل اطلاعات کاربر",
      *     description="پس از تایید شماره، ثبت اطلاعات کامل انجام می‌شود",
      *     operationId="completeProfile",
@@ -174,7 +174,9 @@ class RegisterController extends Controller
 
             Cache::forget('verified_' . $request->phone);
 
-            return response()->json(['message' => 'ثبت‌نام کامل شد', 'user' => new UserResource($user)]);
+            $token = $user->createToken('api-token')->plainTextToken;
+
+            return response()->json(['message' => 'ثبت‌نام کامل شد', 'user' => new UserResource($user), 'token' => $token]);
         } catch (ValidationException $e) {
             Log::warning('خطای اعتبارسنجی پروفایل', ['errors' => $e->errors()]);
             return response()->json(['message' => 'خطای اعتبارسنجی', 'errors' => $e->errors()], 422);

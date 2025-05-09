@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('referral_code')->unique()->nullable();
             $table->unsignedBigInteger('referred_by')->nullable();
             $table->foreign('referred_by')->references('id')->on('users')->nullOnDelete();
+            $table->decimal('balance', 15, 2)->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

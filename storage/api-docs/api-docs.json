@@ -6,7 +6,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/user/register/send-otp": {
+        "/api/v1/user/register/send-otp": {
             "post": {
                 "tags": [
                     "Authentication"
@@ -59,7 +59,7 @@
                 }
             }
         },
-        "/api/user/register/verify-otp": {
+        "/api/v1/user/register/verify-otp": {
             "post": {
                 "tags": [
                     "Authentication"
@@ -113,7 +113,7 @@
                 }
             }
         },
-        "/api/user/register/complete-profile": {
+        "/api/v1/user/register/complete-profile": {
             "post": {
                 "tags": [
                     "Authentication"
@@ -192,12 +192,592 @@
                     }
                 }
             }
+        },
+        "/api/v1/wallet/deposit": {
+            "post": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "شارژ کیف پول",
+                "description": "کاربر می‌تواند مبلغی به کیف پول خود واریز کند. نیاز به توکن احراز هویت Sanctum دارد که باید در هدر Authorization به‌صورت Bearer {token} ارسال شود.",
+                "operationId": "b3d556d44c664e880a8d4a9c7573797a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "description": "مبلغ واریزی (باید عدد مثبت باشد)",
+                                        "type": "integer",
+                                        "example": 20000
+                                    },
+                                    "description": {
+                                        "description": "توضیحات اختیاری برای تراکنش",
+                                        "type": "string",
+                                        "example": "شارژ برای خرید",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "شارژ با موفقیت انجام شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "شارژ انجام شد"
+                                        },
+                                        "balance": {
+                                            "type": "integer",
+                                            "example": 40000
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "درخواست نامعتبر",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "مقدار واریزی نامعتبر است"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "عدم احراز هویت",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/wallet/transactions": {
+            "get": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "لیست تراکنش‌های کیف پول",
+                "description": "دریافت لیست تراکنش‌های کیف پول کاربر با امکان صفحه‌بندی. نیاز به توکن Sanctum دارد.",
+                "operationId": "1e0bf844dcafd94420ba2d60fe4d73ac",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "تعداد تراکنش‌ها در هر صفحه (پیش‌فرض: 10)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "لیست تراکنش‌ها با موفقیت دریافت شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "amount": {
+                                                        "type": "integer",
+                                                        "example": 5000
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "example": "deposit"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "شارژ اولیه"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-05-09T14:22:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "links": {
+                                            "description": "لینک‌های صفحه‌بندی",
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "description": "متادیتا صفحه‌بندی",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "عدم احراز هویت",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/wallet/withdraw": {
+            "post": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "درخواست برداشت از کیف پول",
+                "description": "کاربر می‌تواند درخواست برداشت مبلغی از کیف پول خود را ثبت کند. نیاز به توکن Sanctum دارد.",
+                "operationId": "e0d3936a45afa61dcafe3ac04505a130",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "description": "مبلغ درخواستی برای برداشت (باید مثبت و کمتر از موجودی باشد)",
+                                        "type": "integer",
+                                        "example": 10000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "درخواست برداشت با موفقیت ثبت شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "درخواست برداشت ثبت شد"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "موجودی ناکافی یا درخواست نامعتبر",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "موجودی کافی نیست"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "عدم احراز هویت",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/wallet/withdraw-review/{withdraw}": {
+            "post": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "بررسی درخواست برداشت توسط ادمین",
+                "description": "فقط کاربران با نقش ادمین می‌توانند درخواست‌های برداشت را بررسی کنند. نیاز به توکن Sanctum و دسترسی ادمین دارد.",
+                "operationId": "67e107b55aea0b3b41805ef443dcefe1",
+                "parameters": [
+                    {
+                        "name": "withdraw",
+                        "in": "path",
+                        "description": "شناسه درخواست برداشت",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "description": "وضعیت نهایی درخواست",
+                                        "type": "string",
+                                        "enum": [
+                                            "approved",
+                                            "rejected"
+                                        ],
+                                        "example": "approved"
+                                    },
+                                    "admin_note": {
+                                        "description": "یادداشت اختیاری ادمین",
+                                        "type": "string",
+                                        "example": "واریز انجام شد",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "درخواست با موفقیت بررسی شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "درخواست با موفقیت بررسی شد"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "درخواست قبلاً بررسی شده یا نامعتبر است",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "این درخواست قبلا بررسی شده"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "عدم احراز هویت",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "عدم دسترسی",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/wallet/transfer": {
+            "post": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "انتقال وجه به کیف پول کاربر دیگر",
+                "description": "کاربر می‌تواند مبلغی را به کیف پول کاربر دیگری انتقال دهد. نیاز به توکن Sanctum دارد.",
+                "operationId": "244b0d0de62ae792b658a7535f7970b3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "to_user_id",
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "to_user_id*": {
+                                        "description": "شناسه کاربر مقصد",
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "amount": {
+                                        "description": "مبلغ انتقالی (باید مثبت و کمتر از موجودی باشد)",
+                                        "type": "integer",
+                                        "example": 15000
+                                    },
+                                    "description": {
+                                        "description": "توضیحات اختیاری برای تراکنش",
+                                        "type": "string",
+                                        "example": "پرداخت به دوست",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "انتقال با موفقیت انجام شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "انتقال با موفقیت انجام شد"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "موجودی ناکافی یا درخواست نامعتبر",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "موجودی کافی نیست"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "عدم احراز هویت",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "کاربر مقصد یافت نشد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "کاربر یافت نشد"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/wallet/balance": {
+            "get": {
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "دریافت موجودی کیف پول",
+                "description": "دریافت موجودی فعلی کیف پول کاربر. نیاز به توکن Sanctum دارد.",
+                "operationId": "6f042b32b5a7f3797ca1750e05312308",
+                "responses": {
+                    "200": {
+                        "description": "موجودی فعلی کیف پول",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "balance": {
+                                            "type": "integer",
+                                            "example": 15000
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "عدم احراز هویت",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "tags": [
         {
             "name": "Authentication",
             "description": "Authentication"
+        },
+        {
+            "name": "Wallet",
+            "description": "Wallet"
         }
+    ],
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        [
+            {
+                "sanctum": []
+            }
+        ]
     ]
 }
