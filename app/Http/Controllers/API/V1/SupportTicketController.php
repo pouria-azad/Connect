@@ -2,16 +2,19 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\SupportTicket\StoreSupportTicketRequest;
+use App\Http\Requests\V1\SupportTicket\storeSupportTicketRequest;
 use App\Models\SupportTicket;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class SupportTicketController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * @OA\Get(
-     *     path="/api/v1/support-tickets",
+     *     path="/api/v1/support/tickets",
      *     summary="دریافت لیست تیکت‌های کاربر",
-     *     tags={"Support Tickets"},
+     *     tags={"Support Tickets (User)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
@@ -45,9 +48,9 @@ class SupportTicketController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/support-tickets",
+     *     path="/api/v1/support/tickets",
      *     summary="ایجاد تیکت جدید",
-     *     tags={"Support Tickets"},
+     *     tags={"Support Tickets (User)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -88,7 +91,7 @@ class SupportTicketController extends Controller
      *     )
      * )
      */
-    public function store(StoreSupportTicketRequest $request)
+    public function store(storeSupportTicketRequest $request)
     {
         $ticket = $request->user()->supportTickets()->create($request->validated());
         return response()->json(['message' => 'تیکت ایجاد شد', 'data' => $ticket]);
@@ -96,9 +99,9 @@ class SupportTicketController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/support-tickets/{id}",
+     *     path="/api/v1/support/tickets/{id}",
      *     summary="دریافت جزئیات تیکت",
-     *     tags={"Support Tickets"},
+     *     tags={"Support Tickets (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
@@ -165,9 +168,9 @@ class SupportTicketController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/support-tickets/all",
+     *     path="/api/v1/support/tickets/all",
      *     summary="دریافت همه تیکت‌ها (فقط ادمین)",
-     *     tags={"Support Tickets"},
+     *     tags={"Support Tickets (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response=200,

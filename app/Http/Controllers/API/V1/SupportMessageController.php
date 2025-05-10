@@ -2,17 +2,19 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\SupportMessage\StoreSupportMessageRequest;
+use App\Http\Requests\V1\SupportMessage\storeSupportMessageRequest;
 use App\Models\SupportMessage;
 use App\Models\SupportTicket;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class SupportMessageController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * @OA\Post(
-     *     path="/api/v1/support-tickets/{id}/reply-user",
+     *     path="/api/v1/support/tickets/{id}/reply",
      *     summary="ارسال پاسخ کاربر به تیکت",
-     *     tags={"Support Messages"},
+     *     tags={"Support Messages (User)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
@@ -64,7 +66,7 @@ class SupportMessageController extends Controller
      *     )
      * )
      */
-    public function replyUser(StoreSupportMessageRequest $request, $id)
+    public function replyUser(storeSupportMessageRequest $request, $id)
     {
         $ticket = SupportTicket::findOrFail($id);
         $this->authorize('view', $ticket);
@@ -79,9 +81,9 @@ class SupportMessageController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/support-tickets/{id}/reply-admin",
+     *     path="/api/v1/admin/support/tickets/{id}/reply",
      *     summary="ارسال پاسخ ادمین به تیکت",
-     *     tags={"Support Messages"},
+     *     tags={"Support Messages (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
@@ -133,7 +135,7 @@ class SupportMessageController extends Controller
      *     )
      * )
      */
-    public function replyAdmin(StoreSupportMessageRequest $request, $id)
+    public function replyAdmin(storeSupportMessageRequest $request, $id)
     {
         $ticket = SupportTicket::findOrFail($id);
         $this->authorize('update', $ticket);

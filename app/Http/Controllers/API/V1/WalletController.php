@@ -20,7 +20,7 @@ class WalletController extends Controller
      *     path="/api/v1/wallet/deposit",
      *     summary="شارژ کیف پول",
      *     description="کاربر می‌تواند مبلغی به کیف پول خود واریز کند. نیاز به توکن احراز هویت Sanctum دارد که باید در هدر Authorization به‌صورت Bearer {token} ارسال شود.",
-     *     tags={"Wallet"},
+     *     tags={"Wallet (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -74,7 +74,7 @@ class WalletController extends Controller
      *     path="/api/v1/wallet/transactions",
      *     summary="لیست تراکنش‌های کیف پول",
      *     description="دریافت لیست تراکنش‌های کیف پول کاربر با امکان صفحه‌بندی. نیاز به توکن Sanctum دارد.",
-     *     tags={"Wallet"},
+     *     tags={"Wallet (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="per_page",
@@ -120,7 +120,7 @@ class WalletController extends Controller
      *     path="/api/v1/wallet/withdraw",
      *     summary="درخواست برداشت از کیف پول",
      *     description="کاربر می‌تواند درخواست برداشت مبلغی از کیف پول خود را ثبت کند. نیاز به توکن Sanctum دارد.",
-     *     tags={"Wallet"},
+     *     tags={"Wallet (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -176,7 +176,7 @@ class WalletController extends Controller
      *     path="/api/v1/wallet/withdraw-review/{withdraw}",
      *     summary="بررسی درخواست برداشت توسط ادمین",
      *     description="فقط کاربران با نقش ادمین می‌توانند درخواست‌های برداشت را بررسی کنند. نیاز به توکن Sanctum و دسترسی ادمین دارد.",
-     *     tags={"Wallet"},
+     *     tags={"Wallet (Admin)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="withdraw",
@@ -256,7 +256,7 @@ class WalletController extends Controller
      *     path="/api/v1/wallet/transfer",
      *     summary="انتقال وجه به کیف پول کاربر دیگر",
      *     description="کاربر می‌تواند مبلغی را به کیف پول کاربر دیگری انتقال دهد. نیاز به توکن Sanctum دارد.",
-     *     tags={"Wallet"},
+     *     tags={"Wallet (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -337,7 +337,7 @@ class WalletController extends Controller
      *     path="/api/v1/wallet/balance",
      *     summary="دریافت موجودی کیف پول",
      *     description="دریافت موجودی فعلی کیف پول کاربر. نیاز به توکن Sanctum دارد.",
-     *     tags={"Wallet"},
+     *     tags={"Wallet (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Response(
      *         response=200,

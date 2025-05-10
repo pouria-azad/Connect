@@ -9,4 +9,15 @@ class SupportMessage extends Model {
     public function ticket() {
         return $this->belongsTo(SupportTicket::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(SupportMessage::class, 'ticket_id');
+    }
+
 }

@@ -57,4 +57,10 @@ class User extends Authenticatable
         $this->balance += $amount;
         $this->save();
     }
+
+    public function supportTickets()
+    {
+        return $this->hasMany(SupportTicket::class);
+    }
+
 }

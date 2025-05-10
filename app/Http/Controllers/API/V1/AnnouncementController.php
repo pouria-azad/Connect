@@ -5,14 +5,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Announcement\storeAnnouncementRequest;
 use App\Http\Requests\V1\Announcement\updateAnnouncementRequest;
 use App\Models\Announcement;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AnnouncementController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * @OA\Get(
      *     path="/api/v1/announcements",
      *     summary="دریافت لیست اعلان‌های فعال",
-     *     tags={"Announcements"},
+     *     tags={"Announcements (User)"},
      *     @OA\Response(
      *         response=200,
      *         description="لیست اعلان‌های فعال",
@@ -39,9 +41,9 @@ class AnnouncementController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/announcements",
+     *     path="/api/v1/admin/announcements",
      *     summary="ایجاد اعلان جدید",
-     *     tags={"Announcements"},
+     *     tags={"Announcements (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -89,9 +91,9 @@ class AnnouncementController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/announcements/{id}",
+     *     path="/api/v1/admin/announcements/{id}",
      *     summary="به‌روزرسانی اعلان",
-     *     tags={"Announcements"},
+     *     tags={"Announcements (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
@@ -151,9 +153,9 @@ class AnnouncementController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/announcements/{id}",
+     *     path="/api/v1/admin/announcements/{id}",
      *     summary="حذف اعلان",
-     *     tags={"Announcements"},
+     *     tags={"Announcements (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",

@@ -23,6 +23,7 @@ class storeSupportTicketRequest extends FormRequest
     {
         return [
             'subject' => 'required|string|max:255',
+            'status' => 'nullable|in:open,answered,closed',
         ];
     }
 }

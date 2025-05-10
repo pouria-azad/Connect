@@ -20,7 +20,7 @@ class RegisterController extends Controller
      *     summary="ارسال کد تایید",
      *     description="ارسال کد OTP به شماره موبایل",
      *     operationId="sendOtp",
-     *     tags={"Authentication"},
+     *     tags={"Authentication (User)"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -77,7 +77,7 @@ class RegisterController extends Controller
      *     summary="تایید کد OTP",
      *     description="بررسی صحت کد ارسال‌شده",
      *     operationId="verifyOtp",
-     *     tags={"Authentication"},
+     *     tags={"Authentication (User)"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -129,7 +129,7 @@ class RegisterController extends Controller
      *     summary="ارسال مجدد کد OTP",
      *     description="ارسال مجدد همان کد OTP در صورتی که قبلاً ارسال شده باشد",
      *     operationId="resendOtp",
-     *     tags={"Authentication"},
+     *     tags={"Authentication (User)"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -191,7 +191,7 @@ class RegisterController extends Controller
      *     summary="تکمیل اطلاعات کاربر",
      *     description="پس از تایید شماره، ثبت اطلاعات کامل انجام می‌شود",
      *     operationId="completeProfile",
-     *     tags={"Authentication"},
+     *     tags={"Authentication (User)"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

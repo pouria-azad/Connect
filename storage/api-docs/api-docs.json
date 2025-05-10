@@ -9,7 +9,7 @@
         "/api/v1/announcements": {
             "get": {
                 "tags": [
-                    "Announcements"
+                    "Announcements (User)"
                 ],
                 "summary": "دریافت لیست اعلان‌های فعال",
                 "operationId": "a378f2439e864827efdd5c83b3a9dce9",
@@ -61,13 +61,15 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/admin/announcements": {
             "post": {
                 "tags": [
-                    "Announcements"
+                    "Announcements (Admin)"
                 ],
                 "summary": "ایجاد اعلان جدید",
-                "operationId": "88ea1a957286c9f0fc0c97165f3bdf8b",
+                "operationId": "11818f64b4fa8f8dcc716f4c81c7b6cc",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -169,13 +171,13 @@
                 ]
             }
         },
-        "/api/v1/announcements/{id}": {
+        "/api/v1/admin/announcements/{id}": {
             "put": {
                 "tags": [
-                    "Announcements"
+                    "Announcements (Admin)"
                 ],
                 "summary": "به‌روزرسانی اعلان",
-                "operationId": "ce572030f8f9fda56c7d06591c519baf",
+                "operationId": "7e957030391e78f4889bfd500c335365",
                 "parameters": [
                     {
                         "name": "id",
@@ -304,10 +306,10 @@
             },
             "delete": {
                 "tags": [
-                    "Announcements"
+                    "Announcements (Admin)"
                 ],
                 "summary": "حذف اعلان",
-                "operationId": "8e2460c6c79fb88c75be6f853dcae422",
+                "operationId": "31ed554351644201bfac695ef190f20b",
                 "parameters": [
                     {
                         "name": "id",
@@ -378,7 +380,7 @@
         "/api/v1/user/register/send-otp": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Authentication (User)"
                 ],
                 "summary": "ارسال کد تایید",
                 "description": "ارسال کد OTP به شماره موبایل",
@@ -434,7 +436,7 @@
         "/api/v1/user/register/verify-otp": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Authentication (User)"
                 ],
                 "summary": "تایید کد OTP",
                 "description": "بررسی صحت کد ارسال‌شده",
@@ -488,7 +490,7 @@
         "/api/v1/user/register/resend-otp": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Authentication (User)"
                 ],
                 "summary": "ارسال مجدد کد OTP",
                 "description": "ارسال مجدد همان کد OTP در صورتی که قبلاً ارسال شده باشد",
@@ -544,7 +546,7 @@
         "/api/v1/user/register/complete-profile": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Authentication (User)"
                 ],
                 "summary": "تکمیل اطلاعات کاربر",
                 "description": "پس از تایید شماره، ثبت اطلاعات کامل انجام می‌شود",
@@ -621,13 +623,13 @@
                 }
             }
         },
-        "/api/v1/support-tickets/{id}/reply-user": {
+        "/api/v1/support/tickets/{id}/reply": {
             "post": {
                 "tags": [
-                    "Support Messages"
+                    "Support Messages (User)"
                 ],
                 "summary": "ارسال پاسخ کاربر به تیکت",
-                "operationId": "18dbc972c51b4590786daed951a92597",
+                "operationId": "3b8c08575171f3586da0be1fd29a5898",
                 "parameters": [
                     {
                         "name": "id",
@@ -744,13 +746,13 @@
                 ]
             }
         },
-        "/api/v1/support-tickets/{id}/reply-admin": {
+        "/api/v1/admin/support/tickets/{id}/reply": {
             "post": {
                 "tags": [
-                    "Support Messages"
+                    "Support Messages (Admin)"
                 ],
                 "summary": "ارسال پاسخ ادمین به تیکت",
-                "operationId": "fff14ec48438380667292b38890b0f5a",
+                "operationId": "3c178efb109f20881e7d6740d8329483",
                 "parameters": [
                     {
                         "name": "id",
@@ -867,13 +869,13 @@
                 ]
             }
         },
-        "/api/v1/support-tickets": {
+        "/api/v1/support/tickets": {
             "get": {
                 "tags": [
-                    "Support Tickets"
+                    "Support Tickets (User)"
                 ],
                 "summary": "دریافت لیست تیکت‌های کاربر",
-                "operationId": "2566ffc04afee10ff774a6aac346e8d2",
+                "operationId": "77597a7850b05aa6343bf4c4e714c0c5",
                 "responses": {
                     "200": {
                         "description": "لیست تیکت‌های کاربر",
@@ -946,10 +948,10 @@
             },
             "post": {
                 "tags": [
-                    "Support Tickets"
+                    "Support Tickets (User)"
                 ],
                 "summary": "ایجاد تیکت جدید",
-                "operationId": "d4b03674795d6097e506b1a880c1dc22",
+                "operationId": "543134399ccd718c3b0d43bfcdbb45be",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1054,13 +1056,13 @@
                 ]
             }
         },
-        "/api/v1/support-tickets/{id}": {
+        "/api/v1/support/tickets/{id}": {
             "get": {
                 "tags": [
-                    "Support Tickets"
+                    "Support Tickets (Admin)"
                 ],
                 "summary": "دریافت جزئیات تیکت",
-                "operationId": "ed1b17d9f38edabaa1ff61cec24213d2",
+                "operationId": "b28656dd5bf093fc50b93b03065f8e37",
                 "parameters": [
                     {
                         "name": "id",
@@ -1205,13 +1207,13 @@
                 ]
             }
         },
-        "/api/v1/support-tickets/all": {
+        "/api/v1/support/tickets/all": {
             "get": {
                 "tags": [
-                    "Support Tickets"
+                    "Support Tickets (Admin)"
                 ],
                 "summary": "دریافت همه تیکت‌ها (فقط ادمین)",
-                "operationId": "acd358208d17779ee0f6be1eac5fe759",
+                "operationId": "91f9c637af288a9cddee835454e77108",
                 "responses": {
                     "200": {
                         "description": "لیست همه تیکت‌ها",
@@ -1310,7 +1312,7 @@
         "/api/v1/wallet/deposit": {
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
                 "summary": "شارژ کیف پول",
                 "description": "کاربر می‌تواند مبلغی به کیف پول خود واریز کند. نیاز به توکن احراز هویت Sanctum دارد که باید در هدر Authorization به‌صورت Bearer {token} ارسال شود.",
@@ -1405,7 +1407,7 @@
         "/api/v1/wallet/transactions": {
             "get": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
                 "summary": "لیست تراکنش‌های کیف پول",
                 "description": "دریافت لیست تراکنش‌های کیف پول کاربر با امکان صفحه‌بندی. نیاز به توکن Sanctum دارد.",
@@ -1499,7 +1501,7 @@
         "/api/v1/wallet/withdraw": {
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
                 "summary": "درخواست برداشت از کیف پول",
                 "description": "کاربر می‌تواند درخواست برداشت مبلغی از کیف پول خود را ثبت کند. نیاز به توکن Sanctum دارد.",
@@ -1584,7 +1586,7 @@
         "/api/v1/wallet/withdraw-review/{withdraw}": {
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (Admin)"
                 ],
                 "summary": "بررسی درخواست برداشت توسط ادمین",
                 "description": "فقط کاربران با نقش ادمین می‌توانند درخواست‌های برداشت را بررسی کنند. نیاز به توکن Sanctum و دسترسی ادمین دارد.",
@@ -1707,7 +1709,7 @@
         "/api/v1/wallet/transfer": {
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
                 "summary": "انتقال وجه به کیف پول کاربر دیگر",
                 "description": "کاربر می‌تواند مبلغی را به کیف پول کاربر دیگری انتقال دهد. نیاز به توکن Sanctum دارد.",
@@ -1820,7 +1822,7 @@
         "/api/v1/wallet/balance": {
             "get": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
                 "summary": "دریافت موجودی کیف پول",
                 "description": "دریافت موجودی فعلی کیف پول کاربر. نیاز به توکن Sanctum دارد.",
@@ -1869,24 +1871,40 @@
     },
     "tags": [
         {
-            "name": "Announcements",
-            "description": "Announcements"
+            "name": "Announcements (User)",
+            "description": "Announcements (User)"
         },
         {
-            "name": "Authentication",
-            "description": "Authentication"
+            "name": "Announcements (Admin)",
+            "description": "Announcements (Admin)"
         },
         {
-            "name": "Support Messages",
-            "description": "Support Messages"
+            "name": "Authentication (User)",
+            "description": "Authentication (User)"
         },
         {
-            "name": "Support Tickets",
-            "description": "Support Tickets"
+            "name": "Support Messages (User)",
+            "description": "Support Messages (User)"
         },
         {
-            "name": "Wallet",
-            "description": "Wallet"
+            "name": "Support Messages (Admin)",
+            "description": "Support Messages (Admin)"
+        },
+        {
+            "name": "Support Tickets (User)",
+            "description": "Support Tickets (User)"
+        },
+        {
+            "name": "Support Tickets (Admin)",
+            "description": "Support Tickets (Admin)"
+        },
+        {
+            "name": "Wallet (User)",
+            "description": "Wallet (User)"
+        },
+        {
+            "name": "Wallet (Admin)",
+            "description": "Wallet (Admin)"
         }
     ],
     "components": {
