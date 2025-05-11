@@ -4,17 +4,21 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Wallet\depositRequest;
 use App\Http\Requests\V1\Wallet\requestWithdrawRequest;
+use App\Http\Requests\V1\Wallet\reviewWithdrawRequestRequest;
 use App\Http\Requests\V1\Wallet\TransferRequest;
 use App\Http\Resources\V1\WalletTransactionResource;
 use App\Models\User;
 use App\Models\WalletWithdrawRequest;
 use Exception;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class WalletController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * @OA\Post(
      *     path="/api/v1/wallet/deposit",
@@ -157,18 +161,19 @@ class WalletController extends Controller
         $user = auth()->user();
 
         if ($user->balance < $request->amount) {
-            throw new \Exception('موجودی کافی نیست', 400);
+            return response()->json(['message' => 'موجودی کافی نیست'], 400);
         }
-
-        DB::transaction(function () use ($user, $request) {
-            WalletWithdrawRequest::create([
+        $id = 0;
+        $withdrawRequest = DB::transaction(function () use ($user, $request) {
+            return WalletWithdrawRequest::create([
                 'user_id' => $user->id,
                 'amount' => $request->amount,
                 'status' => 'pending',
             ]);
         });
 
-        return response()->json(['message' => 'درخواست برداشت ثبت شد']);
+
+        return response()->json(['message' => 'درخواست برداشت ثبت شد', 'id' => $withdrawRequest->id]);
     }
 
     /**
@@ -224,9 +229,11 @@ class WalletController extends Controller
      * )
      * @throws \Exception
      */
-    public function reviewWithdrawRequest(requestWithdrawRequest $request, WalletWithdrawRequest $withdraw): JsonResponse
+    public function reviewWithdrawRequest(reviewWithdrawRequestRequest $request, WalletWithdrawRequest $withdraw): JsonResponse
     {
-        $this->authorize('review', $withdraw);
+        if (! Gate::allows('isAdmin')) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         if ($withdraw->status !== 'pending') {
             throw new \Exception('این درخواست قبلا بررسی شده', 400);

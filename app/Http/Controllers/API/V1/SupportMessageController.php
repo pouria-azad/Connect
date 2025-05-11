@@ -6,6 +6,7 @@ use App\Http\Requests\V1\SupportMessage\storeSupportMessageRequest;
 use App\Models\SupportMessage;
 use App\Models\SupportTicket;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
 
 class SupportMessageController extends Controller
 {
@@ -70,12 +71,15 @@ class SupportMessageController extends Controller
     {
         $ticket = SupportTicket::findOrFail($id);
         $this->authorize('view', $ticket);
+
         $ticket->messages()->create([
             'message' => $request->validated()['message'],
             'user_id' => $request->user()->id,
             'is_admin' => false,
         ]);
+
         $ticket->update(['status' => 'open']);
+
         return response()->json(['message' => 'پیام ارسال شد']);
     }
 
@@ -137,14 +141,23 @@ class SupportMessageController extends Controller
      */
     public function replyAdmin(storeSupportMessageRequest $request, $id)
     {
+        $user = $request->user();
+
+        if (! Gate::allows('isAdmin')) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+
         $ticket = SupportTicket::findOrFail($id);
-        $this->authorize('update', $ticket);
+
         $ticket->messages()->create([
             'message' => $request->validated()['message'],
             'user_id' => null,
             'is_admin' => true,
         ]);
+
         $ticket->update(['status' => 'answered']);
+
         return response()->json(['message' => 'پاسخ ثبت شد']);
     }
 }

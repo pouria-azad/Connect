@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedInteger('national_id')->index();
             $table->string('phone')->index();
             $table->string('username')->unique();
-            $table->enum('role', ['user', 'provider', 'admin'])->default('user');
             $table->boolean('notifications_enabled')->default(true);
             $table->string('referral_code')->unique()->nullable();
             $table->unsignedBigInteger('referred_by')->nullable();

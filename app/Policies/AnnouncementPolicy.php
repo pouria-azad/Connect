@@ -2,25 +2,24 @@
 
 namespace App\Policies;
 
-use App\Enums\UserRole;
 use App\Models\Announcement;
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Auth\Access\Response;
 
 class AnnouncementPolicy
 {
-    public function create(User $user): bool
+    public function create(Admin $admin): bool
     {
-        return $user->hasRole(UserRole::Admin);
+        return true;
     }
 
-    public function update(User $user, Announcement $announcement): bool
+    public function update(Admin $admin, Announcement $announcement): bool
     {
-        return $user->hasRole(UserRole::Admin);
+        return true;
     }
 
-    public function delete(User $user, Announcement $announcement): bool
+    public function delete(Admin $admin, Announcement $announcement): bool
     {
-        return $user->hasRole(UserRole::Admin);
+        return true;
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Requests\V1\SupportTicket\storeSupportTicketRequest;
 use App\Models\SupportTicket;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class SupportTicketController extends Controller
 {
@@ -212,7 +213,10 @@ class SupportTicketController extends Controller
      */
     public function all(Request $request)
     {
-        $this->authorize('viewAny', SupportTicket::class);
+        if (! Gate::allows('isAdmin')) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         return response()->json(SupportTicket::with('user')->latest()->get());
     }
 }

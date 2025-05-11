@@ -11,7 +11,7 @@ class updateAnnouncementRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasRole(\App\Enums\UserRole::Admin);
+        return auth('admin')->check();
     }
 
     /**

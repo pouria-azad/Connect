@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Admin;
 use App\Models\Announcement;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,7 +26,7 @@ class AnnouncementControllerTest extends TestCase
 
     public function test_admin_can_create_announcement()
     {
-        $admin = User::factory()->create(['role' => 'admin']);
+        $admin = Admin::factory()->create();
 
         $response = $this->actingAs($admin)->postJson('/api/v1/admin/announcements', [
             'title' => 'اعلان مهم',
@@ -52,7 +53,7 @@ class AnnouncementControllerTest extends TestCase
 
     public function test_non_admin_cannot_create_announcement()
     {
-        $user = User::factory()->create(['role' => 'user']);
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)->postJson('/api/v1/admin/announcements', [
             'title' => 'اعلان غیرمجاز',
@@ -66,7 +67,7 @@ class AnnouncementControllerTest extends TestCase
 
     public function test_admin_can_update_announcement()
     {
-        $admin = User::factory()->create(['role' => 'admin']);
+        $admin = Admin::factory()->create();
         $announcement = Announcement::factory()->create();
 
         $response = $this->actingAs($admin)->putJson('/api/v1/admin/announcements/' . $announcement->id, [
@@ -95,7 +96,7 @@ class AnnouncementControllerTest extends TestCase
 
     public function test_non_admin_cannot_delete_announcement()
     {
-        $user = User::factory()->create(['role' => 'user']);
+        $user = User::factory()->create();
         $announcement = Announcement::factory()->create();
 
         $response = $this->actingAs($user)->deleteJson('/api/v1/admin/announcements/' . $announcement->id);

@@ -36,7 +36,9 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        return response()->json(Announcement::where('is_active', true)->latest()->get());
+        return response()->json(
+            Announcement::where('is_active', true)->latest()->get()
+        );
     }
 
     /**
@@ -82,10 +84,16 @@ class AnnouncementController extends Controller
      */
     public function store(storeAnnouncementRequest $request)
     {
-        $this->authorize('create', Announcement::class);
+        $user = $request->user();
+        if (! $user instanceof \App\Models\Admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $data = $request->validated();
         $data['published_at'] = now();
+
         $announcement = Announcement::create($data);
+
         return response()->json(['message' => 'اعلان ایجاد شد', 'data' => $announcement]);
     }
 
@@ -145,9 +153,14 @@ class AnnouncementController extends Controller
      */
     public function update(updateAnnouncementRequest $request, $id)
     {
+        $user = $request->user();
+        if (! $user instanceof \App\Models\Admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $announcement = Announcement::findOrFail($id);
-        $this->authorize('update', $announcement);
         $announcement->update($request->validated());
+
         return response()->json(['message' => 'اعلان به‌روزرسانی شد', 'data' => $announcement]);
     }
 
@@ -188,9 +201,14 @@ class AnnouncementController extends Controller
      */
     public function destroy($id)
     {
+        $user = auth()->user();
+        if (! $user instanceof \App\Models\Admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $announcement = Announcement::findOrFail($id);
-        $this->authorize('delete', $announcement);
         $announcement->delete();
+
         return response()->json(['message' => 'اعلان حذف شد']);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Admin;
 use App\Models\SupportMessage;
 use App\Models\SupportTicket;
 use App\Models\User;
@@ -50,7 +51,7 @@ class SupportMessageControllerTest extends TestCase
 
     public function test_admin_can_reply_to_ticket()
     {
-        $admin = User::factory()->create(['role' => 'admin']);
+        $admin = Admin::factory()->create();
         $ticket = SupportTicket::factory()->create();
 
         $response = $this->actingAs($admin)->postJson('/api/v1/admin/support/tickets/' . $ticket->id . '/reply', [
@@ -72,7 +73,7 @@ class SupportMessageControllerTest extends TestCase
 
     public function test_non_admin_cannot_reply_as_admin()
     {
-        $user = User::factory()->create(['role' => 'user']);
+        $user = User::factory()->create();
         $ticket = SupportTicket::factory()->create();
 
         $response = $this->actingAs($user)->postJson('/api/v1/admin/support/tickets/' . $ticket->id . '/reply', [
