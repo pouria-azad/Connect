@@ -377,12 +377,197 @@
                 ]
             }
         },
+        "/api/v1/chat/messages/{conversationId}": {
+            "get": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "لیست پیام‌های یک مکالمه",
+                "operationId": "48b11f4741d94e97586bb15eb60d520c",
+                "parameters": [
+                    {
+                        "name": "conversationId",
+                        "in": "path",
+                        "description": "شناسه مکالمه",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "لیست پیام‌ها",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ChatMessageResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "مکالمه پیدا نشد"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chat/send": {
+            "post": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "ارسال پیام",
+                "operationId": "085f1cea882d37fe5d0bac1a24ad36a6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreChatMessageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "پیام ارسال شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChatMessageResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "کاربر بلاک شده است"
+                    },
+                    "404": {
+                        "description": "مکالمه پیدا نشد"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chat/read/{conversationId}": {
+            "post": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "علامت‌گذاری پیام‌ها به عنوان خوانده شده",
+                "operationId": "0b39f3465c3039583cdf930ca3054c7f",
+                "parameters": [
+                    {
+                        "name": "conversationId",
+                        "in": "path",
+                        "description": "شناسه مکالمه",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "موفقیت بدون پاسخ"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chat/block": {
+            "post": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "بلاک کردن کاربر",
+                "operationId": "ddb44ca048f65091b7c48c3be3d86ec1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BlockUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "کاربر با موفقیت بلاک شد"
+                    },
+                    "200": {
+                        "description": "کاربر قبلاً بلاک شده است"
+                    },
+                    "404": {
+                        "description": "مکالمه پیدا نشد"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chat/unblock": {
+            "post": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "آنبلاک کردن کاربر",
+                "operationId": "9617b17b749b60ebfb74b09c7f30159f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BlockUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "کاربر با موفقیت آنبلاک شد"
+                    },
+                    "200": {
+                        "description": "کاربر قبلاً آنبلاک شده است"
+                    },
+                    "404": {
+                        "description": "مکالمه پیدا نشد"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/providers/{providerId}/services": {
             "get": {
                 "tags": [
                     "Provider Services"
                 ],
-                "summary": "Get list of services for a provider",
+                "summary": "Get list of services for a provider (paginated)",
                 "operationId": "8ff6b1403441cc31ffc4a954c8bc4492",
                 "parameters": [
                     {
@@ -392,18 +577,38 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of services",
+                        "description": "Paginated list of services",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/ServiceResource"
-                                    }
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ServiceResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -460,7 +665,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Service added or updated",
                         "content": {
                             "application/json": {
@@ -468,7 +673,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "سرویس با موفقیت اضافه یا ویرایش شد"
+                                            "example": "Service added successfully"
                                         }
                                     },
                                     "type": "object"
@@ -2199,6 +2404,40 @@
     },
     "components": {
         "schemas": {
+            "BlockUserRequest": {
+                "required": [
+                    "conversation_id",
+                    "user_id"
+                ],
+                "properties": {
+                    "conversation_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 5
+                    }
+                },
+                "type": "object"
+            },
+            "StoreChatMessageRequest": {
+                "required": [
+                    "conversation_id",
+                    "message"
+                ],
+                "properties": {
+                    "conversation_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "سلام، خوبی؟"
+                    }
+                },
+                "type": "object"
+            },
             "StoreServiceRequest": {
                 "required": [
                     "title",
@@ -2249,6 +2488,39 @@
                         "description": "ID of the parent service, optional",
                         "type": "integer",
                         "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "ChatMessageResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "conversation_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "sender_id": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "سلام"
+                    },
+                    "is_read": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"
@@ -2356,10 +2628,6 @@
     },
     "tags": [
         {
-            "name": "Provider Services",
-            "description": "API endpoints for managing provider services"
-        },
-        {
             "name": "Services",
             "description": "API endpoints for managing services"
         },
@@ -2370,6 +2638,14 @@
         {
             "name": "Announcements (Admin)",
             "description": "Announcements (Admin)"
+        },
+        {
+            "name": "Chat",
+            "description": "Chat"
+        },
+        {
+            "name": "Provider Services",
+            "description": "Provider Services"
         },
         {
             "name": "Authentication (User)",

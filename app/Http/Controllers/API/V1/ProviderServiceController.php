@@ -1,23 +1,20 @@
 <?php
+
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StoreProviderServiceRequest;
 use App\Http\Resources\V1\ServiceResource;
 use App\Models\Provider;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
-/**
- * @OA\Tag(
- *     name="Provider Services",
- *     description="API endpoints for managing provider services"
- * )
- */
 class ProviderServiceController extends Controller
 {
     /**
      * @OA\Get(
      *     path="/api/v1/providers/{providerId}/services",
-     *     summary="Get list of services for a provider",
+     *     summary="Get list of services for a provider (paginated)",
      *     tags={"Provider Services"},
      *     @OA\Parameter(
      *         name="providerId",
@@ -25,21 +22,39 @@ class ProviderServiceController extends Controller
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(
+     *         name="per_page",
+     *         in="query",
+     *         description="Number of items per page",
+     *         @OA\Schema(type="integer", default=15)
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="List of services",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/ServiceResource"))
+     *         description="Paginated list of services",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/ServiceResource")),
+     *             @OA\Property(property="links", type="object"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
      *     ),
      *     @OA\Response(response=404, description="Provider not found"),
      *     security={{"sanctum": {}}}
      * )
      */
-    public function index($providerId)
+    public function index(Request $request, $providerId)
     {
-        $provider = Provider::findOrFail($providerId);
-        $this->authorize('view', $provider);
-        $services = $provider->services;
-        return ServiceResource::collection($services);
+        try {
+            $provider = Provider::findOrFail($providerId);
+            $this->authorize('view', $provider);
+
+            $perPage = $request->query('per_page', 15);
+            $services = $provider->services()->paginate($perPage);
+
+            return ServiceResource::collection($services);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Provider not found'], 404);
+        }
     }
 
     /**
@@ -62,10 +77,10 @@ class ProviderServiceController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=201,
+     *         response=200,
      *         description="Service added or updated",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="سرویس با موفقیت اضافه یا ویرایش شد")
+     *             @OA\Property(property="message", type="string", example="Service added successfully")
      *         )
      *     ),
      *     @OA\Response(response=404, description="Provider not found"),
@@ -75,21 +90,31 @@ class ProviderServiceController extends Controller
      */
     public function store(StoreProviderServiceRequest $request, $providerId)
     {
-        $provider = Provider::findOrFail($providerId);
-        $this->authorize('update', $provider);
+        try {
+            $provider = Provider::findOrFail($providerId);
+            $this->authorize('update', $provider);
 
-        $data = $request->validated();
+            $data = $request->validated();
+            $pivotExists = $provider->services()
+                ->where('services.id', $data['service_id'])
+                ->exists();
 
-        $provider->services()->syncWithoutDetaching([
-            $data['service_id'] => [
-                'price'              => $data['price'],
-                'custom_description' => $data['custom_description'] ?? null,
-            ]
-        ]);
+            // اضافه یا به‌روز‌رسانی
+            $provider->services()->syncWithoutDetaching([
+                $data['service_id'] => [
+                    'price'              => $data['price'],
+                    'custom_description' => $data['custom_description'] ?? null,
+                ]
+            ]);
 
-        return response()->json([
-            'message' => 'سرویس با موفقیت اضافه یا ویرایش شد'
-        ], 201);
+            $message = $pivotExists
+                ? 'Service updated successfully'
+                : 'Service added successfully';
+
+            return response()->json(['message' => $message], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Provider not found'], 404);
+        }
     }
 
     /**
@@ -116,21 +141,23 @@ class ProviderServiceController extends Controller
      */
     public function destroy($providerId, $serviceId)
     {
-        $provider = Provider::findOrFail($providerId);
-        $this->authorize('update', $provider);
+        try {
+            $provider = Provider::findOrFail($providerId);
+            $this->authorize('update', $provider);
 
-        $attachedService = $provider->services()
-            ->where('services.id', $serviceId)
-            ->exists();
+            $attached = $provider->services()
+                ->where('services.id', $serviceId)
+                ->exists();
 
-        if (! $attachedService) {
-            return response()->json([
-                'message' => 'Service not found for this provider'
-            ], 404);
+            if (! $attached) {
+                return response()->json(['message' => 'Service not found for this provider'], 404);
+            }
+
+            $provider->services()->detach($serviceId);
+
+            return response()->noContent();
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Provider not found'], 404);
         }
-
-        $provider->services()->detach($serviceId);
-
-        return response()->noContent(); // 204 No Content
     }
 }

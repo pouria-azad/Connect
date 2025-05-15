@@ -4,11 +4,15 @@ namespace App\Providers;
 
 use App\Models\Admin;
 use App\Models\Announcement;
+use App\Models\ChatMessage;
+use App\Models\Conversation;
 use App\Models\Provider;
 use App\Models\Service;
 use App\Models\SupportTicket;
 use App\Models\User;
 use App\Policies\AnnouncementPolicy;
+use App\Policies\ChatMessagePolicy;
+use App\Policies\ConversationPolicy;
 use App\Policies\ProviderPolicy;
 use App\Policies\ServicePolicy;
 use App\Policies\SupportTicketPolicy;
@@ -26,6 +30,8 @@ class AuthServiceProvider extends ServiceProvider
         SupportTicket::class => SupportTicketPolicy::class,
         Service::class  => ServicePolicy::class,
         Provider::class => ProviderPolicy::class,
+        ChatMessage::class => ChatMessagePolicy::class,
+        Conversation::class => ConversationPolicy::class,
     ];
 
     /**

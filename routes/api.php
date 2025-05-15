@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Controllers\API\V1\AnnouncementController;
+use App\Http\Controllers\API\V1\ChatController;
 use App\Http\Controllers\API\V1\ProviderServiceController;
 use App\Http\Controllers\API\V1\RegisterController;
 use App\Http\Controllers\API\V1\ServiceController;
-use App\Http\Controllers\API\V1\SupportTicketController;
 use App\Http\Controllers\API\V1\SupportMessageController;
-use App\Http\Controllers\API\V1\AnnouncementController;
+use App\Http\Controllers\API\V1\SupportTicketController;
 use App\Http\Controllers\API\V1\WalletController;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -86,6 +87,15 @@ Route::prefix('v1')->group(function () {
         Route::get('providers/{provider}/services', [ProviderServiceController::class,'index']);
         Route::post('providers/{provider}/services', [ProviderServiceController::class,'store']);
         Route::delete('providers/{provider}/services/{service}', [ProviderServiceController::class,'destroy']);
+    });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        // Conversation endpoints
+        Route::get('v1/conversations/{conversation}/messages', [ChatController::class, 'messages']);
+        Route::post('v1/chat/send', [ChatController::class, 'send']);
+        Route::post('v1/conversations/{conversation}/read', [ChatController::class, 'markRead']);
+        Route::post('v1/conversations/{conversation}/block', [ChatController::class, 'block']);
+        Route::post('v1/conversations/{conversation}/unblock', [ChatController::class, 'unblock']);
     });
 
 });

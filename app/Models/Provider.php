@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Provider extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id','bio','is_verified'];
+    protected $fillable = ['user_id','bio','is_verified','profile_image'];
 
     public function user()
     {
