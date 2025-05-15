@@ -377,6 +377,159 @@
                 ]
             }
         },
+        "/api/v1/providers/{providerId}/services": {
+            "get": {
+                "tags": [
+                    "Provider Services"
+                ],
+                "summary": "Get list of services for a provider",
+                "operationId": "8ff6b1403441cc31ffc4a954c8bc4492",
+                "parameters": [
+                    {
+                        "name": "providerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of services",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ServiceResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Provider not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Provider Services"
+                ],
+                "summary": "Add or update a service for a provider",
+                "operationId": "d701a675c552c71c59b1e45678f0582e",
+                "parameters": [
+                    {
+                        "name": "providerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "service_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 100
+                                    },
+                                    "custom_description": {
+                                        "type": "string",
+                                        "example": "Custom description"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Service added or updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "سرویس با موفقیت اضافه یا ویرایش شد"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Provider not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/providers/{providerId}/services/{serviceId}": {
+            "delete": {
+                "tags": [
+                    "Provider Services"
+                ],
+                "summary": "Remove a service from a provider",
+                "operationId": "5aa56c1abc69a0eff85f04408d09fe58",
+                "parameters": [
+                    {
+                        "name": "providerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Service removed"
+                    },
+                    "404": {
+                        "description": "Provider or service not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/user/register/send-otp": {
             "post": {
                 "tags": [
@@ -621,6 +774,181 @@
                         "description": "خطای اعتبارسنجی"
                     }
                 }
+            }
+        },
+        "/api/v1/services": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Get a tree list of all services",
+                "operationId": "791a52e8335b361d298d47b2d309be36",
+                "responses": {
+                    "200": {
+                        "description": "List of root services with their children",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ServiceResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Create a new service",
+                "operationId": "444916aaf11b42e73b55abda71e44542",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreServiceRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Service created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/services/{serviceId}": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Get details of a service including its children",
+                "operationId": "8ef7620a3097f9aff5602246a5a3bac9",
+                "parameters": [
+                    {
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Service details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Service not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Update a service",
+                "operationId": "50282255454e3a709e986351e8d3ce37",
+                "parameters": [
+                    {
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateServiceRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Service updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Service not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Delete a service",
+                "operationId": "36a9985b64d4b78c5f87a984e05f05da",
+                "parameters": [
+                    {
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Service deleted"
+                    },
+                    "404": {
+                        "description": "Service not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/support/tickets/{id}/reply": {
@@ -1869,7 +2197,172 @@
             }
         }
     },
+    "components": {
+        "schemas": {
+            "StoreServiceRequest": {
+                "required": [
+                    "title",
+                    "category_id"
+                ],
+                "properties": {
+                    "title": {
+                        "description": "Title of the service",
+                        "type": "string",
+                        "example": "Web Development"
+                    },
+                    "description": {
+                        "description": "Description of the service, optional",
+                        "type": "string",
+                        "example": "Professional web development services"
+                    },
+                    "category_id": {
+                        "description": "ID of the service category",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "parent_id": {
+                        "description": "ID of the parent service, optional",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateServiceRequest": {
+                "properties": {
+                    "title": {
+                        "description": "Title of the service, optional",
+                        "type": "string",
+                        "example": "Web Development"
+                    },
+                    "description": {
+                        "description": "Description of the service, optional",
+                        "type": "string",
+                        "example": "Updated web development services"
+                    },
+                    "category_id": {
+                        "description": "ID of the service category, optional",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "parent_id": {
+                        "description": "ID of the parent service, optional",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceCategoryResource": {
+                "properties": {
+                    "id": {
+                        "description": "Category ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Name of the category",
+                        "type": "string",
+                        "example": "Development"
+                    },
+                    "icon": {
+                        "description": "Icon for the category",
+                        "type": "string",
+                        "example": "fa-code",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Category creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-13T21:16:00+03:00"
+                    },
+                    "updated_at": {
+                        "description": "Category update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-13T21:16:00+03:00"
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceResource": {
+                "properties": {
+                    "id": {
+                        "description": "Service ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "description": "Title of the service",
+                        "type": "string",
+                        "example": "Web Development"
+                    },
+                    "description": {
+                        "description": "Description of the service",
+                        "type": "string",
+                        "example": "Professional web development services",
+                        "nullable": true
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/ServiceCategoryResource"
+                    },
+                    "parent": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/ServiceResource"
+                            }
+                        ],
+                        "nullable": true,
+                        "description": "Parent service, if any"
+                    },
+                    "price": {
+                        "description": "Price from pivot table, if applicable",
+                        "type": "number",
+                        "format": "float",
+                        "example": 100,
+                        "nullable": true
+                    },
+                    "custom_description": {
+                        "description": "Custom description from pivot table, if applicable",
+                        "type": "string",
+                        "example": "Custom description for provider",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Service creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-13T21:16:00+03:00"
+                    },
+                    "updated_at": {
+                        "description": "Service update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-13T21:16:00+03:00"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
     "tags": [
+        {
+            "name": "Provider Services",
+            "description": "API endpoints for managing provider services"
+        },
+        {
+            "name": "Services",
+            "description": "API endpoints for managing services"
+        },
         {
             "name": "Announcements (User)",
             "description": "Announcements (User)"
@@ -1907,16 +2400,6 @@
             "description": "Wallet (Admin)"
         }
     ],
-    "components": {
-        "securitySchemes": {
-            "sanctum": {
-                "type": "apiKey",
-                "description": "Enter token in format (Bearer <token>)",
-                "name": "Authorization",
-                "in": "header"
-            }
-        }
-    },
     "security": [
         [
             {

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('bio')->nullable(); // توضیحات معرفی
-            $table->string('license_number')->nullable(); // شماره مجوز (در صورت نیاز)
-            $table->boolean('is_verified')->default(false); // تایید شدن توسط ادمین
+            $table->text('bio')->nullable();
+            $table->boolean('is_verified')->default(false);
+            $table->string('profile_image')->nullable();
             $table->timestamps();
         });
     }

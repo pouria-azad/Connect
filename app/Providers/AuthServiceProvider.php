@@ -4,9 +4,13 @@ namespace App\Providers;
 
 use App\Models\Admin;
 use App\Models\Announcement;
+use App\Models\Provider;
+use App\Models\Service;
 use App\Models\SupportTicket;
 use App\Models\User;
 use App\Policies\AnnouncementPolicy;
+use App\Policies\ProviderPolicy;
+use App\Policies\ServicePolicy;
 use App\Policies\SupportTicketPolicy;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -20,6 +24,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Announcement::class => AnnouncementPolicy::class,
         SupportTicket::class => SupportTicketPolicy::class,
+        Service::class  => ServicePolicy::class,
+        Provider::class => ProviderPolicy::class,
     ];
 
     /**

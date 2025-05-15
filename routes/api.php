@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\V1\ProviderServiceController;
 use App\Http\Controllers\API\V1\RegisterController;
+use App\Http\Controllers\API\V1\ServiceController;
 use App\Http\Controllers\API\V1\SupportTicketController;
 use App\Http\Controllers\API\V1\SupportMessageController;
 use App\Http\Controllers\API\V1\AnnouncementController;
@@ -67,6 +69,23 @@ Route::prefix('v1')->group(function () {
             Route::post('tickets/{id}/reply', [SupportMessageController::class, 'replyAdmin']);
         });
 
+    });
+
+    // خدمات (سرویس‌ها)
+    Route::get('services', [ServiceController::class,'index']);
+    Route::get('services/{id}', [ServiceController::class,'show']);
+
+    Route::middleware(['auth:sanctum','can:isAdmin'])->group(function(){
+        Route::post('services', [ServiceController::class,'store']);
+        Route::put('services/{id}', [ServiceController::class,'update']);
+        Route::delete('services/{id}', [ServiceController::class,'destroy']);
+    });
+
+    // سرویس‌دهندگان
+    Route::middleware('auth:sanctum')->group(function(){
+        Route::get('providers/{provider}/services', [ProviderServiceController::class,'index']);
+        Route::post('providers/{provider}/services', [ProviderServiceController::class,'store']);
+        Route::delete('providers/{provider}/services/{service}', [ProviderServiceController::class,'destroy']);
     });
 
 });
