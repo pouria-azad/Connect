@@ -91,11 +91,12 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         // Conversation endpoints
-        Route::get('v1/conversations/{conversation}/messages', [ChatController::class, 'messages']);
-        Route::post('v1/chat/send', [ChatController::class, 'send']);
-        Route::post('v1/conversations/{conversation}/read', [ChatController::class, 'markRead']);
-        Route::post('v1/conversations/{conversation}/block', [ChatController::class, 'block']);
-        Route::post('v1/conversations/{conversation}/unblock', [ChatController::class, 'unblock']);
+        Route::get('conversations/{conversation}/messages', [ChatController::class, 'messages']);
+        Route::post('chat/send', [ChatController::class, 'send']);
+        Route::post('conversations/{conversation}/read', [ChatController::class, 'markRead']);
+        Route::post('conversations/{conversation}/block', [ChatController::class, 'block']);
+        Route::post('conversations/{conversation}/unblock', [ChatController::class, 'unblock']);
+        Route::post('chat/conversations', [ChatController::class, 'createConversation']);
     });
 
 });

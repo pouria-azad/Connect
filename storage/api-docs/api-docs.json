@@ -377,13 +377,13 @@
                 ]
             }
         },
-        "/api/v1/chat/messages/{conversationId}": {
+        "/api/v1/chat/conversations/{conversationId}/messages": {
             "get": {
                 "tags": [
                     "Chat"
                 ],
-                "summary": "لیست پیام‌های یک مکالمه",
-                "operationId": "48b11f4741d94e97586bb15eb60d520c",
+                "summary": "لیست پیام‌های یک مکالمه با صفحه‌بندی",
+                "operationId": "b31c4d19df718659a1eef3626f0badde",
                 "parameters": [
                     {
                         "name": "conversationId",
@@ -391,31 +391,56 @@
                         "description": "شناسه مکالمه",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "شماره صفحه",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "لیست پیام‌ها",
+                        "description": "موفقیت - لیست پیام‌ها",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/ChatMessageResource"
-                                    }
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ChatMessage"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "مکالمه پیدا نشد"
+                        "description": "مکالمه یافت نشد"
+                    },
+                    "403": {
+                        "description": "عدم دسترسی"
                     }
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -425,50 +450,148 @@
                 "tags": [
                     "Chat"
                 ],
-                "summary": "ارسال پیام",
+                "summary": "ارسال پیام جدید",
                 "operationId": "085f1cea882d37fe5d0bac1a24ad36a6",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/StoreChatMessageRequest"
+                                "required": [
+                                    "conversation_id",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "conversation_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "سلام!"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "text",
+                                            "system",
+                                            "invoice",
+                                            "payment"
+                                        ],
+                                        "example": "text"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }
                 },
                 "responses": {
                     "201": {
-                        "description": "پیام ارسال شد",
+                        "description": "پیام با موفقیت ارسال شد",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ChatMessageResource"
+                                    "$ref": "#/components/schemas/ChatMessage"
                                 }
                             }
                         }
                     },
                     "403": {
-                        "description": "کاربر بلاک شده است"
+                        "description": "شما در این مکالمه بلاک شده‌اید"
                     },
                     "404": {
-                        "description": "مکالمه پیدا نشد"
+                        "description": "مکالمه یافت نشد"
                     }
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearerAuth": []
                     }
                 ]
             }
         },
-        "/api/v1/chat/read/{conversationId}": {
+        "/api/v1/chat/conversations": {
+            "post": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "ساخت مکالمه جدید",
+                "operationId": "7e6ae986907d14b6a9b5e352cb1632e3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "order_id",
+                                    "user_ids"
+                                ],
+                                "properties": {
+                                    "order_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "user_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 2
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "مکالمه با موفقیت ساخته شد",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "order_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "خطا در اعتبارسنجی داده‌ها"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chat/conversations/{conversationId}/mark-read": {
             "post": {
                 "tags": [
                     "Chat"
                 ],
                 "summary": "علامت‌گذاری پیام‌ها به عنوان خوانده شده",
-                "operationId": "0b39f3465c3039583cdf930ca3054c7f",
+                "operationId": "7c601651e2df0b68f6f2f95042c24258",
                 "parameters": [
                     {
                         "name": "conversationId",
@@ -476,18 +599,22 @@
                         "description": "شناسه مکالمه",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
                 "responses": {
                     "204": {
-                        "description": "موفقیت بدون پاسخ"
+                        "description": "موفقیت - بدون محتوا"
+                    },
+                    "404": {
+                        "description": "مکالمه یافت نشد"
                     }
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -497,7 +624,7 @@
                 "tags": [
                     "Chat"
                 ],
-                "summary": "بلاک کردن کاربر",
+                "summary": "بلاک کردن کاربر در مکالمه",
                 "operationId": "ddb44ca048f65091b7c48c3be3d86ec1",
                 "requestBody": {
                     "required": true,
@@ -511,18 +638,15 @@
                 },
                 "responses": {
                     "204": {
-                        "description": "کاربر با موفقیت بلاک شد"
-                    },
-                    "200": {
-                        "description": "کاربر قبلاً بلاک شده است"
+                        "description": "موفقیت - بدون محتوا"
                     },
                     "404": {
-                        "description": "مکالمه پیدا نشد"
+                        "description": "مکالمه یافت نشد"
                     }
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -532,7 +656,7 @@
                 "tags": [
                     "Chat"
                 ],
-                "summary": "آنبلاک کردن کاربر",
+                "summary": "آنبلاک کردن کاربر در مکالمه",
                 "operationId": "9617b17b749b60ebfb74b09c7f30159f",
                 "requestBody": {
                     "required": true,
@@ -546,18 +670,15 @@
                 },
                 "responses": {
                     "204": {
-                        "description": "کاربر با موفقیت آنبلاک شد"
-                    },
-                    "200": {
-                        "description": "کاربر قبلاً آنبلاک شده است"
+                        "description": "موفقیت - بدون محتوا"
                     },
                     "404": {
-                        "description": "مکالمه پیدا نشد"
+                        "description": "مکالمه یافت نشد"
                     }
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -2612,6 +2733,49 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2025-05-13T21:16:00+03:00"
+                    }
+                },
+                "type": "object"
+            },
+            "ChatMessage": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "conversation_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "sender_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "سلام!"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "text",
+                            "system",
+                            "invoice",
+                            "payment"
+                        ],
+                        "example": "text"
+                    },
+                    "is_read": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"

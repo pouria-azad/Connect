@@ -16,35 +16,53 @@ class ChatController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/chat/messages/{conversationId}",
+     *     path="/api/v1/chat/conversations/{conversationId}/messages",
+     *     summary="لیست پیام‌های یک مکالمه با صفحه‌بندی",
      *     tags={"Chat"},
-     *     summary="لیست پیام‌های یک مکالمه",
-     *     security={{"sanctum":{}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="conversationId",
      *         in="path",
-     *         required=true,
      *         description="شناسه مکالمه",
-     *         @OA\Schema(type="integer")
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="شماره صفحه",
+     *         required=false,
+     *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="لیست پیام‌ها",
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/ChatMessageResource"))
+     *         description="موفقیت - لیست پیام‌ها",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/ChatMessage")
+     *             ),
+     *             @OA\Property(property="links", type="object"),
+     *             @OA\Property(property="meta", type="object")
+     *         )
      *     ),
-     *     @OA\Response(response=404, description="مکالمه پیدا نشد")
+     *     @OA\Response(response=404, description="مکالمه یافت نشد"),
+     *     @OA\Response(response=403, description="عدم دسترسی"),
      * )
      */
-
     public function messages(Request $req, $conversationId)
     {
         try {
             $conversation = Conversation::with('users')->findOrFail($conversationId);
             $this->authorize('view', $conversation);
 
-            return ChatMessageResource::collection(
-                $conversation->messages()->with('sender')->get()
-            );
+            $messages = $conversation->messages()
+                ->with('sender')
+                ->orderBy('created_at', 'desc')
+                ->paginate(20);  // صفحه‌بندی، 20 پیام در هر صفحه
+
+            return ChatMessageResource::collection($messages);
+
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Conversation not found'], 404);
         }
@@ -53,23 +71,27 @@ class ChatController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/chat/send",
+     *     summary="ارسال پیام جدید",
      *     tags={"Chat"},
-     *     summary="ارسال پیام",
-     *     security={{"sanctum":{}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/StoreChatMessageRequest")
+     *         @OA\JsonContent(
+     *             required={"conversation_id", "message"},
+     *             @OA\Property(property="conversation_id", type="integer", example=1),
+     *             @OA\Property(property="message", type="string", example="سلام!"),
+     *             @OA\Property(property="type", type="string", enum={"text","system","invoice","payment"}, example="text")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="پیام ارسال شد",
-     *         @OA\JsonContent(ref="#/components/schemas/ChatMessageResource")
+     *         description="پیام با موفقیت ارسال شد",
+     *         @OA\JsonContent(ref="#/components/schemas/ChatMessage")
      *     ),
-     *     @OA\Response(response=403, description="کاربر بلاک شده است"),
-     *     @OA\Response(response=404, description="مکالمه پیدا نشد")
+     *     @OA\Response(response=403, description="شما در این مکالمه بلاک شده‌اید"),
+     *     @OA\Response(response=404, description="مکالمه یافت نشد"),
      * )
      */
-
     public function send(StoreChatMessageRequest $req)
     {
         $data = $req->validated();
@@ -78,7 +100,6 @@ class ChatController extends Controller
             $conversation = Conversation::findOrFail($data['conversation_id']);
             $this->authorize('view', $conversation);
 
-            // Check if current user is blocked
             if (
                 $conversation->users()
                     ->wherePivot('is_blocked', true)
@@ -88,7 +109,15 @@ class ChatController extends Controller
                 return response()->json(['message' => 'You are blocked in this conversation'], 403);
             }
 
+            $data['content'] = $data['message'];
+            unset($data['message']);
+
+            if (!isset($data['type'])) {
+                $data['type'] = 'text';
+            }
+
             $data['sender_id'] = $req->user()->id;
+
             $msg = ChatMessage::create($data);
 
             broadcast(new MessageSent($msg))->toOthers();
@@ -102,21 +131,71 @@ class ChatController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/chat/read/{conversationId}",
+     *     path="/api/v1/chat/conversations",
+     *     summary="ساخت مکالمه جدید",
      *     tags={"Chat"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"order_id", "user_ids"},
+     *             @OA\Property(property="order_id", type="integer", example=1),
+     *             @OA\Property(property="user_ids", type="array",
+     *                 @OA\Items(type="integer", example=2)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="مکالمه با موفقیت ساخته شد",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="order_id", type="integer", example=1),
+     *             @OA\Property(property="created_at", type="string", format="date-time"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time"),
+     *         )
+     *     ),
+     *     @OA\Response(response=422, description="خطا در اعتبارسنجی داده‌ها"),
+     * )
+     */
+    public function createConversation(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'user_ids' => 'required|array',
+            'user_ids.*' => 'exists:users,id',
+        ]);
+
+        $conversation = Conversation::create([
+            'order_id' => $request->order_id,
+        ]);
+
+        // اضافه کردن خود کاربر و کاربران هدف به مکالمه
+        $users = array_unique(array_merge([$request->user()->id], $request->user_ids));
+
+        $conversation->users()->attach($users);
+
+        return response()->json($conversation, 201);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/v1/chat/conversations/{conversationId}/mark-read",
      *     summary="علامت‌گذاری پیام‌ها به عنوان خوانده شده",
-     *     security={{"sanctum":{}}},
+     *     tags={"Chat"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="conversationId",
      *         in="path",
-     *         required=true,
      *         description="شناسه مکالمه",
-     *         @OA\Schema(type="integer")
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
      *     ),
-     *     @OA\Response(response=204, description="موفقیت بدون پاسخ")
+     *     @OA\Response(response=204, description="موفقیت - بدون محتوا"),
+     *     @OA\Response(response=404, description="مکالمه یافت نشد"),
      * )
      */
-
     public function markRead(Request $req, $conversationId)
     {
         $user = $req->user();
@@ -131,19 +210,17 @@ class ChatController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/chat/block",
+     *     summary="بلاک کردن کاربر در مکالمه",
      *     tags={"Chat"},
-     *     summary="بلاک کردن کاربر",
-     *     security={{"sanctum":{}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/BlockUserRequest")
      *     ),
-     *     @OA\Response(response=204, description="کاربر با موفقیت بلاک شد"),
-     *     @OA\Response(response=200, description="کاربر قبلاً بلاک شده است"),
-     *     @OA\Response(response=404, description="مکالمه پیدا نشد")
+     *     @OA\Response(response=204, description="موفقیت - بدون محتوا"),
+     *     @OA\Response(response=404, description="مکالمه یافت نشد"),
      * )
      */
-
     public function block(BlockUserRequest $req)
     {
         try {
@@ -167,19 +244,17 @@ class ChatController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/chat/unblock",
+     *     summary="آنبلاک کردن کاربر در مکالمه",
      *     tags={"Chat"},
-     *     summary="آنبلاک کردن کاربر",
-     *     security={{"sanctum":{}}},
+     *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/BlockUserRequest")
      *     ),
-     *     @OA\Response(response=204, description="کاربر با موفقیت آنبلاک شد"),
-     *     @OA\Response(response=200, description="کاربر قبلاً آنبلاک شده است"),
-     *     @OA\Response(response=404, description="مکالمه پیدا نشد")
+     *     @OA\Response(response=204, description="موفقیت - بدون محتوا"),
+     *     @OA\Response(response=404, description="مکالمه یافت نشد"),
      * )
      */
-
     public function unblock(BlockUserRequest $req)
     {
         try {
