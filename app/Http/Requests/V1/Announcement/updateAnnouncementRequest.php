@@ -11,7 +11,7 @@ class updateAnnouncementRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth('admin')->check();
+        return auth('sanctum')->check();
     }
 
     /**

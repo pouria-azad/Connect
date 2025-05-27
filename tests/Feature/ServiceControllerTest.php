@@ -3,7 +3,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Admin;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -48,26 +47,26 @@ class ServiceControllerTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_store_service()
+    public function test_admin_can_store_service()
     {
-        $admin = Admin::factory()->create();
-
-        $response = $this->actingAs($admin, 'sanctum')->postJson('/api/v1/services', [
-            'title'        => 'New Service',
+        $response = $this->actingAsAdmin()->postJson('/api/v1/services', [
+            'title' => 'New Service',
             'description' => 'Service Description',
         ]);
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('services', ['title' => 'New Service']);
+        $this->assertDatabaseHas('services', [
+            'title' => 'New Service',
+        ]);
     }
 
     /** @test */
-    public function user_cannot_store_service()
+    public function test_user_cannot_store_service()
     {
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'sanctum')->postJson('/api/v1/services', [
-            'name' => 'New Service',
+            'title' => 'Attempted Service',
         ]);
 
         $response->assertStatus(403);
@@ -76,41 +75,39 @@ class ServiceControllerTest extends TestCase
     /** @test */
     public function store_with_invalid_data_returns_422()
     {
-        $admin = Admin::factory()->create();
+        $admin = \App\Models\User::factory()->create(['is_admin' => true]);
 
         $response = $this->actingAs($admin, 'sanctum')->postJson('/api/v1/services', [
-            'name' => '', // Invalid: empty
+            'title' => '', // Invalid: empty
         ]);
 
         $response->assertStatus(422);
     }
 
     /** @test */
-    public function admin_can_update_service()
+    public function test_admin_can_update_service()
     {
-        $admin   = Admin::factory()->create();
         $service = Service::factory()->create();
-
-        $response = $this->actingAs($admin, 'sanctum')->putJson("/api/v1/services/{$service->id}", [
-            'title'        => 'Updated Service',
+        $response = $this->actingAsAdmin()->putJson("/api/v1/services/{$service->id}", [
+            'title' => 'Updated Service',
             'description' => 'Updated Description',
         ]);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('services', [
-            'id'   => $service->id,
+            'id' => $service->id,
             'title' => 'Updated Service',
         ]);
     }
 
     /** @test */
-    public function user_cannot_update_service()
+    public function test_user_cannot_update_service()
     {
-        $user    = User::factory()->create();
+        $user = User::factory()->create();
         $service = Service::factory()->create();
 
         $response = $this->actingAs($user, 'sanctum')->putJson("/api/v1/services/{$service->id}", [
-            'name' => 'Attempted Update',
+            'title' => 'Attempted Update',
         ]);
 
         $response->assertStatus(403);
@@ -119,7 +116,7 @@ class ServiceControllerTest extends TestCase
     /** @test */
     public function update_with_invalid_data_returns_422()
     {
-        $admin   = Admin::factory()->create();
+        $admin = \App\Models\User::factory()->create(['is_admin' => true]);
         $service = Service::factory()->create();
 
         $response = $this->actingAs($admin, 'sanctum')->putJson("/api/v1/services/{$service->id}", [
@@ -130,21 +127,19 @@ class ServiceControllerTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_destroy_service()
+    public function test_admin_can_destroy_service()
     {
-        $admin   = Admin::factory()->create();
         $service = Service::factory()->create();
-
-        $response = $this->actingAs($admin, 'sanctum')->deleteJson("/api/v1/services/{$service->id}");
+        $response = $this->actingAsAdmin()->deleteJson("/api/v1/services/{$service->id}");
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('services', ['id' => $service->id]);
     }
 
     /** @test */
-    public function user_cannot_destroy_service()
+    public function test_user_cannot_destroy_service()
     {
-        $user    = User::factory()->create();
+        $user = User::factory()->create();
         $service = Service::factory()->create();
 
         $response = $this->actingAs($user, 'sanctum')->deleteJson("/api/v1/services/{$service->id}");
@@ -155,7 +150,7 @@ class ServiceControllerTest extends TestCase
     /** @test */
     public function destroy_with_nonexistent_service_returns_404()
     {
-        $admin = Admin::factory()->create();
+        $admin = \App\Models\User::factory()->create(['is_admin' => true]);
 
         $response = $this->actingAs($admin, 'sanctum')->deleteJson('/api/v1/services/999');
 

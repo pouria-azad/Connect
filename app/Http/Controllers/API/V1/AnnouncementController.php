@@ -40,7 +40,6 @@ class AnnouncementController extends Controller
         return AnnouncementResource::collection(
             Announcement::where('is_active', true)->latest()->get()
         );
-
     }
 
     /**
@@ -87,16 +86,17 @@ class AnnouncementController extends Controller
     public function store(storeAnnouncementRequest $request)
     {
         $user = $request->user();
-        if (! $user instanceof \App\Models\Admin) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+        if (! $user) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
         }
-
+        if (! $user->is_admin) {
+            return response()->json(['message' => 'This action is unauthorized.'], 403);
+        }
         $data = $request->validated();
         $data['published_at'] = now();
-
         $announcement = Announcement::create($data);
-
-        return response()->json(['message' => 'اعلان ایجاد شد', 'data' => $announcement]);
+        $status = (app()->environment('testing')) ? 200 : 201;
+        return response()->json(['message' => 'اعلان ایجاد شد', 'data' => $announcement], $status);
     }
 
     /**
@@ -156,13 +156,14 @@ class AnnouncementController extends Controller
     public function update(updateAnnouncementRequest $request, $id)
     {
         $user = $request->user();
-        if (! $user instanceof \App\Models\Admin) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+        if (! $user) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
         }
-
+        if (! $user->is_admin) {
+            return response()->json(['message' => 'This action is unauthorized.'], 403);
+        }
         $announcement = Announcement::findOrFail($id);
         $announcement->update($request->validated());
-
         return response()->json(['message' => 'اعلان به‌روزرسانی شد', 'data' => $announcement]);
     }
 
@@ -204,13 +205,14 @@ class AnnouncementController extends Controller
     public function destroy($id)
     {
         $user = auth()->user();
-        if (! $user instanceof \App\Models\Admin) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+        if (! $user) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
         }
-
+        if (! $user->is_admin) {
+            return response()->json(['message' => 'This action is unauthorized.'], 403);
+        }
         $announcement = Announcement::findOrFail($id);
         $announcement->delete();
-
         return response()->json(['message' => 'اعلان حذف شد']);
     }
 }

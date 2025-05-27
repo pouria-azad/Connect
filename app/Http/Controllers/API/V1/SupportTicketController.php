@@ -7,10 +7,17 @@ use App\Models\SupportTicket;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Notification;
 
 class SupportTicketController extends Controller
 {
     use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * @OA\Get(
      *     path="/api/v1/support/tickets",
@@ -42,9 +49,16 @@ class SupportTicketController extends Controller
      *     )
      * )
      */
-    public function index(Request $request)
+    public function index()
     {
-        return response()->json($request->user()->supportTickets()->latest()->get());
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthenticated.'
+            ], 401);
+        }
+        $tickets = $user->supportTickets()->latest()->get();
+        return response()->json($tickets);
     }
 
     /**
@@ -92,10 +106,26 @@ class SupportTicketController extends Controller
      *     )
      * )
      */
-    public function store(storeSupportTicketRequest $request)
+    public function store(Request $request)
     {
-        $ticket = $request->user()->supportTickets()->create($request->validated());
-        return response()->json(['message' => 'تیکت ایجاد شد', 'data' => $ticket]);
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthenticated.'
+            ], 401);
+        }
+        $request->validate([
+            'subject' => 'required|string|max:255'
+        ]);
+        $ticket = \App\Models\SupportTicket::create([
+            'user_id' => $user->id,
+            'subject' => $request->subject,
+            'status' => 'open'
+        ]);
+        return response()->json([
+            'message' => 'تیکت ایجاد شد',
+            'data' => $ticket
+        ]);
     }
 
     /**
@@ -160,10 +190,25 @@ class SupportTicketController extends Controller
      *     )
      * )
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        $ticket = SupportTicket::with('messages')->findOrFail($id);
-        $this->authorize('view', $ticket);
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthenticated.'
+            ], 401);
+        }
+        $ticket = \App\Models\SupportTicket::find($id);
+        if (!$ticket) {
+            return response()->json([
+                'message' => 'تیکت یافت نشد'
+            ], 404);
+        }
+        if ($ticket->user_id !== $user->id) {
+            return response()->json([
+                'message' => 'This action is unauthorized.'
+            ], 403);
+        }
         return response()->json($ticket);
     }
 
@@ -211,12 +256,20 @@ class SupportTicketController extends Controller
      *     )
      * )
      */
-    public function all(Request $request)
+    public function adminIndex()
     {
-        if (! Gate::allows('isAdmin')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthenticated.'
+            ], 401);
         }
-
-        return response()->json(SupportTicket::with('user')->latest()->get());
+        if (!$user->is_admin) {
+            return response()->json([
+                'message' => 'This action is unauthorized.'
+            ], 403);
+        }
+        $tickets = \App\Models\SupportTicket::latest()->get();
+        return response()->json($tickets);
     }
 }

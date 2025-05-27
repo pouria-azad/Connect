@@ -24,12 +24,16 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'full_name' => fake()->name(),
-            'username' => fake()->unique()->userName(),
-            'phone' => fake()->unique()->phoneNumber(),
+            'full_name' => $this->faker->name(),
+            'username' => $this->faker->unique()->userName(),
+            'mobile_number' => $this->faker->phoneNumber(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'national_id' => '0012345678',
+            'national_code' => $this->faker->unique()->numerify('##########'),
+            'referral_code' => strtoupper(Str::random(8)),
+            'referred_by_user_id' => null,
+            'is_admin' => false,
+            'mobile_verified_at' => now(),
         ];
     }
 
@@ -40,6 +44,16 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+            'mobile_verified_at' => null,
         ]);
+    }
+
+    public function admin(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_admin' => true,
+            ];
+        });
     }
 }

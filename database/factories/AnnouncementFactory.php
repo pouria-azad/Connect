@@ -21,7 +21,7 @@ class AnnouncementFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'message' => $this->faker->paragraph,
-            'is_active' => $this->faker->boolean,
+            'is_active' => true,
             'created_at' => now(),
             'updated_at' => now(),
         ];

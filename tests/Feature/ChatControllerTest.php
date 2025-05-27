@@ -50,7 +50,7 @@ class ChatControllerTest extends TestCase
 
         // ارسال درخواست برای مشاهده پیام‌ها
         $response = $this->actingAs($this->user)
-            ->getJson("/api/v1/v1/conversations/{$this->conversation->id}/messages");
+            ->getJson("/api/v1/conversations/{$this->conversation->id}/messages");
 
         $response->assertStatus(200)
             ->assertJsonCount(3, 'data');
@@ -63,7 +63,7 @@ class ChatControllerTest extends TestCase
         $nonParticipant = User::factory()->create();
 
         $response = $this->actingAs($nonParticipant)
-            ->getJson("/api/v1/v1/conversations/{$this->conversation->id}/messages");
+            ->getJson("/api/v1/conversations/{$this->conversation->id}/messages");
 
         $response->assertStatus(403);
     }
@@ -80,7 +80,7 @@ class ChatControllerTest extends TestCase
         ];
 
         $response = $this->actingAs($this->user)
-            ->postJson('/api/v1/v1/chat/send', $messageData);
+            ->postJson('/api/v1/chat/send', $messageData);
 
         $response->assertStatus(201)
             ->assertJsonFragment([
@@ -108,7 +108,7 @@ class ChatControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->user)
-            ->postJson("/api/v1/v1/conversations/{$this->conversation->id}/read");
+            ->postJson("/api/v1/conversations/{$this->conversation->id}/read");
 
         $response->assertStatus(204);
 
@@ -127,7 +127,7 @@ class ChatControllerTest extends TestCase
         ];
 
         $response = $this->actingAs($this->user)
-            ->postJson("/api/v1/v1/conversations/{$this->conversation->id}/block", $blockData);
+            ->postJson("/api/v1/conversations/{$this->conversation->id}/block", $blockData);
 
         $response->assertStatus(204);
 
@@ -152,7 +152,7 @@ class ChatControllerTest extends TestCase
         ];
 
         $response = $this->actingAs($this->user)
-            ->postJson("/api/v1/v1/conversations/{$this->conversation->id}/unblock", $unblockData);
+            ->postJson("/api/v1/conversations/{$this->conversation->id}/unblock", $unblockData);
 
         $response->assertStatus(204);
 

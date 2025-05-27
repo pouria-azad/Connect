@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Gate;
 class SupportMessageController extends Controller
 {
     use AuthorizesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * @OA\Post(
      *     path="/api/v1/support/tickets/{id}/reply",
@@ -69,17 +75,29 @@ class SupportMessageController extends Controller
      */
     public function replyUser(storeSupportMessageRequest $request, $id)
     {
-        $ticket = SupportTicket::findOrFail($id);
-        $this->authorize('view', $ticket);
-
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthenticated.'
+            ], 401);
+        }
+        $ticket = \App\Models\SupportTicket::find($id);
+        if (!$ticket) {
+            return response()->json([
+                'message' => 'تیکت یافت نشد'
+            ], 404);
+        }
+        if ($ticket->user_id !== $user->id) {
+            return response()->json([
+                'message' => 'This action is unauthorized.'
+            ], 403);
+        }
         $ticket->messages()->create([
             'message' => $request->validated()['message'],
-            'user_id' => $request->user()->id,
+            'user_id' => $user->id,
             'is_admin' => false,
         ]);
-
         $ticket->update(['status' => 'open']);
-
         return response()->json(['message' => 'پیام ارسال شد']);
     }
 
@@ -139,25 +157,31 @@ class SupportMessageController extends Controller
      *     )
      * )
      */
-    public function replyAdmin(storeSupportMessageRequest $request, $id)
+    public function adminReply(storeSupportMessageRequest $request, $id)
     {
-        $user = $request->user();
-
-        if (! Gate::allows('isAdmin')) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthenticated.'
+            ], 401);
         }
-
-
-        $ticket = SupportTicket::findOrFail($id);
-
+        if (!$user->is_admin) {
+            return response()->json([
+                'message' => 'This action is unauthorized.'
+            ], 403);
+        }
+        $ticket = \App\Models\SupportTicket::find($id);
+        if (!$ticket) {
+            return response()->json([
+                'message' => 'تیکت یافت نشد'
+            ], 404);
+        }
         $ticket->messages()->create([
             'message' => $request->validated()['message'],
             'user_id' => null,
             'is_admin' => true,
         ]);
-
         $ticket->update(['status' => 'answered']);
-
         return response()->json(['message' => 'پاسخ ثبت شد']);
     }
 }

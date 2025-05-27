@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     protected $fillable = [
         'user_id',
@@ -16,7 +17,8 @@ class Order extends Model
         'status',
         'price',
         'requirements',
-        'delivery_date'
+        'delivery_date',
+        'total_price',
     ];
 
     protected $casts = [
@@ -54,5 +56,10 @@ class Order extends Model
     public function conversation()
     {
         return $this->hasOne(Conversation::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

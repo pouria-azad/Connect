@@ -24,5 +24,30 @@ class Provider extends Model
             ->withPivot(['price','custom_description'])
             ->withTimestamps();
     }
+
+    public function occupation()
+    {
+        return $this->belongsTo(Occupation::class);
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function medals()
+    {
+        return $this->hasMany(Medal::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
 

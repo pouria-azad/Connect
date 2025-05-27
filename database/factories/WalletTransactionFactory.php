@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Wallet;
+use App\Models\WalletTransaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class WalletTransactionFactory extends Factory
 {
+    protected $model = WalletTransaction::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,15 +21,14 @@ class WalletTransactionFactory extends Factory
      */
     public function definition(): array
     {
-        $types = ['deposit', 'withdraw', 'transfer_in', 'transfer_out'];
-        $type = $this->faker->randomElement($types);
-
         return [
-            'user_id' => User::factory()->create()->id,
-            'amount' => $this->faker->numberBetween(10, 1000) * ($type === 'withdraw' || $type === 'transfer_out' ? -1 : 1),
-            'type' => $type,
+            'user_id' => User::factory(),
+            'wallet_id' => Wallet::factory(),
+            'amount' => $this->faker->numberBetween(1000, 100000),
+            'type' => $this->faker->randomElement(['deposit', 'withdraw', 'transfer_in', 'transfer_out', 'referral']),
             'description' => $this->faker->sentence(),
-            'related_user_id' => $this->faker->boolean() ? User::factory()->create()->id : null,
+            'related_user_id' => null,
+            'status' => 'completed'
         ];
     }
 }

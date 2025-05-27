@@ -1,26 +1,32 @@
 <?php
 
-use App\Models\Admin;
-use App\Models\WalletWithdrawRequest;
+namespace Tests\Feature;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\WalletTransaction;
-use Laravel\Sanctum\Sanctum;
+use App\Models\UserBankCard;
+use App\Models\WalletWithdrawRequest;
 
 class WalletControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        $this->user->wallet()->create(['balance' => 0]);
+    }
+
     public function test_user_can_deposit()
     {
-        $user = User::factory()->create();
-        Sanctum::actingAs($user);
-
-        $response = $this->postJson('/api/v1/wallet/deposit', [
-            'amount' => 20000,
-            'description' => 'شارژ برای خرید'
-        ]);
+        $response = $this->actingAsUser()
+            ->postJson('/api/v1/wallet/deposit', [
+                'amount' => 20000,
+                'description' => 'شارژ برای خرید'
+            ]);
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -29,12 +35,13 @@ class WalletControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('wallet_transactions', [
-            'user_id' => $user->id,
+            'wallet_id' => $this->user->wallet->id,
             'amount' => 20000,
             'type' => 'deposit'
         ]);
-        $user->refresh();
-        $this->assertEquals(20000, $user->balance);
+        
+        $this->user->wallet->refresh();
+        $this->assertEquals(20000, $this->user->wallet->balance);
     }
 
     public function test_user_without_authentication_cannot_deposit()
@@ -50,12 +57,12 @@ class WalletControllerTest extends TestCase
 
     public function test_user_can_view_own_wallet_transactions()
     {
-        $user = User::factory()->create();
-        Sanctum::actingAs($user);
+        $transaction = WalletTransaction::factory()->create([
+            'wallet_id' => $this->user->wallet->id
+        ]);
 
-        $transaction = WalletTransaction::factory()->create(['user_id' => $user->id]);
-
-        $response = $this->getJson('/api/v1/wallet/transactions');
+        $response = $this->actingAsUser()
+            ->getJson('/api/v1/wallet/transactions');
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -66,51 +73,36 @@ class WalletControllerTest extends TestCase
 
     public function test_user_can_request_withdraw()
     {
-        $user = User::factory()->create(['balance' => 50000]);
+        $this->user->wallet->update(['balance' => 20000]);
+        $bankCard = UserBankCard::factory()->create(['user_id' => $this->user->id]);
 
-        $response = $this->actingAs($user)->postJson('/api/v1/wallet/withdraw', [
-            'amount' => 10000
-        ]);
+        $response = $this->actingAsUser()
+            ->postJson('/api/v1/wallet/withdraw', [
+                'amount' => 10000,
+                'bank_card_id' => $bankCard->id
+            ]);
 
         $response->assertStatus(200);
-        $response->assertJson(['message' => 'درخواست برداشت ثبت شد']);
+        $response->assertJson(['message' => 'درخواست برداشت با موفقیت ثبت شد']);
 
         $this->assertDatabaseHas('wallet_withdraw_requests', [
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'amount' => 10000,
-            'status' => 'pending'
+            'status' => 'pending',
+            'bank_card_id' => $bankCard->id
         ]);
-
-        $admin = Admin::factory()->create();
-
-        $withdrawRequestId = $response->json('id');
-
-        $reviewResponse = $this->actingAs($admin)->postJson("/api/v1/wallet/withdraw-review/{$withdrawRequestId}", [
-            'status' => 'approved',
-            'admin_note' => 'واریز انجام شد'
-        ]);
-
-        $reviewResponse->assertStatus(200);
-        $reviewResponse->assertJson(['message' => 'درخواست با موفقیت بررسی شد']);
-
-        $this->assertDatabaseHas('wallet_withdraw_requests', [
-            'id' => $withdrawRequestId,
-            'status' => 'approved',
-            'admin_note' => 'واریز انجام شد'
-        ]);
-
-        $user->refresh();
-        $this->assertEquals(40000, $user->balance);
     }
 
     public function test_user_with_insufficient_balance_cannot_request_withdraw()
     {
-        $user = User::factory()->create(['balance' => 5000]);
+        $this->user->wallet->update(['balance' => 5000]);
+        $bankCard = UserBankCard::factory()->create(['user_id' => $this->user->id]);
 
-
-        $response = $this->actingAs($user)->postJson('/api/v1/wallet/withdraw', [
-            'amount' => 10000
-        ]);
+        $response = $this->actingAsUser()
+            ->postJson('/api/v1/wallet/withdraw', [
+                'amount' => 10000,
+                'bank_card_id' => $bankCard->id
+            ]);
 
         $response->assertStatus(400);
         $response->assertJson(['message' => 'موجودی کافی نیست']);
@@ -118,43 +110,42 @@ class WalletControllerTest extends TestCase
 
     public function test_admin_can_review_withdraw_request()
     {
-        $admin = Admin::factory()->create();
-        $user = User::factory()->create(['balance' => 50000]);
-
-
+        $this->user->wallet->update(['balance' => 50000]);
+        $bankCard = UserBankCard::factory()->create(['user_id' => $this->user->id]);
         $withdrawRequest = WalletWithdrawRequest::create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'amount' => 10000,
-            'status' => 'pending'
+            'status' => 'pending',
+            'bank_card_id' => $bankCard->id
         ]);
-
-        $response = $this->actingAs($admin)->postJson("/api/v1/wallet/withdraw-review/{$withdrawRequest->id}", [
+        $response = $this->actingAsAdmin()->postJson("/api/v1/admin/wallet/withdraw-requests/{$withdrawRequest->id}/review", [
             'status' => 'approved',
             'admin_note' => 'واریز انجام شد'
         ]);
-
         $response->assertStatus(200);
         $response->assertJson(['message' => 'درخواست با موفقیت بررسی شد']);
-
         $withdrawRequest->refresh();
         $this->assertEquals('approved', $withdrawRequest->status);
+        $this->assertEquals(\App\Models\User::where('is_admin', true)->latest()->first()->id, $withdrawRequest->reviewed_by_user_id);
     }
 
     public function test_non_admin_user_cannot_review_withdraw_request()
     {
-        $user = User::factory()->create();
-        Sanctum::actingAs($user);
+        $this->user->wallet->update(['balance' => 50000]);
+        $bankCard = UserBankCard::factory()->create(['user_id' => $this->user->id]);
 
         $withdrawRequest = WalletWithdrawRequest::create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'amount' => 10000,
-            'status' => 'pending'
+            'status' => 'pending',
+            'bank_card_id' => $bankCard->id
         ]);
 
-        $response = $this->postJson("/api/v1/wallet/withdraw-review/{$withdrawRequest->id}", [
-            'status' => 'approved',
-            'admin_note' => 'واریز انجام شد'
-        ]);
+        $response = $this->actingAsUser()
+            ->postJson("/api/v1/admin/wallet/withdraw-requests/{$withdrawRequest->id}/review", [
+                'status' => 'approved',
+                'admin_note' => 'واریز انجام شد'
+            ]);
 
         $response->assertStatus(403);
         $response->assertJson(['message' => 'This action is unauthorized.']);

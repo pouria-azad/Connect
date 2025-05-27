@@ -3,23 +3,23 @@
 namespace App\Policies;
 
 use App\Models\Announcement;
-use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
 class AnnouncementPolicy
 {
-    public function create(Admin $admin): bool
+    public function create(User $user): bool
     {
-        return true;
+        return $user->is_admin;
     }
 
-    public function update(Admin $admin, Announcement $announcement): bool
+    public function update(User $user, Announcement $announcement): bool
     {
-        return true;
+        return $user->is_admin;
     }
 
-    public function delete(Admin $admin, Announcement $announcement): bool
+    public function delete(User $user, Announcement $announcement): bool
     {
-        return true;
+        return $user->is_admin;
     }
 }

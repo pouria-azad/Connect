@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Admin;
 use App\Models\Announcement;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,14 +20,12 @@ class AnnouncementControllerTest extends TestCase
         $response = $this->actingAs($user, 'sanctum')->getJson('/api/v1/announcements');
 
         $response->assertStatus(200)
-            ->assertJsonCount(2);
+            ->assertJsonCount(2, 'data');
     }
 
     public function test_admin_can_create_announcement()
     {
-        $admin = Admin::factory()->create();
-
-        $response = $this->actingAs($admin)->postJson('/api/v1/admin/announcements', [
+        $response = $this->actingAsAdmin()->postJson('/api/v1/admin/announcements', [
             'title' => 'اعلان مهم',
             'message' => 'متن اعلان',
             'is_active' => true,
@@ -67,10 +64,8 @@ class AnnouncementControllerTest extends TestCase
 
     public function test_admin_can_update_announcement()
     {
-        $admin = Admin::factory()->create();
         $announcement = Announcement::factory()->create();
-
-        $response = $this->actingAs($admin)->putJson('/api/v1/admin/announcements/' . $announcement->id, [
+        $response = $this->actingAsAdmin()->putJson('/api/v1/admin/announcements/' . $announcement->id, [
             'title' => 'اعلان به‌روزرسانی‌شده',
             'message' => 'متن جدید',
             'is_active' => false,
@@ -99,7 +94,7 @@ class AnnouncementControllerTest extends TestCase
         $user = User::factory()->create();
         $announcement = Announcement::factory()->create();
 
-        $response = $this->actingAs($user)->deleteJson('/api/v1/admin/announcements/' . $announcement->id);
+        $response = $this->actingAsUser()->deleteJson('/api/v1/admin/announcements/' . $announcement->id);
 
         $response->assertStatus(403)
             ->assertJson(['message' => 'This action is unauthorized.']);

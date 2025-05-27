@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Admin;
 use App\Models\SupportTicket;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,7 +17,7 @@ class SupportTicketControllerTest extends TestCase
         $user = User::factory()->create();
         SupportTicket::factory()->count(3)->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->getJson('/api/v1/support/tickets');
+        $response = $this->actingAs($user, 'sanctum')->getJson('/api/v1/support/tickets');
 
         $response->assertStatus(200)
             ->assertJsonCount(3);
@@ -28,7 +27,7 @@ class SupportTicketControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->postJson('/api/v1/support/tickets', [
+        $response = $this->actingAs($user, 'sanctum')->postJson('/api/v1/support/tickets', [
             'subject' => 'مشکل پرداخت',
         ]);
 
@@ -57,10 +56,8 @@ class SupportTicketControllerTest extends TestCase
 
     public function test_admin_can_get_all_support_tickets()
     {
-        $admin = Admin::factory()->create();
         SupportTicket::factory()->count(5)->create();
-
-        $response = $response = $this->actingAs($admin)->getJson('/api/v1/admin/support/tickets');
+        $response = $this->actingAsAdmin()->getJson('/api/v1/admin/support/tickets');
 
         $response->assertStatus(200)
             ->assertJsonCount(5);
@@ -69,7 +66,7 @@ class SupportTicketControllerTest extends TestCase
     public function test_non_admin_cannot_get_all_support_tickets()
     {
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->getJson('/api/v1/admin/support/tickets');
+        $response = $this->actingAs($user, 'sanctum')->getJson('/api/v1/admin/support/tickets');
 
         $response->assertStatus(403)
             ->assertJson(['message' => 'This action is unauthorized.']);
@@ -80,7 +77,7 @@ class SupportTicketControllerTest extends TestCase
         $user = User::factory()->create();
         $ticket = SupportTicket::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->getJson('/api/v1/support/tickets/' . $ticket->id);
+        $response = $this->actingAs($user, 'sanctum')->getJson('/api/v1/support/tickets/' . $ticket->id);
 
         $response->assertStatus(200)
             ->assertJson([

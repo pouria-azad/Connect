@@ -37,7 +37,7 @@ class SupportTicketPolicy
 
     public function replyAdmin($user)
     {
-        return get_class($user) === \App\Models\Admin::class;
+        return $user instanceof \App\Models\User && $user->is_admin;
     }
 
 

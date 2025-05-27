@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Admin;
 use App\Models\Announcement;
 use App\Models\ChatMessage;
 use App\Models\Conversation;
@@ -47,9 +46,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('isAdmin', function ($user) {
-            return $user instanceof \App\Models\Admin;
-        });
-
+        // حذف Gate isAdmin
     }
 }

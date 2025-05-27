@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Admin;
 use App\Models\SupportMessage;
 use App\Models\SupportTicket;
 use App\Models\User;
@@ -51,10 +50,8 @@ class SupportMessageControllerTest extends TestCase
 
     public function test_admin_can_reply_to_ticket()
     {
-        $admin = Admin::factory()->create();
         $ticket = SupportTicket::factory()->create();
-
-        $response = $this->actingAs($admin)->postJson('/api/v1/admin/support/tickets/' . $ticket->id . '/reply', [
+        $response = $this->actingAsAdmin()->postJson('/api/v1/admin/support/tickets/' . $ticket->id . '/reply', [
             'message' => 'مشکل بررسی شد',
         ]);
 

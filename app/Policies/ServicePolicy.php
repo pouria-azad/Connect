@@ -3,9 +3,8 @@
 
 namespace App\Policies;
 
-use App\Models\Admin;
-use App\Models\Service;
 use App\Models\User;
+use App\Models\Service;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ServicePolicy
@@ -13,42 +12,74 @@ class ServicePolicy
     use HandlesAuthorization;
 
     /**
-     * هر کسی می‌تواند فهرست سرویس‌های عمومی را ببیند
+     * Determine whether the user can view any models.
      */
-    public function viewAny(?User $user): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return true; // همه کاربران می‌توانند لیست خدمات را ببینند
     }
 
     /**
-     * مشاهده جزئیات یک سرویس برای همه آزاد است
+     * Determine whether the user can view the model.
      */
-    public function view(?User $user, Service $service): bool
+    public function view(User $user, Service $service): bool
     {
-        return true;
+        return true; // همه کاربران می‌توانند جزئیات خدمت را ببینند
     }
 
     /**
-     * فقط ادمین‌ها اجازه ایجاد سرویس را دارند
+     * Determine whether the user can create models.
      */
     public function create($user): bool
     {
-        return $user instanceof Admin;
+        return $user->is_admin;
     }
 
     /**
-     * فقط ادمین‌ها اجازه ویرایش سرویس را دارند
+     * Determine whether the user can update the model.
      */
     public function update($user, Service $service): bool
     {
-        return $user instanceof Admin;
+        return $user->is_admin;
     }
 
     /**
-     * فقط ادمین‌ها اجازه حذف سرویس را دارند
+     * Determine whether the user can delete the model.
      */
     public function delete($user, Service $service): bool
     {
-        return $user instanceof Admin;
+        return $user->is_admin;
+    }
+
+    /**
+     * Determine whether the user can restore the model.
+     */
+    public function restore(User $user, Service $service): bool
+    {
+        return $user->is_admin;
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     */
+    public function forceDelete(User $user, Service $service): bool
+    {
+        return $user->is_admin;
+    }
+
+    /**
+     * Determine whether the user can manage service categories.
+     */
+    public function manageCategories(User $user): bool
+    {
+        return $user->is_admin;
+    }
+
+    /**
+     * Determine whether the user can manage service prices.
+     */
+    public function managePrices(User $user, Service $service): bool
+    {
+        return $user->is_admin;
     }
 }
