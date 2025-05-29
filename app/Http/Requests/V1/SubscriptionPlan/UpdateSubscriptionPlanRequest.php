@@ -4,6 +4,97 @@ namespace App\Http\Requests\V1\SubscriptionPlan;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="UpdateSubscriptionPlanRequest",
+ *     type="object",
+ *     title="Update Subscription Plan Request",
+ *     description="درخواست بروزرسانی طرح اشتراک",
+ *     @OA\Property(
+ *         property="name",
+ *         type="string",
+ *         description="نام طرح اشتراک",
+ *         example="طرح طلایی",
+ *         minLength=2,
+ *         maxLength=255
+ *     ),
+ *     @OA\Property(
+ *         property="description",
+ *         type="string",
+ *         description="توضیحات طرح اشتراک",
+ *         example="طرح اشتراک ویژه با امکانات پیشرفته",
+ *         nullable=true
+ *     ),
+ *     @OA\Property(
+ *         property="price",
+ *         type="number",
+ *         format="float",
+ *         description="قیمت طرح اشتراک",
+ *         example=100000,
+ *         minimum=0
+ *     ),
+ *     @OA\Property(
+ *         property="duration_days",
+ *         type="integer",
+ *         description="مدت زمان اعتبار طرح به روز",
+ *         example=30,
+ *         minimum=1
+ *     ),
+ *     @OA\Property(
+ *         property="features",
+ *         type="array",
+ *         description="ویژگی‌های طرح اشتراک",
+ *         @OA\Items(type="string"),
+ *         example={"امکان ثبت آگهی نامحدود", "پشتیبانی ۲۴/۷", "نمایش در صفحه اول"},
+ *         nullable=true
+ *     ),
+ *     @OA\Property(
+ *         property="is_active",
+ *         type="boolean",
+ *         description="وضعیت فعال بودن طرح",
+ *         example=true
+ *     ),
+ *     @OA\Property(
+ *         property="max_ads_count",
+ *         type="integer",
+ *         description="حداکثر تعداد آگهی‌های مجاز",
+ *         example=100,
+ *         minimum=0
+ *     ),
+ *     @OA\Property(
+ *         property="max_services_count",
+ *         type="integer",
+ *         description="حداکثر تعداد سرویس‌های مجاز",
+ *         example=50,
+ *         minimum=0
+ *     ),
+ *     @OA\Property(
+ *         property="priority_level",
+ *         type="integer",
+ *         description="سطح اولویت طرح",
+ *         example=1,
+ *         minimum=0
+ *     ),
+ *     @OA\Property(
+ *         property="can_highlight_ads",
+ *         type="boolean",
+ *         description="امکان برجسته کردن آگهی‌ها",
+ *         example=true
+ *     ),
+ *     @OA\Property(
+ *         property="can_pin_ads",
+ *         type="boolean",
+ *         description="امکان سنجاق کردن آگهی‌ها",
+ *         example=true
+ *     ),
+ *     @OA\Property(
+ *         property="can_use_advanced_features",
+ *         type="boolean",
+ *         description="امکان استفاده از ویژگی‌های پیشرفته",
+ *         example=true
+ *     )
+ * )
+ */
 class UpdateSubscriptionPlanRequest extends FormRequest
 {
     public function authorize(): bool
@@ -14,7 +105,7 @@ class UpdateSubscriptionPlanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'name' => ['sometimes', 'required', 'string', 'min:2', 'max:255'],
             'description' => ['nullable', 'string'],
             'price' => ['sometimes', 'required', 'numeric', 'min:0'],
             'duration_days' => ['sometimes', 'required', 'integer', 'min:1'],

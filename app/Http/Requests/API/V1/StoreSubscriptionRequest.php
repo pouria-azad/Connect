@@ -4,6 +4,40 @@ namespace App\Http\Requests\API\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="StoreSubscriptionRequest",
+ *     type="object",
+ *     title="Store Subscription Request",
+ *     description="درخواست ایجاد اشتراک جدید",
+ *     required={"plan_id"},
+ *     @OA\Property(
+ *         property="plan_id",
+ *         type="integer",
+ *         description="شناسه طرح اشتراک",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="auto_renew",
+ *         type="boolean",
+ *         description="آیا تمدید خودکار فعال باشد",
+ *         example=true
+ *     ),
+ *     @OA\Property(
+ *         property="payment_method",
+ *         type="string",
+ *         description="روش پرداخت",
+ *         enum={"wallet", "bank_card"},
+ *         example="wallet"
+ *     ),
+ *     @OA\Property(
+ *         property="payment_id",
+ *         type="string",
+ *         description="شناسه پرداخت (برای پرداخت با کارت بانکی)",
+ *         example="pay_123456789"
+ *     )
+ * )
+ */
 class StoreSubscriptionRequest extends FormRequest
 {
     public function authorize(): bool

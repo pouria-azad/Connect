@@ -4,6 +4,71 @@ namespace App\Http\Requests\V1\Advertisement;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *     schema="UpdateAdvertisementRequest",
+ *     type="object",
+ *     title="Update Advertisement Request",
+ *     description="درخواست بروزرسانی تبلیغ",
+ *     @OA\Property(
+ *         property="title",
+ *         type="string",
+ *         description="عنوان تبلیغ",
+ *         example="تبلیغ نمونه",
+ *         maxLength=255
+ *     ),
+ *     @OA\Property(
+ *         property="description",
+ *         type="string",
+ *         description="توضیحات تبلیغ",
+ *         example="این یک تبلیغ نمونه است"
+ *     ),
+ *     @OA\Property(
+ *         property="image_url",
+ *         type="string",
+ *         description="آدرس تصویر تبلیغ",
+ *         example="https://example.com/image.jpg",
+ *         maxLength=2048
+ *     ),
+ *     @OA\Property(
+ *         property="target_url",
+ *         type="string",
+ *         description="آدرس مقصد تبلیغ",
+ *         example="https://example.com",
+ *         maxLength=2048
+ *     ),
+ *     @OA\Property(
+ *         property="type",
+ *         type="string",
+ *         description="نوع تبلیغ",
+ *         enum={"banner", "popup", "sidebar"},
+ *         example="banner"
+ *     ),
+ *     @OA\Property(
+ *         property="status",
+ *         type="string",
+ *         description="وضعیت تبلیغ",
+ *         enum={"active", "inactive"},
+ *         example="active"
+ *     ),
+ *     @OA\Property(
+ *         property="start_date",
+ *         type="string",
+ *         format="date",
+ *         description="تاریخ شروع نمایش تبلیغ",
+ *         example="2025-05-23",
+ *         nullable=true
+ *     ),
+ *     @OA\Property(
+ *         property="end_date",
+ *         type="string",
+ *         format="date",
+ *         description="تاریخ پایان نمایش تبلیغ",
+ *         example="2025-06-23",
+ *         nullable=true
+ *     )
+ * )
+ */
 class UpdateAdvertisementRequest extends FormRequest
 {
     /**

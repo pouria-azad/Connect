@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Advertisement\StoreAdvertisementRequest;
 use App\Http\Requests\V1\Advertisement\UpdateAdvertisementRequest;
-use App\Http\Resources\V1\AdvertisementResource;
+use App\Http\Resources\API\V1\AdvertisementResource;
 use App\Models\Advertisement;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

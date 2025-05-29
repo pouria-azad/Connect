@@ -210,7 +210,7 @@ class WalletController extends Controller
      *         description="List of transactions",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/WalletTransaction")),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/WalletTransactionResource")),
      *             @OA\Property(property="current_page", type="integer"),
      *             @OA\Property(property="total", type="integer")
      *         )
@@ -475,11 +475,14 @@ class WalletController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
+     *         response=201,
      *         description="Bank card added successfully",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="کارت بانکی ثبت شد"),
-     *             @OA\Property(property="bank_card", ref="#/components/schemas/UserBankCard")
+     *             @OA\Property(property="message", type="string", example="کارت بانکی با موفقیت اضافه شد"),
+     *             @OA\Property(
+     *                 property="bank_card",
+     *                 ref="#/components/schemas/UserBankCardResource"
+     *             )
      *         )
      *     )
      * )
@@ -519,11 +522,8 @@ class WalletController extends Controller
      *         response=200,
      *         description="List of bank cards",
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="bank_cards",
-     *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/UserBankCard")
-     *             )
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/UserBankCardResource")
      *         )
      *     )
      * )

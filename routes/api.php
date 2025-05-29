@@ -126,10 +126,10 @@ Route::prefix('v1')->group(function () {
     });
     // Chat routes
     Route::get('conversations/{conversation}/messages', [ChatController::class, 'messages']);
-    Route::post('chat/send', [ChatController::class, 'sendMessage']);
-    Route::post('conversations/{conversation}/read', [ChatController::class, 'markAsRead']);
-    Route::post('conversations/{conversation}/block', [ChatController::class, 'blockUser']);
-    Route::post('conversations/{conversation}/unblock', [ChatController::class, 'unblockUser']);
+    Route::post('chat/send', [ChatController::class, 'send']);
+    Route::post('conversations/{conversation}/read', [ChatController::class, 'markRead']);
+    Route::post('conversations/{conversation}/block', [ChatController::class, 'block']);
+    Route::post('conversations/{conversation}/unblock', [ChatController::class, 'unblock']);
     // Review routes
     Route::get('reviews', [ReviewController::class, 'index']);
     // Public announcement route
