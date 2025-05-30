@@ -18,8 +18,8 @@ class ChatController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/conversations/{conversation}/messages",
-     *     summary="دریافت پیام‌های یک مکالمه با صفحه‌بندی",
-     *     tags={"Chat"},
+     *     summary="دریافت پیام‌های یک مکالمه (User)",
+     *     tags={"Chat (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="conversation", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=200, description="لیست پیام‌ها")
@@ -45,8 +45,8 @@ class ChatController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/chat/send",
-     *     summary="ارسال پیام جدید در یک مکالمه",
-     *     tags={"Chat"},
+     *     summary="ارسال پیام جدید در یک مکالمه (User)",
+     *     tags={"Chat (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\RequestBody(required=true, @OA\JsonContent()),
      *     @OA\Response(response=201, description="پیام ارسال شد")
@@ -137,8 +137,8 @@ class ChatController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/conversations/{conversation}/read",
-     *     summary="علامت‌گذاری پیام‌های یک مکالمه به عنوان خوانده‌شده",
-     *     tags={"Chat"},
+     *     summary="علامت‌گذاری پیام‌های یک مکالمه به عنوان خوانده‌شده (User)",
+     *     tags={"Chat (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="conversation", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=204, description="پیام‌ها خوانده شدند")
@@ -162,8 +162,8 @@ class ChatController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/conversations/{conversation}/block",
-     *     summary="بلاک کردن یک کاربر در مکالمه",
-     *     tags={"Chat"},
+     *     summary="بلاک کردن یک کاربر در مکالمه (User)",
+     *     tags={"Chat (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="conversation", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(required=true, @OA\JsonContent()),
@@ -201,8 +201,8 @@ class ChatController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/conversations/{conversation}/unblock",
-     *     summary="آنبلاک کردن یک کاربر در مکالمه",
-     *     tags={"Chat"},
+     *     summary="آنبلاک کردن یک کاربر در مکالمه (User)",
+     *     tags={"Chat (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="conversation", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(required=true, @OA\JsonContent()),

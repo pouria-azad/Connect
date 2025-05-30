@@ -31,8 +31,8 @@ class AuthController extends Controller
      * 
      * @OA\Post(
      *     path="/api/v1/auth/send-otp",
-     *     summary="Send OTP code to user's mobile number",
-     *     tags={"Authentication"},
+     *     summary="ارسال کد تایید (User)",
+     *     tags={"Auth (User)"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -75,8 +75,8 @@ class AuthController extends Controller
      * 
      * @OA\Post(
      *     path="/api/v1/auth/verify-otp",
-     *     summary="Verify OTP code",
-     *     tags={"Authentication"},
+     *     summary="تایید کد ارسالی (User)",
+     *     tags={"Auth (User)"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -148,8 +148,8 @@ class AuthController extends Controller
      * 
      * @OA\Post(
      *     path="/api/v1/auth/register",
-     *     summary="Register new user",
-     *     tags={"Authentication"},
+     *     summary="ثبت نام کاربر جدید (User)",
+     *     tags={"Auth (User)"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

@@ -20,8 +20,8 @@ class ServiceController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/services",
-     *     summary="Get a tree list of all services",
-     *     tags={"Services"},
+     *     summary="Get a tree list of all services (User)",
+     *     tags={"Services (User)"},
      *     @OA\Response(
      *         response=200,
      *         description="List of root services with their children",
@@ -38,8 +38,8 @@ class ServiceController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/services/{serviceId}",
-     *     summary="Get details of a service including its children",
-     *     tags={"Services"},
+     *     summary="Get details of a service including its children (User)",
+     *     tags={"Services (User)"},
      *     @OA\Parameter(
      *         name="serviceId",
      *         in="path",
@@ -63,8 +63,8 @@ class ServiceController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/services",
-     *     summary="Create a new service",
-     *     tags={"Services"},
+     *     summary="Create a new service (Admin)",
+     *     tags={"Services (Admin)"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/StoreServiceRequest")
@@ -91,8 +91,8 @@ class ServiceController extends Controller
     /**
      * @OA\Put(
      *     path="/api/v1/services/{serviceId}",
-     *     summary="Update a service",
-     *     tags={"Services"},
+     *     summary="Update a service (Admin)",
+     *     tags={"Services (Admin)"},
      *     @OA\Parameter(
      *         name="serviceId",
      *         in="path",
@@ -124,8 +124,8 @@ class ServiceController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/v1/services/{serviceId}",
-     *     summary="Delete a service",
-     *     tags={"Services"},
+     *     summary="Delete a service (Admin)",
+     *     tags={"Services (Admin)"},
      *     @OA\Parameter(
      *         name="serviceId",
      *         in="path",

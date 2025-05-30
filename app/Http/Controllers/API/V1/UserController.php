@@ -20,8 +20,8 @@ class UserController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/user/profile",
-     *     summary="دریافت اطلاعات پروفایل کاربر احراز هویت شده",
-     *     tags={"User"},
+     *     summary="دریافت پروفایل کاربر (User)",
+     *     tags={"User (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Response(
      *         response=200,
@@ -52,8 +52,8 @@ class UserController extends Controller
     /**
      * @OA\Put(
      *     path="/api/v1/user/profile",
-     *     summary="ویرایش اطلاعات پروفایل کاربر",
-     *     tags={"User"},
+     *     summary="ویرایش پروفایل کاربر (User)",
+     *     tags={"User (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -90,8 +90,8 @@ class UserController extends Controller
     /**
      * @OA\Put(
      *     path="/api/v1/user/change-password",
-     *     summary="تغییر رمز عبور کاربر",
-     *     tags={"User"},
+     *     summary="تغییر رمز عبور کاربر (User)",
+     *     tags={"User (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -140,8 +140,8 @@ class UserController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/user/referral-stats",
-     *     summary="دریافت آمار ارجاع‌های کاربر",
-     *     tags={"User"},
+     *     summary="دریافت آمار ارجاع‌های کاربر (User)",
+     *     tags={"User (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Response(response=200, description="آمار ارجاع‌ها"),
      *     @OA\Response(response=401, description="Unauthenticated")
@@ -167,8 +167,8 @@ class UserController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/user/referral-history",
-     *     summary="دریافت تاریخچه تراکنش‌های ارجاع کاربر",
-     *     tags={"User"},
+     *     summary="دریافت تاریخچه تراکنش‌های ارجاع کاربر (User)",
+     *     tags={"User (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Response(response=200, description="تاریخچه تراکنش‌های ارجاع"),
      *     @OA\Response(response=401, description="Unauthenticated")

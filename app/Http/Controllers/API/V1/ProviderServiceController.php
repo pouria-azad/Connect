@@ -15,9 +15,9 @@ class ProviderServiceController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/providers/{providerId}/services",
-     *     summary="دریافت لیست خدمات ارائه‌دهنده با اطلاعات کامل پروفایل و مدال‌ها (صفحه‌بندی شده)",
-     *     tags={"خدمات ارائه‌دهندگان"},
+     *     path="/api/v1/providers/{provider}/services",
+     *     summary="لیست سرویس‌های ارائه‌شده توسط سرویس‌دهنده (User)",
+     *     tags={"ProviderService (User)"},
      *     @OA\Parameter(
      *         name="providerId",
      *         in="path",
@@ -70,9 +70,9 @@ class ProviderServiceController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/providers/{providerId}/services",
-     *     summary="افزودن یا به‌روزرسانی خدمت برای ارائه‌دهنده",
-     *     tags={"خدمات ارائه‌دهندگان"},
+     *     path="/api/v1/providers/{provider}/services",
+     *     summary="افزودن سرویس جدید به سرویس‌دهنده (Admin)",
+     *     tags={"ProviderService (Admin)"},
      *     @OA\Parameter(
      *         name="providerId",
      *         in="path",
@@ -130,9 +130,9 @@ class ProviderServiceController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/providers/{providerId}/services/{serviceId}",
-     *     summary="حذف یک خدمت از ارائه‌دهنده",
-     *     tags={"خدمات ارائه‌دهندگان"},
+     *     path="/api/v1/providers/{provider}/services/{service}",
+     *     summary="حذف سرویس از سرویس‌دهنده (Admin)",
+     *     tags={"ProviderService (Admin)"},
      *     @OA\Parameter(
      *         name="providerId",
      *         in="path",

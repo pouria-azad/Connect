@@ -16,8 +16,8 @@ class AdvertisementController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/advertisements",
-     *     summary="Get list of active advertisements",
-     *     tags={"Advertisements"},
+     *     summary="Get list of active advertisements (User)",
+     *     tags={"Advertisements (User)"},
      *     @OA\Parameter(
      *         name="type",
      *         in="query",
@@ -58,7 +58,7 @@ class AdvertisementController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/admin/advertisements",
-     *     summary="Create a new advertisement",
+     *     summary="Create a new advertisement (Admin)",
      *     tags={"Advertisements (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
@@ -104,7 +104,7 @@ class AdvertisementController extends Controller
     /**
      * @OA\Put(
      *     path="/api/v1/admin/advertisements/{id}",
-     *     summary="Update an advertisement",
+     *     summary="Update an advertisement (Admin)",
      *     tags={"Advertisements (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
@@ -158,7 +158,7 @@ class AdvertisementController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/v1/admin/advertisements/{id}",
-     *     summary="Delete an advertisement",
+     *     summary="Delete an advertisement (Admin)",
      *     tags={"Advertisements (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
@@ -204,8 +204,8 @@ class AdvertisementController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/advertisements/{id}/click",
-     *     summary="Record an advertisement click",
-     *     tags={"Advertisements"},
+     *     summary="Record an advertisement click (User)",
+     *     tags={"Advertisements (User)"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -242,8 +242,8 @@ class AdvertisementController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/advertisements/{id}/display",
-     *     summary="Record an advertisement display",
-     *     tags={"Advertisements"},
+     *     summary="Record an advertisement display (User)",
+     *     tags={"Advertisements (User)"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

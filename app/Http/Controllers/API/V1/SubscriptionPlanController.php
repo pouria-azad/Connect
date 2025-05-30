@@ -21,8 +21,8 @@ class SubscriptionPlanController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/subscription-plans",
-     *     summary="دریافت لیست پلن‌های اشتراک",
-     *     tags={"Subscription Plans"},
+     *     summary="دریافت لیست پلن‌های اشتراک (User)",
+     *     tags={"Subscription Plans (User)"},
      *     @OA\Response(
      *         response=200,
      *         description="لیست پلن‌های اشتراک",
@@ -42,7 +42,7 @@ class SubscriptionPlanController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/admin/subscription-plans",
-     *     summary="ایجاد پلن اشتراک جدید",
+     *     summary="ایجاد پلن اشتراک جدید (Admin)",
      *     tags={"Subscription Plans (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
@@ -87,8 +87,8 @@ class SubscriptionPlanController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/subscription-plans/{id}",
-     *     summary="دریافت جزئیات پلن اشتراک",
-     *     tags={"Subscription Plans"},
+     *     summary="دریافت جزئیات پلن اشتراک (User)",
+     *     tags={"Subscription Plans (User)"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -116,7 +116,7 @@ class SubscriptionPlanController extends Controller
     /**
      * @OA\Put(
      *     path="/api/v1/admin/subscription-plans/{id}",
-     *     summary="به‌روزرسانی پلن اشتراک",
+     *     summary="به‌روزرسانی پلن اشتراک (Admin)",
      *     tags={"Subscription Plans (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
@@ -182,7 +182,7 @@ class SubscriptionPlanController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/v1/admin/subscription-plans/{id}",
-     *     summary="حذف پلن اشتراک",
+     *     summary="حذف پلن اشتراک (Admin)",
      *     tags={"Subscription Plans (Admin)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(

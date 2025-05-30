@@ -9,9 +9,9 @@
         "/api/v1/advertisements": {
             "get": {
                 "tags": [
-                    "Advertisements"
+                    "Advertisements (User)"
                 ],
-                "summary": "Get list of active advertisements",
+                "summary": "Get list of active advertisements (User)",
                 "operationId": "bd6973f6f8ddd332826fc270379ff420",
                 "parameters": [
                     {
@@ -50,7 +50,7 @@
                 "tags": [
                     "Advertisements (Admin)"
                 ],
-                "summary": "Create a new advertisement",
+                "summary": "Create a new advertisement (Admin)",
                 "operationId": "c2561f9b0874cdd9cca1f24b20a29dbf",
                 "requestBody": {
                     "required": true,
@@ -111,7 +111,7 @@
                 "tags": [
                     "Advertisements (Admin)"
                 ],
-                "summary": "Update an advertisement",
+                "summary": "Update an advertisement (Admin)",
                 "operationId": "4881433577638efae534e018b9b2b4aa",
                 "parameters": [
                     {
@@ -196,7 +196,7 @@
                 "tags": [
                     "Advertisements (Admin)"
                 ],
-                "summary": "Delete an advertisement",
+                "summary": "Delete an advertisement (Admin)",
                 "operationId": "b53420e36bb39dbc961c26fd87d61741",
                 "parameters": [
                     {
@@ -268,9 +268,9 @@
         "/api/v1/advertisements/{id}/click": {
             "post": {
                 "tags": [
-                    "Advertisements"
+                    "Advertisements (User)"
                 ],
-                "summary": "Record an advertisement click",
+                "summary": "Record an advertisement click (User)",
                 "operationId": "bcefc5e55d12061cbcab33489fa31390",
                 "parameters": [
                     {
@@ -321,9 +321,9 @@
         "/api/v1/advertisements/{id}/display": {
             "post": {
                 "tags": [
-                    "Advertisements"
+                    "Advertisements (User)"
                 ],
-                "summary": "Record an advertisement display",
+                "summary": "Record an advertisement display (User)",
                 "operationId": "a606c51f007e379e6ad36decef4a591c",
                 "parameters": [
                     {
@@ -745,9 +745,9 @@
         "/api/v1/auth/send-otp": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Auth (User)"
                 ],
-                "summary": "Send OTP code to user's mobile number",
+                "summary": "ارسال کد تایید (User)",
                 "description": "Send OTP code to user's mobile number",
                 "operationId": "35f74db6bb94f332280993dee275197a",
                 "requestBody": {
@@ -793,9 +793,9 @@
         "/api/v1/auth/verify-otp": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Auth (User)"
                 ],
-                "summary": "Verify OTP code",
+                "summary": "تایید کد ارسالی (User)",
                 "description": "Verify OTP code",
                 "operationId": "22e6352f24fc2db61b20a0a3e9b5209f",
                 "requestBody": {
@@ -861,9 +861,9 @@
         "/api/v1/auth/register": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Auth (User)"
                 ],
-                "summary": "Register new user",
+                "summary": "ثبت نام کاربر جدید (User)",
                 "description": "Register new user",
                 "operationId": "e6820a70bd152640eefa0af0016b3d3b",
                 "requestBody": {
@@ -1028,9 +1028,9 @@
         "/api/v1/conversations/{conversation}/messages": {
             "get": {
                 "tags": [
-                    "Chat"
+                    "Chat (User)"
                 ],
-                "summary": "دریافت پیام‌های یک مکالمه با صفحه‌بندی",
+                "summary": "دریافت پیام‌های یک مکالمه (User)",
                 "operationId": "25f56ffdf927bc996a44f0a1f53e4e0d",
                 "parameters": [
                     {
@@ -1057,9 +1057,9 @@
         "/api/v1/chat/send": {
             "post": {
                 "tags": [
-                    "Chat"
+                    "Chat (User)"
                 ],
-                "summary": "ارسال پیام جدید در یک مکالمه",
+                "summary": "ارسال پیام جدید در یک مکالمه (User)",
                 "operationId": "085f1cea882d37fe5d0bac1a24ad36a6",
                 "requestBody": {
                     "required": true,
@@ -1084,9 +1084,9 @@
         "/api/v1/conversations/{conversation}/read": {
             "post": {
                 "tags": [
-                    "Chat"
+                    "Chat (User)"
                 ],
-                "summary": "علامت‌گذاری پیام‌های یک مکالمه به عنوان خوانده‌شده",
+                "summary": "علامت‌گذاری پیام‌های یک مکالمه به عنوان خوانده‌شده (User)",
                 "operationId": "f46be75e8f42a5c75675c15c1a83aafa",
                 "parameters": [
                     {
@@ -1113,9 +1113,9 @@
         "/api/v1/conversations/{conversation}/block": {
             "post": {
                 "tags": [
-                    "Chat"
+                    "Chat (User)"
                 ],
-                "summary": "بلاک کردن یک کاربر در مکالمه",
+                "summary": "بلاک کردن یک کاربر در مکالمه (User)",
                 "operationId": "2d7f184937827197e590a6a12fce9da5",
                 "parameters": [
                     {
@@ -1150,9 +1150,9 @@
         "/api/v1/conversations/{conversation}/unblock": {
             "post": {
                 "tags": [
-                    "Chat"
+                    "Chat (User)"
                 ],
-                "summary": "آنبلاک کردن یک کاربر در مکالمه",
+                "summary": "آنبلاک کردن یک کاربر در مکالمه (User)",
                 "operationId": "2ffd0caeefc66927cc90cc32fa28245e",
                 "parameters": [
                     {
@@ -1187,9 +1187,9 @@
         "/api/v1/chat-messages": {
             "post": {
                 "tags": [
-                    "Chat Messages"
+                    "Chat Messages (User)"
                 ],
-                "summary": "ارسال پیام جدید در یک مکالمه",
+                "summary": "ارسال پیام جدید در یک مکالمه (User)",
                 "operationId": "270bced1ed84dd86cdf0f34e9e75817d",
                 "requestBody": {
                     "required": true,
@@ -1214,9 +1214,9 @@
         "/api/v1/chat-messages/{chatMessage}": {
             "get": {
                 "tags": [
-                    "Chat Messages"
+                    "Chat Messages (User)"
                 ],
-                "summary": "نمایش جزئیات یک پیام خاص",
+                "summary": "نمایش جزئیات یک پیام خاص (User)",
                 "operationId": "3485045f57943bc688305b41ee66b0f5",
                 "parameters": [
                     {
@@ -1241,9 +1241,9 @@
             },
             "put": {
                 "tags": [
-                    "Chat Messages"
+                    "Chat Messages (User)"
                 ],
-                "summary": "ویرایش محتوای یک پیام",
+                "summary": "ویرایش محتوای یک پیام (User)",
                 "operationId": "91cbd7a34b37f52086e3abd47b779bbb",
                 "parameters": [
                     {
@@ -1276,9 +1276,9 @@
             },
             "delete": {
                 "tags": [
-                    "Chat Messages"
+                    "Chat Messages (User)"
                 ],
-                "summary": "حذف یک پیام از مکالمه",
+                "summary": "حذف یک پیام از مکالمه (User)",
                 "operationId": "8dbd8f4a19fde27e5edcf62bdcb7ea71",
                 "parameters": [
                     {
@@ -1302,13 +1302,13 @@
                 ]
             }
         },
-        "/api/v1/providers/{providerId}/services": {
+        "/api/v1/providers/{provider}/services": {
             "get": {
                 "tags": [
-                    "خدمات ارائه‌دهندگان"
+                    "ProviderService (User)"
                 ],
-                "summary": "دریافت لیست خدمات ارائه‌دهنده با اطلاعات کامل پروفایل و مدال‌ها (صفحه‌بندی شده)",
-                "operationId": "8ff6b1403441cc31ffc4a954c8bc4492",
+                "summary": "لیست سرویس‌های ارائه‌شده توسط سرویس‌دهنده (User)",
+                "operationId": "223e3cf16ddeb4ab05b22e0be9651909",
                 "parameters": [
                     {
                         "name": "providerId",
@@ -1368,10 +1368,10 @@
             },
             "post": {
                 "tags": [
-                    "خدمات ارائه‌دهندگان"
+                    "ProviderService (Admin)"
                 ],
-                "summary": "افزودن یا به‌روزرسانی خدمت برای ارائه‌دهنده",
-                "operationId": "d701a675c552c71c59b1e45678f0582e",
+                "summary": "افزودن سرویس جدید به سرویس‌دهنده (Admin)",
+                "operationId": "c6c5a072ff3e448f3ddbb8c5ee7d6c43",
                 "parameters": [
                     {
                         "name": "providerId",
@@ -1438,13 +1438,13 @@
                 ]
             }
         },
-        "/api/v1/providers/{providerId}/services/{serviceId}": {
+        "/api/v1/providers/{provider}/services/{service}": {
             "delete": {
                 "tags": [
-                    "خدمات ارائه‌دهندگان"
+                    "ProviderService (Admin)"
                 ],
-                "summary": "حذف یک خدمت از ارائه‌دهنده",
-                "operationId": "5aa56c1abc69a0eff85f04408d09fe58",
+                "summary": "حذف سرویس از سرویس‌دهنده (Admin)",
+                "operationId": "2a2943d6daa048b9ba4db3cda58c50cc",
                 "parameters": [
                     {
                         "name": "providerId",
@@ -1481,9 +1481,9 @@
         "/api/v1/reviews": {
             "get": {
                 "tags": [
-                    "Reviews"
+                    "Review (User)"
                 ],
-                "summary": "Get all reviews",
+                "summary": "دریافت نظرات کاربران برای یک سرویس‌دهنده (User)",
                 "description": "Display a listing of the reviews.",
                 "operationId": "076ad10c190aa818bd81ca4c96abb099",
                 "parameters": [
@@ -1577,9 +1577,9 @@
             },
             "post": {
                 "tags": [
-                    "Reviews"
+                    "Review (User)"
                 ],
-                "summary": "Create a new review",
+                "summary": "ثبت نظر جدید برای سرویس‌دهنده (User)",
                 "description": "Store a newly created review.",
                 "operationId": "0e082969901df97076b5ba288be2f847",
                 "requestBody": {
@@ -1690,9 +1690,9 @@
         "/api/v1/reviews/{id}": {
             "get": {
                 "tags": [
-                    "Reviews"
+                    "Review (User)"
                 ],
-                "summary": "Get a specific review",
+                "summary": "Get a specific review (User)",
                 "description": "Display the specified review.",
                 "operationId": "7da94092333f6f7c9c94d8ef1b5365a4",
                 "parameters": [
@@ -1730,17 +1730,19 @@
                         "description": "Review not found"
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/reviews/{review}": {
             "put": {
                 "tags": [
-                    "Reviews"
+                    "Review (User)"
                 ],
-                "summary": "Update a review",
+                "summary": "ویرایش نظر ثبت‌شده (User)",
                 "description": "Update the specified review.",
-                "operationId": "105e661251e82f511279c6fd44c12edc",
+                "operationId": "330bfab21bcd0214d5699fc2154611f1",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "review",
                         "in": "path",
                         "description": "Review ID",
                         "required": true,
@@ -1826,14 +1828,14 @@
             },
             "delete": {
                 "tags": [
-                    "Reviews"
+                    "Review (User)"
                 ],
-                "summary": "Delete a review",
+                "summary": "حذف نظر ثبت‌شده (User)",
                 "description": "Remove the specified review.",
-                "operationId": "75dd829c8dfdbab64c7503aa22771be7",
+                "operationId": "f585a6dad9b1a1f69e84e6064fe7b8ec",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "review",
                         "in": "path",
                         "description": "Review ID",
                         "required": true,
@@ -1894,9 +1896,9 @@
         "/api/v1/services": {
             "get": {
                 "tags": [
-                    "Services"
+                    "Services (User)"
                 ],
-                "summary": "Get a tree list of all services",
+                "summary": "Get a tree list of all services (User)",
                 "operationId": "791a52e8335b361d298d47b2d309be36",
                 "responses": {
                     "200": {
@@ -1916,9 +1918,9 @@
             },
             "post": {
                 "tags": [
-                    "Services"
+                    "Services (Admin)"
                 ],
-                "summary": "Create a new service",
+                "summary": "Create a new service (Admin)",
                 "operationId": "444916aaf11b42e73b55abda71e44542",
                 "requestBody": {
                     "required": true,
@@ -1955,9 +1957,9 @@
         "/api/v1/services/{serviceId}": {
             "get": {
                 "tags": [
-                    "Services"
+                    "Services (User)"
                 ],
-                "summary": "Get details of a service including its children",
+                "summary": "Get details of a service including its children (User)",
                 "operationId": "8ef7620a3097f9aff5602246a5a3bac9",
                 "parameters": [
                     {
@@ -1987,9 +1989,9 @@
             },
             "put": {
                 "tags": [
-                    "Services"
+                    "Services (Admin)"
                 ],
-                "summary": "Update a service",
+                "summary": "Update a service (Admin)",
                 "operationId": "50282255454e3a709e986351e8d3ce37",
                 "parameters": [
                     {
@@ -2037,9 +2039,9 @@
             },
             "delete": {
                 "tags": [
-                    "Services"
+                    "Services (Admin)"
                 ],
-                "summary": "Delete a service",
+                "summary": "Delete a service (Admin)",
                 "operationId": "36a9985b64d4b78c5f87a984e05f05da",
                 "parameters": [
                     {
@@ -2069,9 +2071,9 @@
         "/api/v1/subscriptions": {
             "get": {
                 "tags": [
-                    "Subscriptions"
+                    "Subscription (User)"
                 ],
-                "summary": "List user subscriptions",
+                "summary": "List user subscriptions (User)",
                 "operationId": "24752636f8d944ceb934f9f9d92627be",
                 "responses": {
                     "200": {
@@ -2105,9 +2107,9 @@
             },
             "post": {
                 "tags": [
-                    "Subscriptions"
+                    "Subscription (User)"
                 ],
-                "summary": "Create a new subscription",
+                "summary": "Create a new subscription (User)",
                 "operationId": "406c35c8f6e4b8a7856a1113b18cd233",
                 "requestBody": {
                     "required": true,
@@ -2153,9 +2155,9 @@
         "/api/v1/subscriptions/{subscription}": {
             "get": {
                 "tags": [
-                    "Subscriptions"
+                    "Subscription (User)"
                 ],
-                "summary": "Get subscription details",
+                "summary": "Get subscription details (User)",
                 "operationId": "54d2e5cb07cf221f420e794de286b07c",
                 "parameters": [
                     {
@@ -2199,9 +2201,9 @@
             },
             "put": {
                 "tags": [
-                    "Subscriptions"
+                    "Subscription (User)"
                 ],
-                "summary": "Update subscription",
+                "summary": "Update subscription (User)",
                 "operationId": "aa157d7a274674617f852474194f8773",
                 "parameters": [
                     {
@@ -2255,9 +2257,9 @@
             },
             "delete": {
                 "tags": [
-                    "Subscriptions"
+                    "Subscription (User)"
                 ],
-                "summary": "Cancel subscription",
+                "summary": "Cancel subscription (User)",
                 "operationId": "85bd69947c9dda8634893190c65daa7e",
                 "parameters": [
                     {
@@ -2319,9 +2321,9 @@
         "/api/v1/subscriptions/{subscription}/renew": {
             "post": {
                 "tags": [
-                    "Subscriptions"
+                    "Subscription (User)"
                 ],
-                "summary": "Renew subscription",
+                "summary": "Renew subscription (User)",
                 "operationId": "02e681e1b275e1ef1ade815fa19b52c0",
                 "parameters": [
                     {
@@ -2367,9 +2369,9 @@
         "/api/v1/subscriptions/subscribe": {
             "post": {
                 "tags": [
-                    "Subscriptions"
+                    "Subscription (User)"
                 ],
-                "summary": "Subscribe to a plan",
+                "summary": "خرید اشتراک جدید (User)",
                 "operationId": "9db73788836f58abf906b24029c1d127",
                 "requestBody": {
                     "required": true,
@@ -2409,12 +2411,76 @@
                 ]
             }
         },
+        "/api/v1/subscriptions/{subscription}/cancel": {
+            "post": {
+                "tags": [
+                    "Subscription (User)"
+                ],
+                "summary": "لغو اشتراک (User)",
+                "operationId": "c2a109948b0f935e329b9c68d7e6d881",
+                "parameters": [
+                    {
+                        "name": "subscription",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cancellation_reason": {
+                                        "type": "string",
+                                        "example": "Switching to a different plan"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Subscription cancelled successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Subscription cancelled successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/SubscriptionResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Subscription not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/subscription-plans": {
             "get": {
                 "tags": [
-                    "Subscription Plans"
+                    "Subscription Plans (User)"
                 ],
-                "summary": "دریافت لیست پلن‌های اشتراک",
+                "summary": "دریافت لیست پلن‌های اشتراک (User)",
                 "operationId": "888991059abc64fc4a0c9f763bba7d89",
                 "responses": {
                     "200": {
@@ -2438,7 +2504,7 @@
                 "tags": [
                     "Subscription Plans (Admin)"
                 ],
-                "summary": "ایجاد پلن اشتراک جدید",
+                "summary": "ایجاد پلن اشتراک جدید (Admin)",
                 "operationId": "1ec409257d2afd20173dbb49accebabb",
                 "requestBody": {
                     "required": true,
@@ -2475,9 +2541,9 @@
         "/api/v1/subscription-plans/{id}": {
             "get": {
                 "tags": [
-                    "Subscription Plans"
+                    "Subscription Plans (User)"
                 ],
-                "summary": "دریافت جزئیات پلن اشتراک",
+                "summary": "دریافت جزئیات پلن اشتراک (User)",
                 "operationId": "2e81dd514abf026372a0b90c7afe0a96",
                 "parameters": [
                     {
@@ -2511,7 +2577,7 @@
                 "tags": [
                     "Subscription Plans (Admin)"
                 ],
-                "summary": "به‌روزرسانی پلن اشتراک",
+                "summary": "به‌روزرسانی پلن اشتراک (Admin)",
                 "operationId": "a79b2105a50736919e6a5b8f564769ed",
                 "parameters": [
                     {
@@ -2561,7 +2627,7 @@
                 "tags": [
                     "Subscription Plans (Admin)"
                 ],
-                "summary": "حذف پلن اشتراک",
+                "summary": "حذف پلن اشتراک (Admin)",
                 "operationId": "a4a8eec3b2574cb19c23b78bba6a4487",
                 "parameters": [
                     {
@@ -2840,9 +2906,9 @@
         "/api/v1/support/tickets": {
             "get": {
                 "tags": [
-                    "Support Tickets (User)"
+                    "SupportTicket (User)"
                 ],
-                "summary": "دریافت لیست تیکت‌های کاربر",
+                "summary": "لیست تیکت‌های پشتیبانی (User)",
                 "operationId": "77597a7850b05aa6343bf4c4e714c0c5",
                 "responses": {
                     "200": {
@@ -2916,9 +2982,9 @@
             },
             "post": {
                 "tags": [
-                    "Support Tickets (User)"
+                    "SupportTicket (User)"
                 ],
-                "summary": "ایجاد تیکت جدید",
+                "summary": "ثبت تیکت پشتیبانی جدید (User)",
                 "operationId": "543134399ccd718c3b0d43bfcdbb45be",
                 "requestBody": {
                     "required": true,
@@ -3027,9 +3093,9 @@
         "/api/v1/support/tickets/{id}": {
             "get": {
                 "tags": [
-                    "Support Tickets (Admin)"
+                    "SupportTicket (User)"
                 ],
-                "summary": "دریافت جزئیات تیکت",
+                "summary": "نمایش جزئیات تیکت پشتیبانی (User)",
                 "operationId": "b28656dd5bf093fc50b93b03065f8e37",
                 "parameters": [
                     {
@@ -3280,9 +3346,9 @@
         "/api/v1/user/profile": {
             "get": {
                 "tags": [
-                    "User"
+                    "User (User)"
                 ],
-                "summary": "دریافت اطلاعات پروفایل کاربر احراز هویت شده",
+                "summary": "دریافت پروفایل کاربر (User)",
                 "operationId": "27277bb6e0e7dadbce5593fe08a78552",
                 "responses": {
                     "200": {
@@ -3300,9 +3366,9 @@
             },
             "put": {
                 "tags": [
-                    "User"
+                    "User (User)"
                 ],
-                "summary": "ویرایش اطلاعات پروفایل کاربر",
+                "summary": "ویرایش پروفایل کاربر (User)",
                 "operationId": "12cb2fc71e337236bcd659eedaf17406",
                 "requestBody": {
                     "required": true,
@@ -3341,9 +3407,9 @@
         "/api/v1/user/change-password": {
             "put": {
                 "tags": [
-                    "User"
+                    "User (User)"
                 ],
-                "summary": "تغییر رمز عبور کاربر",
+                "summary": "تغییر رمز عبور کاربر (User)",
                 "operationId": "46c480f1020268e938cc8f5850034760",
                 "requestBody": {
                     "required": true,
@@ -3393,9 +3459,9 @@
         "/api/v1/user/referral-stats": {
             "get": {
                 "tags": [
-                    "User"
+                    "User (User)"
                 ],
-                "summary": "دریافت آمار ارجاع‌های کاربر",
+                "summary": "دریافت آمار ارجاع‌های کاربر (User)",
                 "operationId": "6568756e7a243600fbd625acaec2d28b",
                 "responses": {
                     "200": {
@@ -3415,9 +3481,9 @@
         "/api/v1/user/referral-history": {
             "get": {
                 "tags": [
-                    "User"
+                    "User (User)"
                 ],
-                "summary": "دریافت تاریخچه تراکنش‌های ارجاع کاربر",
+                "summary": "دریافت تاریخچه تراکنش‌های ارجاع کاربر (User)",
                 "operationId": "dcaed18ce0a131b4a974b598adb55977",
                 "responses": {
                     "200": {
@@ -3437,10 +3503,9 @@
         "/api/v1/wallet/deposit": {
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
-                "summary": "Deposit money to wallet",
-                "description": "Deposit money to wallet",
+                "summary": "شارژ کیف پول (User)",
                 "operationId": "b3d556d44c664e880a8d4a9c7573797a",
                 "requestBody": {
                     "required": true,
@@ -3515,9 +3580,9 @@
         "/api/v1/wallet/use-gift-card": {
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
-                "summary": "Use a gift card to add balance to wallet",
+                "summary": "Use a gift card to add balance to wallet (User)",
                 "description": "Use gift card",
                 "operationId": "1c3f29e0a0a2605801755d475860940a",
                 "requestBody": {
@@ -3587,10 +3652,9 @@
         "/api/v1/wallet/transactions": {
             "get": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
-                "summary": "Get user's wallet transactions",
-                "description": "Get wallet transactions",
+                "summary": "لیست تراکنش‌های کیف پول (User)",
                 "operationId": "1e0bf844dcafd94420ba2d60fe4d73ac",
                 "parameters": [
                     {
@@ -3640,10 +3704,9 @@
         "/api/v1/wallet/withdraw": {
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
-                "summary": "Request withdrawal from wallet",
-                "description": "Request withdrawal",
+                "summary": "درخواست برداشت از کیف پول (User)",
                 "operationId": "e0d3936a45afa61dcafe3ac04505a130",
                 "requestBody": {
                     "required": true,
@@ -3715,9 +3778,9 @@
         "/api/v1/wallet/withdraw/{id}/review": {
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (Admin)"
                 ],
-                "summary": "Review withdrawal request (Admin only)",
+                "summary": "Review withdrawal request (Admin)",
                 "description": "Review withdrawal request (Admin only)",
                 "operationId": "af3244c343b15603848c55469ebdb534",
                 "parameters": [
@@ -3800,10 +3863,9 @@
         "/api/v1/wallet/transfer": {
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
-                "summary": "Transfer money to another user",
-                "description": "Transfer money to another user",
+                "summary": "انتقال اعتبار به کاربر دیگر (User)",
                 "operationId": "244b0d0de62ae792b658a7535f7970b3",
                 "requestBody": {
                     "required": true,
@@ -3879,9 +3941,9 @@
         "/api/v1/wallet/bank-cards": {
             "get": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
-                "summary": "Get user's bank cards",
+                "summary": "Get user's bank cards (User)",
                 "description": "List bank cards",
                 "operationId": "dd28eccedea0c9582e33c1bc66e3ebb3",
                 "responses": {
@@ -3907,9 +3969,9 @@
             },
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (User)"
                 ],
-                "summary": "Add a new bank card",
+                "summary": "Add a new bank card (User)",
                 "description": "Add bank card",
                 "operationId": "406dadcc0a05d89fc786ba379832172d",
                 "requestBody": {
@@ -3977,9 +4039,9 @@
         "/api/v1/wallet/bank-cards/{id}/review": {
             "post": {
                 "tags": [
-                    "Wallet"
+                    "Wallet (Admin)"
                 ],
-                "summary": "Review bank card (Admin only)",
+                "summary": "Review bank card (Admin)",
                 "description": "Review bank card (Admin only)",
                 "operationId": "5ab30cf0daf351c09c2f571ce4a619e3",
                 "parameters": [
@@ -4059,12 +4121,44 @@
                 ]
             }
         },
+        "/api/v1/wallet/balance": {
+            "get": {
+                "tags": [
+                    "Wallet (User)"
+                ],
+                "summary": "دریافت موجودی کیف پول (User)",
+                "operationId": "a84e8cbb3b9a3dda7a83e559bd7003a2",
+                "responses": {
+                    "200": {
+                        "description": "Current balance",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "balance": {
+                                            "type": "integer",
+                                            "example": 50000
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/service-requests": {
             "get": {
                 "tags": [
-                    "Service Requests"
+                    "ServiceRequest (User)"
                 ],
-                "summary": "دریافت لیست درخواست‌های خدمات با قابلیت فیلتر و صفحه‌بندی",
+                "summary": "لیست درخواست‌های سرویس (User)",
                 "operationId": "17ca7afd3661345dd57a3bc6ff7e2e33",
                 "parameters": [
                     {
@@ -4137,9 +4231,9 @@
             },
             "post": {
                 "tags": [
-                    "Service Requests"
+                    "ServiceRequest (User)"
                 ],
-                "summary": "ثبت یک درخواست خدمت جدید",
+                "summary": "ثبت درخواست سرویس جدید (User)",
                 "operationId": "13c56220d265b3d449d4e6a9d2068253",
                 "requestBody": {
                     "required": true,
@@ -4164,9 +4258,9 @@
         "/api/v1/service-requests/{serviceRequest}": {
             "get": {
                 "tags": [
-                    "Service Requests"
+                    "ServiceRequest (Admin & User)"
                 ],
-                "summary": "نمایش جزئیات یک درخواست خدمت",
+                "summary": "نمایش جزئیات یک درخواست خدمت (Admin & User)",
                 "operationId": "7dcfa6b619fc960095ee85f4317a0b9c",
                 "parameters": [
                     {
@@ -4191,9 +4285,9 @@
             },
             "put": {
                 "tags": [
-                    "Service Requests"
+                    "ServiceRequest (Admin & User)"
                 ],
-                "summary": "ویرایش اطلاعات یک درخواست خدمت",
+                "summary": "ویرایش اطلاعات یک درخواست خدمت (Admin & User)",
                 "operationId": "de1f97614ee0d69fbafe7b1ca9287189",
                 "parameters": [
                     {
@@ -4226,9 +4320,9 @@
             },
             "delete": {
                 "tags": [
-                    "Service Requests"
+                    "ServiceRequest (Admin & User)"
                 ],
-                "summary": "حذف یک درخواست خدمت به همراه فایل‌های مرتبط",
+                "summary": "حذف یک درخواست خدمت به همراه فایل‌های مرتبط (Admin & User)",
                 "operationId": "ae0f55109f65eea3368fd211dca308bf",
                 "parameters": [
                     {
@@ -4255,9 +4349,9 @@
         "/api/v1/service-requests/{serviceRequest}/accept": {
             "post": {
                 "tags": [
-                    "Service Requests"
+                    "ServiceRequest (User)"
                 ],
-                "summary": "پذیرش یک درخواست خدمت توسط خدمات‌دهنده",
+                "summary": "پذیرش درخواست سرویس (User)",
                 "operationId": "b96ea9d501753fd3043f591d6b4d26d5",
                 "parameters": [
                     {
@@ -4284,9 +4378,9 @@
         "/api/v1/service-requests/{serviceRequest}/reject": {
             "post": {
                 "tags": [
-                    "Service Requests"
+                    "ServiceRequest (Admin)"
                 ],
-                "summary": "رد یک درخواست خدمت توسط خدمات‌دهنده",
+                "summary": "رد درخواست سرویس (Admin)",
                 "operationId": "ad85c1c9131b294d713f74af043d553d",
                 "parameters": [
                     {
@@ -4331,9 +4425,9 @@
         "/api/v1/service-requests/{serviceRequest}/complete": {
             "post": {
                 "tags": [
-                    "Service Requests"
+                    "ServiceRequest (User)"
                 ],
-                "summary": "تکمیل یک درخواست خدمت توسط خدمات‌دهنده",
+                "summary": "تکمیل درخواست سرویس (User)",
                 "operationId": "6ee9a18e5674d95313a0a26b461ae852",
                 "parameters": [
                     {
@@ -4360,9 +4454,9 @@
         "/api/v1/service-requests/{serviceRequest}/cancel": {
             "post": {
                 "tags": [
-                    "Service Requests"
+                    "ServiceRequest (User)"
                 ],
-                "summary": "لغو یک درخواست خدمت توسط مشتری",
+                "summary": "لغو درخواست سرویس (User)",
                 "operationId": "502f4be8ba2802d6fc7894e10e28de4e",
                 "parameters": [
                     {
@@ -4407,9 +4501,9 @@
         "/api/v1/users/{user}/block": {
             "post": {
                 "tags": [
-                    "UserBlock"
+                    "UserBlock (User)"
                 ],
-                "summary": "بلاک کردن یک کاربر به صورت کلی (global)",
+                "summary": "بلاک کردن یک کاربر به صورت کلی (User)",
                 "operationId": "63e346a960bc26205c6ba77076b52ea7",
                 "parameters": [
                     {
@@ -4455,9 +4549,9 @@
         "/api/v1/users/{user}/unblock": {
             "post": {
                 "tags": [
-                    "UserBlock"
+                    "UserBlock (User)"
                 ],
-                "summary": "آنبلاک کردن یک کاربر به صورت کلی (global)",
+                "summary": "آنبلاک کردن یک کاربر به صورت کلی (User)",
                 "operationId": "4ddbe9f198f2d53c2a427390bc573ffc",
                 "parameters": [
                     {
@@ -5825,28 +5919,8 @@
     },
     "tags": [
         {
-            "name": "Authentication",
-            "description": "API endpoints for user authentication"
-        },
-        {
-            "name": "Reviews",
-            "description": "API Endpoints for managing product reviews"
-        },
-        {
-            "name": "Services",
-            "description": "API endpoints for managing services"
-        },
-        {
-            "name": "Subscriptions",
-            "description": "API Endpoints for managing user subscriptions"
-        },
-        {
-            "name": "Wallet",
-            "description": "API Endpoints for managing user wallet and transactions"
-        },
-        {
-            "name": "Advertisements",
-            "description": "Advertisements"
+            "name": "Advertisements (User)",
+            "description": "Advertisements (User)"
         },
         {
             "name": "Advertisements (Admin)",
@@ -5861,20 +5935,44 @@
             "description": "Announcements (Admin)"
         },
         {
-            "name": "Chat",
-            "description": "Chat"
+            "name": "Auth (User)",
+            "description": "Auth (User)"
         },
         {
-            "name": "Chat Messages",
-            "description": "Chat Messages"
+            "name": "Chat (User)",
+            "description": "Chat (User)"
         },
         {
-            "name": "خدمات ارائه‌دهندگان",
-            "description": "خدمات ارائه‌دهندگان"
+            "name": "Chat Messages (User)",
+            "description": "Chat Messages (User)"
         },
         {
-            "name": "Subscription Plans",
-            "description": "Subscription Plans"
+            "name": "ProviderService (User)",
+            "description": "ProviderService (User)"
+        },
+        {
+            "name": "ProviderService (Admin)",
+            "description": "ProviderService (Admin)"
+        },
+        {
+            "name": "Review (User)",
+            "description": "Review (User)"
+        },
+        {
+            "name": "Services (User)",
+            "description": "Services (User)"
+        },
+        {
+            "name": "Services (Admin)",
+            "description": "Services (Admin)"
+        },
+        {
+            "name": "Subscription (User)",
+            "description": "Subscription (User)"
+        },
+        {
+            "name": "Subscription Plans (User)",
+            "description": "Subscription Plans (User)"
         },
         {
             "name": "Subscription Plans (Admin)",
@@ -5889,24 +5987,40 @@
             "description": "Support Messages (Admin)"
         },
         {
-            "name": "Support Tickets (User)",
-            "description": "Support Tickets (User)"
+            "name": "SupportTicket (User)",
+            "description": "SupportTicket (User)"
         },
         {
             "name": "Support Tickets (Admin)",
             "description": "Support Tickets (Admin)"
         },
         {
-            "name": "User",
-            "description": "User"
+            "name": "User (User)",
+            "description": "User (User)"
         },
         {
-            "name": "Service Requests",
-            "description": "Service Requests"
+            "name": "Wallet (User)",
+            "description": "Wallet (User)"
         },
         {
-            "name": "UserBlock",
-            "description": "UserBlock"
+            "name": "Wallet (Admin)",
+            "description": "Wallet (Admin)"
+        },
+        {
+            "name": "ServiceRequest (User)",
+            "description": "ServiceRequest (User)"
+        },
+        {
+            "name": "ServiceRequest (Admin & User)",
+            "description": "ServiceRequest (Admin & User)"
+        },
+        {
+            "name": "ServiceRequest (Admin)",
+            "description": "ServiceRequest (Admin)"
+        },
+        {
+            "name": "UserBlock (User)",
+            "description": "UserBlock (User)"
         }
     ]
 }

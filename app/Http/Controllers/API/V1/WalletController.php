@@ -39,12 +39,10 @@ class WalletController extends Controller
     }
 
     /**
-     * Deposit money to wallet
-     *
      * @OA\Post(
      *     path="/api/v1/wallet/deposit",
-     *     summary="Deposit money to wallet",
-     *     tags={"Wallet"},
+     *     summary="شارژ کیف پول (User)",
+     *     tags={"Wallet (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -109,8 +107,8 @@ class WalletController extends Controller
      *
      * @OA\Post(
      *     path="/api/v1/wallet/use-gift-card",
-     *     summary="Use a gift card to add balance to wallet",
-     *     tags={"Wallet"},
+     *     summary="Use a gift card to add balance to wallet (User)",
+     *     tags={"Wallet (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -191,12 +189,10 @@ class WalletController extends Controller
     }
 
     /**
-     * Get wallet transactions
-     *
      * @OA\Get(
      *     path="/api/v1/wallet/transactions",
-     *     summary="Get user's wallet transactions",
-     *     tags={"Wallet"},
+     *     summary="لیست تراکنش‌های کیف پول (User)",
+     *     tags={"Wallet (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="per_page",
@@ -235,12 +231,10 @@ class WalletController extends Controller
     }
 
     /**
-     * Request withdrawal
-     *
      * @OA\Post(
      *     path="/api/v1/wallet/withdraw",
-     *     summary="Request withdrawal from wallet",
-     *     tags={"Wallet"},
+     *     summary="درخواست برداشت از کیف پول (User)",
+     *     tags={"Wallet (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -292,8 +286,8 @@ class WalletController extends Controller
      *
      * @OA\Post(
      *     path="/api/v1/wallet/withdraw/{id}/review",
-     *     summary="Review withdrawal request (Admin only)",
-     *     tags={"Wallet"},
+     *     summary="Review withdrawal request (Admin)",
+     *     tags={"Wallet (Admin)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
@@ -367,12 +361,10 @@ class WalletController extends Controller
     }
 
     /**
-     * Transfer money to another user
-     *
      * @OA\Post(
      *     path="/api/v1/wallet/transfer",
-     *     summary="Transfer money to another user",
-     *     tags={"Wallet"},
+     *     summary="انتقال اعتبار به کاربر دیگر (User)",
+     *     tags={"Wallet (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -461,8 +453,8 @@ class WalletController extends Controller
      *
      * @OA\Post(
      *     path="/api/v1/wallet/bank-cards",
-     *     summary="Add a new bank card",
-     *     tags={"Wallet"},
+     *     summary="Add a new bank card (User)",
+     *     tags={"Wallet (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -515,8 +507,8 @@ class WalletController extends Controller
      *
      * @OA\Get(
      *     path="/api/v1/wallet/bank-cards",
-     *     summary="Get user's bank cards",
-     *     tags={"Wallet"},
+     *     summary="Get user's bank cards (User)",
+     *     tags={"Wallet (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
@@ -552,8 +544,8 @@ class WalletController extends Controller
      *
      * @OA\Post(
      *     path="/api/v1/wallet/bank-cards/{id}/review",
-     *     summary="Review bank card (Admin only)",
-     *     tags={"Wallet"},
+     *     summary="Review bank card (Admin)",
+     *     tags={"Wallet (Admin)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
@@ -607,6 +599,36 @@ class WalletController extends Controller
         return response()->json([
             'message' => 'کارت بانکی با موفقیت بررسی شد',
             'data' => new UserBankCardResource($bankCard)
+        ]);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/wallet/balance",
+     *     summary="دریافت موجودی کیف پول (User)",
+     *     tags={"Wallet (User)"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Current balance",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="balance", type="integer", example=50000)
+     *         )
+     *     )
+     * )
+     */
+    public function getBalance(): JsonResponse
+    {
+        $user = auth()->user();
+        
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthenticated.'
+            ], 401);
+        }
+
+        return response()->json([
+            'balance' => $user->wallet->balance
         ]);
     }
 }

@@ -16,8 +16,8 @@ class ChatMessageController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/chat-messages",
-     *     summary="ارسال پیام جدید در یک مکالمه",
-     *     tags={"Chat Messages"},
+     *     summary="ارسال پیام جدید در یک مکالمه (User)",
+     *     tags={"Chat Messages (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\RequestBody(required=true, @OA\JsonContent()),
      *     @OA\Response(response=201, description="پیام ارسال شد")
@@ -73,8 +73,8 @@ class ChatMessageController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/chat-messages/{chatMessage}",
-     *     summary="نمایش جزئیات یک پیام خاص",
-     *     tags={"Chat Messages"},
+     *     summary="نمایش جزئیات یک پیام خاص (User)",
+     *     tags={"Chat Messages (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="chatMessage", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=200, description="جزئیات پیام")
@@ -98,8 +98,8 @@ class ChatMessageController extends Controller
     /**
      * @OA\Put(
      *     path="/api/v1/chat-messages/{chatMessage}",
-     *     summary="ویرایش محتوای یک پیام",
-     *     tags={"Chat Messages"},
+     *     summary="ویرایش محتوای یک پیام (User)",
+     *     tags={"Chat Messages (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="chatMessage", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(required=true, @OA\JsonContent()),
@@ -139,8 +139,8 @@ class ChatMessageController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/v1/chat-messages/{chatMessage}",
-     *     summary="حذف یک پیام از مکالمه",
-     *     tags={"Chat Messages"},
+     *     summary="حذف یک پیام از مکالمه (User)",
+     *     tags={"Chat Messages (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="chatMessage", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=200, description="پیام با موفقیت حذف شد")

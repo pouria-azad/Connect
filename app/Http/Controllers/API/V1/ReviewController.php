@@ -22,8 +22,8 @@ class ReviewController extends Controller
      *
      * @OA\Get(
      *     path="/api/v1/reviews",
-     *     summary="Get all reviews",
-     *     tags={"Reviews"},
+     *     summary="دریافت نظرات کاربران برای یک سرویس‌دهنده (User)",
+     *     tags={"Review (User)"},
      *     @OA\Parameter(
      *         name="product_id",
      *         in="query",
@@ -112,8 +112,8 @@ class ReviewController extends Controller
      *
      * @OA\Post(
      *     path="/api/v1/reviews",
-     *     summary="Create a new review",
-     *     tags={"Reviews"},
+     *     summary="ثبت نظر جدید برای سرویس‌دهنده (User)",
+     *     tags={"Review (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -222,8 +222,8 @@ class ReviewController extends Controller
      *
      * @OA\Get(
      *     path="/api/v1/reviews/{id}",
-     *     summary="Get a specific review",
-     *     tags={"Reviews"},
+     *     summary="Get a specific review (User)",
+     *     tags={"Review (User)"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -259,12 +259,12 @@ class ReviewController extends Controller
      * Update the specified review.
      *
      * @OA\Put(
-     *     path="/api/v1/reviews/{id}",
-     *     summary="Update a review",
-     *     tags={"Reviews"},
+     *     path="/api/v1/reviews/{review}",
+     *     summary="ویرایش نظر ثبت‌شده (User)",
+     *     tags={"Review (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="review",
      *         in="path",
      *         required=true,
      *         description="Review ID",
@@ -335,12 +335,12 @@ class ReviewController extends Controller
      * Remove the specified review.
      *
      * @OA\Delete(
-     *     path="/api/v1/reviews/{id}",
-     *     summary="Delete a review",
-     *     tags={"Reviews"},
+     *     path="/api/v1/reviews/{review}",
+     *     summary="حذف نظر ثبت‌شده (User)",
+     *     tags={"Review (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="review",
      *         in="path",
      *         required=true,
      *         description="Review ID",

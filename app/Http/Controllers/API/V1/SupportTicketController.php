@@ -21,8 +21,8 @@ class SupportTicketController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/support/tickets",
-     *     summary="دریافت لیست تیکت‌های کاربر",
-     *     tags={"Support Tickets (User)"},
+     *     summary="لیست تیکت‌های پشتیبانی (User)",
+     *     tags={"SupportTicket (User)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
@@ -64,8 +64,8 @@ class SupportTicketController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/support/tickets",
-     *     summary="ایجاد تیکت جدید",
-     *     tags={"Support Tickets (User)"},
+     *     summary="ثبت تیکت پشتیبانی جدید (User)",
+     *     tags={"SupportTicket (User)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -131,8 +131,8 @@ class SupportTicketController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/support/tickets/{id}",
-     *     summary="دریافت جزئیات تیکت",
-     *     tags={"Support Tickets (Admin)"},
+     *     summary="نمایش جزئیات تیکت پشتیبانی (User)",
+     *     tags={"SupportTicket (User)"},
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",

@@ -13,8 +13,8 @@ class UserBlockController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/users/{user}/block",
-     *     summary="بلاک کردن یک کاربر به صورت کلی (global)",
-     *     tags={"UserBlock"},
+     *     summary="بلاک کردن یک کاربر به صورت کلی (User)",
+     *     tags={"UserBlock (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="user", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(required=false, @OA\JsonContent(
@@ -51,8 +51,8 @@ class UserBlockController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/users/{user}/unblock",
-     *     summary="آنبلاک کردن یک کاربر به صورت کلی (global)",
-     *     tags={"UserBlock"},
+     *     summary="آنبلاک کردن یک کاربر به صورت کلی (User)",
+     *     tags={"UserBlock (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="user", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=200, description="کاربر با موفقیت آنبلاک شد"),

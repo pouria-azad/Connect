@@ -23,8 +23,8 @@ class SubscriptionController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/subscriptions",
-     *     summary="List user subscriptions",
-     *     tags={"Subscriptions"},
+     *     summary="List user subscriptions (User)",
+     *     tags={"Subscription (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
@@ -52,8 +52,8 @@ class SubscriptionController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/subscriptions",
-     *     summary="Create a new subscription",
-     *     tags={"Subscriptions"},
+     *     summary="Create a new subscription (User)",
+     *     tags={"Subscription (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -98,8 +98,8 @@ class SubscriptionController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/subscriptions/{subscription}",
-     *     summary="Get subscription details",
-     *     tags={"Subscriptions"},
+     *     summary="Get subscription details (User)",
+     *     tags={"Subscription (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="subscription",
@@ -139,8 +139,8 @@ class SubscriptionController extends Controller
     /**
      * @OA\Put(
      *     path="/api/v1/subscriptions/{subscription}",
-     *     summary="Update subscription",
-     *     tags={"Subscriptions"},
+     *     summary="Update subscription (User)",
+     *     tags={"Subscription (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="subscription",
@@ -184,8 +184,8 @@ class SubscriptionController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/v1/subscriptions/{subscription}",
-     *     summary="Cancel subscription",
-     *     tags={"Subscriptions"},
+     *     summary="Cancel subscription (User)",
+     *     tags={"Subscription (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="subscription",
@@ -235,8 +235,8 @@ class SubscriptionController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/subscriptions/{subscription}/renew",
-     *     summary="Renew subscription",
-     *     tags={"Subscriptions"},
+     *     summary="Renew subscription (User)",
+     *     tags={"Subscription (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="subscription",
@@ -276,8 +276,8 @@ class SubscriptionController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/subscriptions/subscribe",
-     *     summary="Subscribe to a plan",
-     *     tags={"Subscriptions"},
+     *     summary="خرید اشتراک جدید (User)",
+     *     tags={"Subscription (User)"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -333,6 +333,45 @@ class SubscriptionController extends Controller
         ], 201);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/subscriptions/{subscription}/cancel",
+     *     summary="لغو اشتراک (User)",
+     *     tags={"Subscription (User)"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="subscription",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="cancellation_reason",
+     *                 type="string",
+     *                 example="Switching to a different plan"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Subscription cancelled successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Subscription cancelled successfully"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/SubscriptionResource"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Subscription not found"
+     *     )
+     * )
+     */
     public function cancel(Request $request, Subscription $subscription): JsonResponse
     {
         if (!$subscription) {

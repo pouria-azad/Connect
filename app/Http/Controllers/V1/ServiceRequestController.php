@@ -16,8 +16,8 @@ class ServiceRequestController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/service-requests",
-     *     summary="دریافت لیست درخواست‌های خدمات با قابلیت فیلتر و صفحه‌بندی",
-     *     tags={"Service Requests"},
+     *     summary="لیست درخواست‌های سرویس (User)",
+     *     tags={"ServiceRequest (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="status", in="query", required=false, @OA\Schema(type="string")),
      *     @OA\Parameter(name="request_type", in="query", required=false, @OA\Schema(type="string")),
@@ -79,8 +79,8 @@ class ServiceRequestController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/service-requests",
-     *     summary="ثبت یک درخواست خدمت جدید",
-     *     tags={"Service Requests"},
+     *     summary="ثبت درخواست سرویس جدید (User)",
+     *     tags={"ServiceRequest (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\RequestBody(required=true, @OA\JsonContent()),
      *     @OA\Response(response=201, description="درخواست با موفقیت ثبت شد")
@@ -131,8 +131,8 @@ class ServiceRequestController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/service-requests/{serviceRequest}",
-     *     summary="نمایش جزئیات یک درخواست خدمت",
-     *     tags={"Service Requests"},
+     *     summary="نمایش جزئیات یک درخواست خدمت (Admin & User)",
+     *     tags={"ServiceRequest (Admin & User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="serviceRequest", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=200, description="جزئیات درخواست خدمت")
@@ -146,8 +146,8 @@ class ServiceRequestController extends Controller
     /**
      * @OA\Put(
      *     path="/api/v1/service-requests/{serviceRequest}",
-     *     summary="ویرایش اطلاعات یک درخواست خدمت",
-     *     tags={"Service Requests"},
+     *     summary="ویرایش اطلاعات یک درخواست خدمت (Admin & User)",
+     *     tags={"ServiceRequest (Admin & User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="serviceRequest", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(required=true, @OA\JsonContent()),
@@ -187,8 +187,8 @@ class ServiceRequestController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/v1/service-requests/{serviceRequest}",
-     *     summary="حذف یک درخواست خدمت به همراه فایل‌های مرتبط",
-     *     tags={"Service Requests"},
+     *     summary="حذف یک درخواست خدمت به همراه فایل‌های مرتبط (Admin & User)",
+     *     tags={"ServiceRequest (Admin & User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="serviceRequest", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=204, description="درخواست با موفقیت حذف شد")
@@ -218,8 +218,8 @@ class ServiceRequestController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/service-requests/{serviceRequest}/accept",
-     *     summary="پذیرش یک درخواست خدمت توسط خدمات‌دهنده",
-     *     tags={"Service Requests"},
+     *     summary="پذیرش درخواست سرویس (User)",
+     *     tags={"ServiceRequest (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="serviceRequest", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=200, description="درخواست با موفقیت پذیرفته شد")
@@ -260,8 +260,8 @@ class ServiceRequestController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/service-requests/{serviceRequest}/reject",
-     *     summary="رد یک درخواست خدمت توسط خدمات‌دهنده",
-     *     tags={"Service Requests"},
+     *     summary="رد درخواست سرویس (Admin)",
+     *     tags={"ServiceRequest (Admin)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="serviceRequest", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(required=true, @OA\JsonContent(
@@ -301,8 +301,8 @@ class ServiceRequestController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/service-requests/{serviceRequest}/complete",
-     *     summary="تکمیل یک درخواست خدمت توسط خدمات‌دهنده",
-     *     tags={"Service Requests"},
+     *     summary="تکمیل درخواست سرویس (User)",
+     *     tags={"ServiceRequest (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="serviceRequest", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response=200, description="درخواست با موفقیت تکمیل شد")
@@ -334,8 +334,8 @@ class ServiceRequestController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/service-requests/{serviceRequest}/cancel",
-     *     summary="لغو یک درخواست خدمت توسط مشتری",
-     *     tags={"Service Requests"},
+     *     summary="لغو درخواست سرویس (User)",
+     *     tags={"ServiceRequest (User)"},
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(name="serviceRequest", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(required=true, @OA\JsonContent(
