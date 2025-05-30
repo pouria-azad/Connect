@@ -162,6 +162,26 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function blocks()
+    {
+        return $this->hasMany(UserBlock::class, 'blocker_user_id');
+    }
+
+    public function blockedBy()
+    {
+        return $this->hasMany(UserBlock::class, 'blocked_user_id');
+    }
+
+    public function isBlockedBy(User $user)
+    {
+        return $user->blocks()->where('blocked_user_id', $this->id)->where('is_active', true)->exists();
+    }
+
+    public function hasBlocked(User $user)
+    {
+        return $this->blocks()->where('blocked_user_id', $user->id)->where('is_active', true)->exists();
+    }
+
     // Helper to get wallet balance
     public function getWalletBalanceAttribute(): float
     {

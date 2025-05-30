@@ -4403,6 +4403,86 @@
                     }
                 ]
             }
+        },
+        "/api/v1/users/{user}/block": {
+            "post": {
+                "tags": [
+                    "UserBlock"
+                ],
+                "summary": "بلاک کردن یک کاربر به صورت کلی (global)",
+                "operationId": "63e346a960bc26205c6ba77076b52ea7",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "reason": {
+                                        "type": "string",
+                                        "example": "رفتار نامناسب"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "کاربر با موفقیت بلاک شد"
+                    },
+                    "422": {
+                        "description": "نمی‌توانید خودتان را بلاک کنید"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{user}/unblock": {
+            "post": {
+                "tags": [
+                    "UserBlock"
+                ],
+                "summary": "آنبلاک کردن یک کاربر به صورت کلی (global)",
+                "operationId": "4ddbe9f198f2d53c2a427390bc573ffc",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "کاربر با موفقیت آنبلاک شد"
+                    },
+                    "404": {
+                        "description": "بلاک فعالی یافت نشد"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -5823,6 +5903,10 @@
         {
             "name": "Service Requests",
             "description": "Service Requests"
+        },
+        {
+            "name": "UserBlock",
+            "description": "UserBlock"
         }
     ]
 }

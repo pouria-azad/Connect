@@ -15,6 +15,7 @@ use App\Http\Controllers\API\V1\AdvertisementController;
 use App\Http\Controllers\API\V1\SubscriptionPlanController;
 use App\Http\Controllers\API\V1\SubscriptionController;
 use App\Http\Controllers\V1\ServiceRequestController;
+use App\Http\Controllers\V1\UserBlockController;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -106,6 +107,9 @@ Route::prefix('v1')->group(function () {
             $request->user()->currentAccessToken()->delete();
             return response()->json(['message' => 'با موفقیت خارج شدید']);
         });
+        // User block
+        Route::post('users/{user}/block', [UserBlockController::class, 'block']);
+        Route::post('users/{user}/unblock', [UserBlockController::class, 'unblock']);
     });
     // Subscription routes
     Route::middleware('auth:sanctum')->group(function () {
