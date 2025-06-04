@@ -18,6 +18,8 @@ use App\Http\Controllers\V1\ServiceRequestController;
 use App\Http\Controllers\V1\UserBlockController;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\ProviderController;
+use App\Http\Controllers\API\V1\NotificationController;
 
 Route::prefix('v1/admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
     // Subscription plans
@@ -49,10 +51,16 @@ Route::prefix('v1/admin')->middleware(['auth:sanctum', 'admin'])->group(function
 });
 
 Route::prefix('v1')->group(function () {
-    // Auth
-    Route::post('auth/send-otp', [AuthController::class, 'sendOtp']);
-    Route::post('auth/verify-otp', [AuthController::class, 'verifyOtp']);
-    Route::post('auth/register', [AuthController::class, 'register']);
+    Route::prefix('auth')->group(function () {
+        Route::post('send-otp', [AuthController::class, 'sendOtp']);
+        Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
+        Route::post('register', [AuthController::class, 'register']);
+        Route::post('register-senfi-provider', [AuthController::class, 'registerSenfiProvider']);
+        Route::post('register-canctyar-provider', [AuthController::class, 'registerCanctyarProvider']);
+        Route::post('register-provider', [AuthController::class, 'registerProvider']);
+        Route::post('login', [AuthController::class, 'login']);
+        Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    });
     // Public review routes
     Route::get('providers/{providerId}/reviews', [ReviewController::class, 'providerReviews']);
     // Advertisement
@@ -110,6 +118,19 @@ Route::prefix('v1')->group(function () {
         // User block
         Route::post('users/{user}/block', [UserBlockController::class, 'block']);
         Route::post('users/{user}/unblock', [UserBlockController::class, 'unblock']);
+        // User Advertisements
+        Route::get('my-advertisements', [AdvertisementController::class, 'userIndex']);
+        Route::get('my-advertisements/{id}', [AdvertisementController::class, 'userShow']);
+        Route::post('my-advertisements/{id}/renew', [AdvertisementController::class, 'renew']);
+        // Invoice routes
+        Route::get('invoices', [\App\Http\Controllers\API\V1\InvoiceController::class, 'index']);
+        Route::get('invoices/{id}', [\App\Http\Controllers\API\V1\InvoiceController::class, 'show']);
+        Route::post('invoices', [\App\Http\Controllers\API\V1\InvoiceController::class, 'store']);
+        Route::post('invoices/{id}/pay', [\App\Http\Controllers\API\V1\InvoiceController::class, 'pay']);
+        // مدیریت فایل‌های درخواست خدمت
+        Route::get('service-requests/{serviceRequest}/files', [\App\Http\Controllers\API\V1\RequestFileController::class, 'index']);
+        Route::delete('request-files/{id}', [\App\Http\Controllers\API\V1\RequestFileController::class, 'destroy']);
+        Route::get('request-files/{id}/download', [\App\Http\Controllers\API\V1\RequestFileController::class, 'download']);
     });
     // Subscription routes
     Route::middleware('auth:sanctum')->group(function () {
@@ -138,4 +159,39 @@ Route::prefix('v1')->group(function () {
     Route::get('reviews', [ReviewController::class, 'index']);
     // Public announcement route
     Route::middleware('auth:sanctum')->get('announcements', [AnnouncementController::class, 'index']);
+    // Shop search route
+    Route::get('shop/search', [\App\Http\Controllers\API\V1\ShopSearchController::class, 'search']);
+    // Suggested provider route
+    Route::get('providers/suggested', [\App\Http\Controllers\API\V1\SuggestedProviderController::class, 'index']);
+    // Provider routes
+    Route::middleware(['auth:sanctum'])
+        ->prefix('provider')->group(function () {
+        // Common provider routes
+        Route::get('profile', [ProviderController::class, 'profile']);
+        Route::put('profile', [UserController::class, 'updateProviderProfile']);
+        Route::get('statistics', [UserController::class, 'providerStatistics']);
+        Route::get('reviews', [ReviewController::class, 'providerReviews']);
+        // Senfi provider routes
+        Route::middleware(['provider.type:senfi'])->group(function () {
+            Route::get('business-hours', [ProviderController::class, 'getBusinessHours']);
+            Route::put('business-hours', [ProviderController::class, 'updateBusinessHours']);
+            Route::get('payment-methods', [ProviderController::class, 'getPaymentMethods']);
+            Route::put('payment-methods', [ProviderController::class, 'updatePaymentMethods']);
+        });
+        // Canctyar provider routes
+        Route::middleware(['provider.type:canctyar'])->group(function () {
+            Route::get('service-areas', [ProviderController::class, 'getServiceAreas']);
+            Route::put('service-areas', [ProviderController::class, 'updateServiceAreas']);
+            Route::get('availability', [ProviderController::class, 'getAvailability']);
+            Route::put('availability', [ProviderController::class, 'updateAvailability']);
+            Route::put('travel-settings', [ProviderController::class, 'updateTravelSettings']);
+        });
+    });
+    // Notification routes
+    Route::middleware('auth:sanctum')->prefix('notifications')->group(function () {
+        Route::get('/', [NotificationController::class, 'index']);
+        Route::get('/unread', [NotificationController::class, 'unread']);
+        Route::post('/{id}/read', [NotificationController::class, 'markAsRead']);
+        Route::post('/read-all', [NotificationController::class, 'markAllAsRead']);
+    });
 });

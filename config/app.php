@@ -136,6 +136,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class, // Commenting out for now
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ProviderTypeServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
     ])->toArray(),
 
 ];

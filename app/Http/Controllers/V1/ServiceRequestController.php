@@ -228,7 +228,7 @@ class ServiceRequestController extends Controller
     public function accept(ServiceRequest $serviceRequest)
     {
         // فقط خدمات‌دهنده می‌تواند درخواست را بپذیرد
-        if (auth()->user()->role !== 'service_provider') {
+        if (auth()->user()->user_type !== 'provider') {
             return response()->json(['message' => 'شما مجاز به انجام این عملیات نیستید.'], 403);
         }
         if ($serviceRequest->status !== 'pending_sp_acceptance') {

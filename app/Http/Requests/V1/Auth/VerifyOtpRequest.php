@@ -22,7 +22,7 @@ class VerifyOtpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mobile_number' => ['required', 'string', 'regex:/^09[0-9]{9}$/'],
+            'mobile_number' => ['required', 'string', 'regex:/^9[0-9]{9}$/'],
             'code' => ['required', 'string', 'size:6'],
         ];
     }
@@ -41,4 +41,4 @@ class VerifyOtpRequest extends FormRequest
             'code.size' => 'کد تایید باید ۶ رقمی باشد',
         ];
     }
-} 
+}

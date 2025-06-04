@@ -10,4 +10,9 @@ class RequestFile extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function serviceRequest()
+    {
+        return $this->belongsTo(ServiceRequest::class, 'request_id');
+    }
 } 

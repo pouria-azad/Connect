@@ -25,8 +25,8 @@ class ServiceRequestTest extends TestCase
 
     public function test_customer_can_create_private_service_request()
     {
-        $customer = User::factory()->create(['role' => 'customer']);
-        $serviceProvider = User::factory()->create(['role' => 'service_provider']);
+        $customer = User::factory()->create(['user_type' => 'regular']);
+        $serviceProvider = User::factory()->create(['user_type' => 'provider']);
         $serviceCategory = ServiceCategory::factory()->create();
         $province = Province::factory()->create();
         $city = City::factory()->create();
@@ -73,7 +73,7 @@ class ServiceRequestTest extends TestCase
 
     public function test_customer_can_create_public_service_request()
     {
-        $customer = User::factory()->create(['role' => 'customer']);
+        $customer = User::factory()->create(['user_type' => 'regular']);
         $serviceCategory = ServiceCategory::factory()->create();
         $province = Province::factory()->create();
         $city = City::factory()->create();
@@ -115,8 +115,8 @@ class ServiceRequestTest extends TestCase
 
     public function test_service_provider_can_accept_service_request()
     {
-        $customer = User::factory()->create(['role' => 'customer']);
-        $serviceProvider = User::factory()->create(['role' => 'service_provider']);
+        $customer = User::factory()->create(['user_type' => 'regular']);
+        $serviceProvider = User::factory()->create(['user_type' => 'provider']);
         $serviceRequest = ServiceRequest::factory()->create([
             'customer_user_id' => $customer->id,
             'status' => 'pending_sp_acceptance'
@@ -143,8 +143,8 @@ class ServiceRequestTest extends TestCase
 
     public function test_service_provider_can_reject_service_request()
     {
-        $customer = User::factory()->create(['role' => 'customer']);
-        $serviceProvider = User::factory()->create(['role' => 'service_provider']);
+        $customer = User::factory()->create(['user_type' => 'regular']);
+        $serviceProvider = User::factory()->create(['user_type' => 'provider']);
         $serviceRequest = ServiceRequest::factory()->create([
             'customer_user_id' => $customer->id,
             'status' => 'pending_sp_acceptance'
@@ -172,8 +172,8 @@ class ServiceRequestTest extends TestCase
 
     public function test_service_provider_can_complete_service_request()
     {
-        $customer = User::factory()->create(['role' => 'customer']);
-        $serviceProvider = User::factory()->create(['role' => 'service_provider']);
+        $customer = User::factory()->create(['user_type' => 'regular']);
+        $serviceProvider = User::factory()->create(['user_type' => 'provider']);
         $serviceRequest = ServiceRequest::factory()->create([
             'customer_user_id' => $customer->id,
             'service_provider_user_id' => $serviceProvider->id,
@@ -199,7 +199,7 @@ class ServiceRequestTest extends TestCase
 
     public function test_customer_can_cancel_service_request()
     {
-        $customer = User::factory()->create(['role' => 'customer']);
+        $customer = User::factory()->create(['user_type' => 'regular']);
         $serviceRequest = ServiceRequest::factory()->create([
             'customer_user_id' => $customer->id,
             'status' => 'pending_payment'
@@ -227,7 +227,7 @@ class ServiceRequestTest extends TestCase
 
     public function test_customer_can_view_own_service_requests()
     {
-        $customer = User::factory()->create(['role' => 'customer']);
+        $customer = User::factory()->create(['user_type' => 'regular']);
         $serviceRequests = ServiceRequest::factory()->count(3)->create([
             'customer_user_id' => $customer->id
         ]);
@@ -256,7 +256,7 @@ class ServiceRequestTest extends TestCase
 
     public function test_service_provider_can_view_own_service_requests()
     {
-        $serviceProvider = User::factory()->create(['role' => 'service_provider']);
+        $serviceProvider = User::factory()->create(['user_type' => 'provider']);
         $serviceRequests = ServiceRequest::factory()->count(3)->create([
             'service_provider_user_id' => $serviceProvider->id
         ]);
@@ -285,7 +285,7 @@ class ServiceRequestTest extends TestCase
 
     public function test_customer_cannot_accept_service_request()
     {
-        $customer = User::factory()->create(['role' => 'customer']);
+        $customer = User::factory()->create(['user_type' => 'regular']);
         $serviceRequest = ServiceRequest::factory()->create([
             'customer_user_id' => $customer->id,
             'status' => 'pending_sp_acceptance'
@@ -298,7 +298,7 @@ class ServiceRequestTest extends TestCase
 
     public function test_service_provider_cannot_complete_unaccepted_request()
     {
-        $serviceProvider = User::factory()->create(['role' => 'service_provider']);
+        $serviceProvider = User::factory()->create(['user_type' => 'provider']);
         $serviceRequest = ServiceRequest::factory()->create([
             'status' => 'pending_sp_acceptance'
         ]);
@@ -310,7 +310,7 @@ class ServiceRequestTest extends TestCase
 
     public function test_customer_cannot_cancel_completed_request()
     {
-        $customer = User::factory()->create(['role' => 'customer']);
+        $customer = User::factory()->create(['user_type' => 'regular']);
         $serviceRequest = ServiceRequest::factory()->create([
             'customer_user_id' => $customer->id,
             'status' => 'completed'

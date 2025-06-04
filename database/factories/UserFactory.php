@@ -34,6 +34,7 @@ class UserFactory extends Factory
             'referred_by_user_id' => null,
             'is_admin' => false,
             'mobile_verified_at' => now(),
+            'user_type' => 'regular',
         ];
     }
 
@@ -53,6 +54,15 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'is_admin' => true,
+            ];
+        });
+    }
+
+    public function provider(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'user_type' => 'provider',
             ];
         });
     }

@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Province extends Model
 {
     use HasFactory;
-    // You can add fillable or guarded properties as needed
+
+    protected $fillable = ['name'];
+
+    public function cities()
+    {
+        return $this->hasMany(City::class);
+    }
 } 

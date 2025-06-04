@@ -371,6 +371,80 @@
                 }
             }
         },
+        "/api/v1/my-advertisements": {
+            "get": {
+                "tags": [
+                    "Advertisements (User)"
+                ],
+                "summary": "دریافت لیست تبلیغات کاربر جاری (با فیلتر وضعیت)",
+                "description": "لیست تبلیغات کاربر جاری با فیلتر وضعیت",
+                "operationId": "f08ebcf95be5197733ff6b3adc01a629",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "pending",
+                                "published",
+                                "expired"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "لیست تبلیغات کاربر"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/my-advertisements/{id}": {
+            "get": {
+                "tags": [
+                    "Advertisements (User)"
+                ],
+                "summary": "دریافت جزئیات تبلیغ کاربر جاری",
+                "description": "دریافت جزئیات یک تبلیغ متعلق به کاربر",
+                "operationId": "d6660197d23f905bb53bb8de9e51e6ea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "جزئیات تبلیغ"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/announcements": {
             "get": {
                 "tags": [
@@ -1015,6 +1089,157 @@
                                         "message": {
                                             "type": "string",
                                             "example": "خطا در ثبت‌نام"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register-provider": {
+            "post": {
+                "tags": [
+                    "Auth (Provider)"
+                ],
+                "summary": "ثبت نام خدمات‌دهنده جدید (Provider)",
+                "description": "ثبت نام خدمات‌دهنده جدید",
+                "operationId": "5fcbcc59f42599e008152aae9b568dc0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "full_name": {
+                                        "type": "string",
+                                        "example": "Ali Ahmadi"
+                                    },
+                                    "mobile_number": {
+                                        "type": "string",
+                                        "example": "09123456789"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "alihamadi"
+                                    },
+                                    "national_code": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "referral_code": {
+                                        "type": "string",
+                                        "example": "ABC123",
+                                        "nullable": true
+                                    },
+                                    "bio": {
+                                        "type": "string",
+                                        "example": "متخصص برقکار"
+                                    },
+                                    "shop_name": {
+                                        "type": "string",
+                                        "example": "فروشگاه علی"
+                                    },
+                                    "shop_address": {
+                                        "type": "string",
+                                        "example": "تهران، خیابان آزادی، پلاک ۱۲۳"
+                                    },
+                                    "shop_phone": {
+                                        "type": "string",
+                                        "example": "02112345678"
+                                    },
+                                    "shop_logo": {
+                                        "type": "string",
+                                        "example": "/uploads/shops/logo.png"
+                                    },
+                                    "shop_description": {
+                                        "type": "string",
+                                        "example": "فروشگاه تخصصی ابزارآلات و تجهیزات"
+                                    },
+                                    "senfi_number": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    },
+                                    "occupation_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "province_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "city_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Provider registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "ثبت‌نام خدمات‌دهنده موفقیت‌آمیز بود"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abcdef1234567890"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        },
+                                        "provider": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "شماره تأیید نشده است"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "خطا در ثبت‌نام خدمات‌دهنده"
                                         }
                                     },
                                     "type": "object"
@@ -2068,6 +2293,40 @@
                 ]
             }
         },
+        "/api/v1/shop/search": {
+            "get": {
+                "tags": [
+                    "Shop"
+                ],
+                "summary": "جستجو در فروشگاه (محصولات و خدمات)",
+                "description": "جستجو در محصولات و خدمات فروشگاه",
+                "operationId": "743a96b314d13867f7dab3d142e863c1",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "نتایج جستجو"
+                    }
+                }
+            }
+        },
         "/api/v1/subscriptions": {
             "get": {
                 "tags": [
@@ -2655,6 +2914,32 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/v1/providers/suggested": {
+            "get": {
+                "tags": [
+                    "Provider"
+                ],
+                "summary": "لیست خدمات‌دهنده‌های پیشنهادی (بر اساس امتیاز و سفارش موفق)",
+                "description": "لیست خدمات‌دهنده‌های پیشنهادی",
+                "operationId": "f8ee1fb91d80eff8b49ee39fa968b5f2",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "لیست خدمات‌دهنده‌های پیشنهادی"
+                    }
+                }
             }
         },
         "/api/v1/support/tickets/{id}/reply": {
@@ -3491,6 +3776,29 @@
                     },
                     "401": {
                         "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/provider/profile": {
+            "get": {
+                "tags": [
+                    "Provider (User)"
+                ],
+                "summary": "دریافت پروفایل ارائه‌دهنده (Provider)",
+                "description": "دریافت پروفایل ارائه‌دهنده کاربر جاری",
+                "operationId": "0699edbfd814e13ff52676a5d1abd5a0",
+                "responses": {
+                    "200": {
+                        "description": "اطلاعات پروفایل ارائه‌دهنده"
+                    },
+                    "404": {
+                        "description": "پروفایل ارائه‌دهنده یافت نشد"
                     }
                 },
                 "security": [
@@ -5939,6 +6247,10 @@
             "description": "Auth (User)"
         },
         {
+            "name": "Auth (Provider)",
+            "description": "Auth (Provider)"
+        },
+        {
             "name": "Chat (User)",
             "description": "Chat (User)"
         },
@@ -5967,6 +6279,10 @@
             "description": "Services (Admin)"
         },
         {
+            "name": "Shop",
+            "description": "Shop"
+        },
+        {
             "name": "Subscription (User)",
             "description": "Subscription (User)"
         },
@@ -5977,6 +6293,10 @@
         {
             "name": "Subscription Plans (Admin)",
             "description": "Subscription Plans (Admin)"
+        },
+        {
+            "name": "Provider",
+            "description": "Provider"
         },
         {
             "name": "Support Messages (User)",
@@ -5997,6 +6317,10 @@
         {
             "name": "User (User)",
             "description": "User (User)"
+        },
+        {
+            "name": "Provider (User)",
+            "description": "Provider (User)"
         },
         {
             "name": "Wallet (User)",

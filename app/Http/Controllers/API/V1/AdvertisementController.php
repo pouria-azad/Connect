@@ -276,4 +276,79 @@ class AdvertisementController extends Controller
 
         return response()->json(['message' => 'Display recorded successfully']);
     }
+
+    /**
+     * لیست تبلیغات کاربر جاری با فیلتر وضعیت
+     *
+     * @OA\Get(
+     *     path="/api/v1/my-advertisements",
+     *     summary="دریافت لیست تبلیغات کاربر جاری (با فیلتر وضعیت)",
+     *     tags={"Advertisements (User)"},
+     *     security={{"sanctum": {}}},
+     *     @OA\Parameter(name="status", in="query", required=false, @OA\Schema(type="string", enum={"pending","published","expired"})),
+     *     @OA\Parameter(name="per_page", in="query", required=false, @OA\Schema(type="integer", default=15)),
+     *     @OA\Response(response=200, description="لیست تبلیغات کاربر")
+     * )
+     */
+    public function userIndex(Request $request)
+    {
+        $user = $request->user();
+        $query = Advertisement::where('user_id', $user->id);
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        $perPage = $request->input('per_page', 15);
+        $ads = $query->orderByDesc('created_at')->paginate($perPage);
+        return \App\Http\Resources\API\V1\AdvertisementResource::collection($ads);
+    }
+
+    /**
+     * دریافت جزئیات یک تبلیغ متعلق به کاربر
+     *
+     * @OA\Get(
+     *     path="/api/v1/my-advertisements/{id}",
+     *     summary="دریافت جزئیات تبلیغ کاربر جاری",
+     *     tags={"Advertisements (User)"},
+     *     security={{"sanctum": {}}},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="جزئیات تبلیغ")
+     * )
+     */
+    public function userShow(Request $request, $id)
+    {
+        $ad = Advertisement::where('user_id', $request->user()->id)->findOrFail($id);
+        $ad->load('paymentTransactions');
+        return response()->json([
+            'advertisement' => new \App\Http\Resources\API\V1\AdvertisementResource($ad),
+            'payment_transactions' => $ad->paymentTransactions,
+        ]);
+    }
+
+    /**
+     * Renew an advertisement (User)
+     */
+    public function renew(Request $request, $id)
+    {
+        $user = $request->user();
+        $ad = Advertisement::find($id);
+        if (!$ad || $ad->user_id !== $user->id) {
+            return response()->json(['message' => 'Advertisement not found'], 404);
+        }
+        $request->validate([
+            'new_end_date' => 'required|date|after:' . $ad->end_date,
+        ]);
+        $ad->end_date = $request->input('new_end_date');
+        $ad->status = 'pending';
+        $ad->save();
+        $paymentTransaction = $ad->paymentTransactions()->create([
+            'user_id' => $user->id,
+            'amount' => 0, // مقدار را بر اساس منطق خودت تغییر بده
+            'status' => 'pending',
+            'payment_method' => 'wallet',
+        ]);
+        return response()->json([
+            'advertisement' => new \App\Http\Resources\API\V1\AdvertisementResource($ad),
+            'payment_transaction' => $paymentTransaction,
+        ]);
+    }
 } 

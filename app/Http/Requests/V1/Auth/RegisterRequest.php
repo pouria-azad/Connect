@@ -23,7 +23,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mobile_number' => ['required', 'string', 'regex:/^09[0-9]{9}$/', 'unique:users,mobile_number'],
+            'mobile_number' => ['required', 'string', 'regex:/^9[0-9]{9}$/', 'unique:users,mobile_number'],
             'full_name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', 'unique:users,username'],
             'national_code' => ['required', 'string', 'size:10', 'unique:users,national_code'],

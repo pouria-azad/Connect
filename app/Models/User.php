@@ -10,10 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Traits\HasOnlineStatus;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, HasOnlineStatus;
 
     protected $fillable = [
         'mobile_number',
@@ -23,8 +24,10 @@ class User extends Authenticatable
         'referral_code',
         'referred_by_user_id',
         'is_admin',
+        'user_type',
         'mobile_verified_at',
         'password',
+        'can_serve_nation_wide',
     ];
 
     protected $hidden = [
@@ -36,6 +39,7 @@ class User extends Authenticatable
         'mobile_verified_at' => 'datetime',
         'password' => 'hashed',
         'is_admin' => 'boolean',
+        'can_serve_nation_wide' => 'boolean',
     ];
 
     // Generate referral code on creation
@@ -192,5 +196,31 @@ class User extends Authenticatable
     public function getDisplayNameAttribute($value): string
     {
         return $value ?? $this->full_name ?? $this->username ?? 'کاربر';
+    }
+
+    public function provider()
+    {
+        return $this->hasOne(Provider::class);
+    }
+
+    // Helper methods for user type
+    public function isProvider(): bool
+    {
+        return $this->user_type === 'provider';
+    }
+
+    public function isRegularUser(): bool
+    {
+        return $this->user_type === 'regular';
+    }
+
+    public function getProviderTypeAttribute(): ?string
+    {
+        return $this->provider ? $this->provider->provider_type : null;
+    }
+
+    public function getSpecificProviderAttribute()
+    {
+        return $this->provider ? $this->provider->specific_provider : null;
     }
 }
