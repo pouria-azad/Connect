@@ -1,0 +1,281 @@
+ PHPUnit Started (PHPUnit 11.5.19 using PHP 8.4.1 (cli) on Linux)
+Test Runner Configured
+Bootstrap Finished (/home/pouria/Desktop/Connect/vendor/autoload.php)
+Event Facade Sealed
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_can_view_conversation_messages(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_can_view_conversation_messages(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_cannot_view_conversation_messages_if_not_a_participant(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_cannot_view_conversation_messages_if_not_a_participant(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_can_send_message_to_conversation(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_can_send_message_to_conversation(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_can_mark_messages_as_read(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_can_mark_messages_as_read(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_can_block_another_user_in_conversation(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_can_block_another_user_in_conversation(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_can_unblock_another_user_in_conversation(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ChatControllerTest::user_can_unblock_another_user_in_conversation(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::provider_can_view_own_services(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::provider_can_view_own_services(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::user_cannot_view_other_provider_services(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::user_cannot_view_other_provider_services(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::admin_can_view_any_provider_services(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::admin_can_view_any_provider_services(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::provider_not_found_returns_404(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::provider_not_found_returns_404(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_provider_can_store_own_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_provider_can_store_own_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_provider_cannot_store_service_for_other_provider(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_provider_cannot_store_service_for_other_provider(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_admin_can_store_service_for_any_provider(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_admin_can_store_service_for_any_provider(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_store_with_invalid_data_returns_422(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_store_with_invalid_data_returns_422(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_provider_can_destroy_own_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_provider_can_destroy_own_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_provider_cannot_destroy_other_provider_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_provider_cannot_destroy_other_provider_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_admin_can_destroy_any_provider_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::test_admin_can_destroy_any_provider_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::destroy_with_nonexistent_service_returns_404(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ProviderServiceControllerTest::destroy_with_nonexistent_service_returns_404(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::index_returns_all_services(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::index_returns_all_services(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::show_returns_service_details(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::show_returns_service_details(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::show_with_nonexistent_service_returns_404(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::show_with_nonexistent_service_returns_404(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_admin_can_store_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_admin_can_store_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_user_cannot_store_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_user_cannot_store_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::store_with_invalid_data_returns_422(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::store_with_invalid_data_returns_422(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_admin_can_update_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_admin_can_update_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_user_cannot_update_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_user_cannot_update_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::update_with_invalid_data_returns_422(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::update_with_invalid_data_returns_422(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_admin_can_destroy_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_admin_can_destroy_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_user_cannot_destroy_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::test_user_cannot_destroy_service(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Runner Triggered Deprecation (Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::destroy_with_nonexistent_service_returns_404(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.)
+
+   WARN  Metadata found in doc-comment for method Tests\Feature\ServiceControllerTest::destroy_with_nonexistent_service_returns_404(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+Test Suite Loaded (140 tests)
+Test Runner Started
+Test Suite Sorted
+Test Suite Filtered (9 tests)
+Test Runner Execution Started (9 tests)
+Test Suite Started (/home/pouria/Desktop/Connect/phpunit.xml, 9 tests)
+Test Suite Started (Feature, 9 tests)
+Test Suite Started (Tests\Feature\AuthControllerTest, 9 tests)
+Test Preparation Started (Tests\Feature\AuthControllerTest::test_user_can_request_otp)
+Before Test Method Called (Tests\Feature\AuthControllerTest::setUp)
+Before Test Method Finished:
+- Tests\Feature\AuthControllerTest::setUp
+Test Prepared (Tests\Feature\AuthControllerTest::test_user_can_request_otp)
+After Test Method Called (Tests\Feature\AuthControllerTest::tearDown)
+After Test Method Finished:
+- Tests\Feature\AuthControllerTest::tearDown
+Test Passed (Tests\Feature\AuthControllerTest::test_user_can_request_otp)
+Test Printed Unexpected Output
+ 
+ Test Finished (Tests\Feature\AuthControllerTest::test_user_can_request_otp)
+Test Preparation Started (Tests\Feature\AuthControllerTest::test_user_can_verify_otp)
+Before Test Method Called (Tests\Feature\AuthControllerTest::setUp)
+Before Test Method Finished:
+- Tests\Feature\AuthControllerTest::setUp
+Test Prepared (Tests\Feature\AuthControllerTest::test_user_can_verify_otp)
+After Test Method Called (Tests\Feature\AuthControllerTest::tearDown)
+After Test Method Finished:
+- Tests\Feature\AuthControllerTest::tearDown
+Test Passed (Tests\Feature\AuthControllerTest::test_user_can_verify_otp)
+Test Printed Unexpected Output
+ 
+ Test Finished (Tests\Feature\AuthControllerTest::test_user_can_verify_otp)
+Test Preparation Started (Tests\Feature\AuthControllerTest::test_user_cannot_verify_expired_otp)
+Before Test Method Called (Tests\Feature\AuthControllerTest::setUp)
+Before Test Method Finished:
+- Tests\Feature\AuthControllerTest::setUp
+Test Prepared (Tests\Feature\AuthControllerTest::test_user_cannot_verify_expired_otp)
+After Test Method Called (Tests\Feature\AuthControllerTest::tearDown)
+After Test Method Finished:
+- Tests\Feature\AuthControllerTest::tearDown
+Test Passed (Tests\Feature\AuthControllerTest::test_user_cannot_verify_expired_otp)
+Test Printed Unexpected Output
+ 
+ Test Finished (Tests\Feature\AuthControllerTest::test_user_cannot_verify_expired_otp)
+Test Preparation Started (Tests\Feature\AuthControllerTest::test_user_cannot_verify_used_otp)
+Before Test Method Called (Tests\Feature\AuthControllerTest::setUp)
+Before Test Method Finished:
+- Tests\Feature\AuthControllerTest::setUp
+Test Prepared (Tests\Feature\AuthControllerTest::test_user_cannot_verify_used_otp)
+After Test Method Called (Tests\Feature\AuthControllerTest::tearDown)
+After Test Method Finished:
+- Tests\Feature\AuthControllerTest::tearDown
+Test Passed (Tests\Feature\AuthControllerTest::test_user_cannot_verify_used_otp)
+Test Printed Unexpected Output
+ 
+ Test Finished (Tests\Feature\AuthControllerTest::test_user_cannot_verify_used_otp)
+Test Preparation Started (Tests\Feature\AuthControllerTest::test_existing_user_can_login_with_valid_otp)
+Before Test Method Called (Tests\Feature\AuthControllerTest::setUp)
+Before Test Method Finished:
+- Tests\Feature\AuthControllerTest::setUp
+Test Prepared (Tests\Feature\AuthControllerTest::test_existing_user_can_login_with_valid_otp)
+After Test Method Called (Tests\Feature\AuthControllerTest::tearDown)
+After Test Method Finished:
+- Tests\Feature\AuthControllerTest::tearDown
+Test Passed (Tests\Feature\AuthControllerTest::test_existing_user_can_login_with_valid_otp)
+Test Printed Unexpected Output
+ 
+ Test Finished (Tests\Feature\AuthControllerTest::test_existing_user_can_login_with_valid_otp)
+Test Preparation Started (Tests\Feature\AuthControllerTest::test_user_can_register_with_valid_otp)
+Before Test Method Called (Tests\Feature\AuthControllerTest::setUp)
+Before Test Method Finished:
+- Tests\Feature\AuthControllerTest::setUp
+Test Prepared (Tests\Feature\AuthControllerTest::test_user_can_register_with_valid_otp)
+After Test Method Called (Tests\Feature\AuthControllerTest::tearDown)
+After Test Method Finished:
+- Tests\Feature\AuthControllerTest::tearDown
+Test Passed (Tests\Feature\AuthControllerTest::test_user_can_register_with_valid_otp)
+Test Printed Unexpected Output
+ 
+ Test Finished (Tests\Feature\AuthControllerTest::test_user_can_register_with_valid_otp)
+Test Preparation Started (Tests\Feature\AuthControllerTest::test_user_cannot_register_without_verifying_otp)
+Before Test Method Called (Tests\Feature\AuthControllerTest::setUp)
+Before Test Method Finished:
+- Tests\Feature\AuthControllerTest::setUp
+Test Prepared (Tests\Feature\AuthControllerTest::test_user_cannot_register_without_verifying_otp)
+After Test Method Called (Tests\Feature\AuthControllerTest::tearDown)
+After Test Method Finished:
+- Tests\Feature\AuthControllerTest::tearDown
+Test Passed (Tests\Feature\AuthControllerTest::test_user_cannot_register_without_verifying_otp)
+Test Printed Unexpected Output
+ 
+ Test Finished (Tests\Feature\AuthControllerTest::test_user_cannot_register_without_verifying_otp)
+Test Preparation Started (Tests\Feature\AuthControllerTest::test_user_can_register_with_referral_code)
+Before Test Method Called (Tests\Feature\AuthControllerTest::setUp)
+Before Test Method Finished:
+- Tests\Feature\AuthControllerTest::setUp
+Test Prepared (Tests\Feature\AuthControllerTest::test_user_can_register_with_referral_code)
+array:4 [
+  "message" => "ثبت\u{200C}نام موفقیت\u{200C}آمیز"
+  "token" => "2|fZf41WApt5WUlV3Mz0mYw34XFrJj5sMY5fOmXC7r8180d40f"
+  "user" => array:11 [
+    "full_name" => "John Doe"
+    "mobile_number" => "09123456789"
+    "username" => "johndoe"
+    "national_code" => "1234567890"
+    "referral_code" => "2zuC16ZS"
+    "referred_by_user_id" => 2
+    "user_type" => "regular"
+    "updated_at" => "2025-06-01T20:28:42.000000Z"
+    "created_at" => "2025-06-01T20:28:42.000000Z"
+    "id" => 3
+    "wallet" => array:5 [
+      "id" => 1
+      "user_id" => 3
+      "balance" => 0
+      "created_at" => "2025-06-01T20:28:42.000000Z"
+      "updated_at" => "2025-06-01T20:28:42.000000Z"
+    ]
+  ]
+  "gift_card" => array:3 [
+    "code" => "ZGz2eDGIag"
+    "current_balance" => "5000.00"
+    "expires_at" => "2025-12-01T20:28:42.000000Z"
+  ]
+] // tests/Feature/AuthControllerTest.php:212
+After Test Method Called (Tests\Feature\AuthControllerTest::tearDown)
+After Test Method Finished:
+- Tests\Feature\AuthControllerTest::tearDown
+Test Passed (Tests\Feature\AuthControllerTest::test_user_can_register_with_referral_code)
+Test Printed Unexpected Output
+ 
+ Test Finished (Tests\Feature\AuthControllerTest::test_user_can_register_with_referral_code)
+Test Preparation Started (Tests\Feature\AuthControllerTest::test_provider_can_register_with_valid_otp)
+Before Test Method Called (Tests\Feature\AuthControllerTest::setUp)
+Before Test Method Finished:
+- Tests\Feature\AuthControllerTest::setUp
+Test Prepared (Tests\Feature\AuthControllerTest::test_provider_can_register_with_valid_otp)
+Test Failed (Tests\Feature\AuthControllerTest::test_provider_can_register_with_valid_otp)
+Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+After Test Method Called (Tests\Feature\AuthControllerTest::tearDown)
+After Test Method Finished:
+- Tests\Feature\AuthControllerTest::tearDown
+Test Printed Unexpected Output
+ 
+ Test Finished (Tests\Feature\AuthControllerTest::test_provider_can_register_with_valid_otp)
+After Last Test Method Called (Tests\Feature\AuthControllerTest::tearDownAfterClass)
+After Last Test Method Finished:
+- Tests\Feature\AuthControllerTest::tearDownAfterClass
+Test Suite Finished (Tests\Feature\AuthControllerTest, 9 tests)
+Test Runner Execution Aborted
+Test Suite Finished (Feature, 9 tests)
+Test Suite Finished (/home/pouria/Desktop/Connect/phpunit.xml, 9 tests)
+Test Runner Execution Finished
+
+   FAIL  Tests\Feature\AuthControllerTest
+  ✓ user can request otp                                                 0.77s  
+  ✓ user can verify otp                                                  0.05s  
+  ✓ user cannot verify expired otp                                       0.04s  
+  ✓ user cannot verify used otp                                          0.05s  
+  ✓ existing user can login with valid otp                               0.10s  
+  ✓ user can register with valid otp                                     0.08s  
+  ✓ user cannot register without verifying otp                           0.06s  
+  ✓ user can register with referral code                                 0.09s  
+  ⨯ provider can register with valid otp                                 0.07s  
+  ────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\AuthControllerTest > provider can register with val…   
+  Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+  at tests/Feature/AuthControllerTest.php:268
+    264▕             'province_id' => null,
+    265▕             'city_id' => null
+    266▕         ]);
+    267▕ 
+  ➜ 268▕         $response->assertStatus(200)
+    269▕             ->assertJsonStructure([
+    270▕                 'message',
+    271▕                 'token',
+    272▕                 'user',
+
+
+  Tests:    1 failed, 8 passed (35 assertions)
+  Duration: 1.55s
+
+Test Runner Finished
+PHPUnit Finished (Shell Exit Code: 1)
