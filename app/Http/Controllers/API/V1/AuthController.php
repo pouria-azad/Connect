@@ -42,7 +42,7 @@ class AuthController extends Controller
     private ProviderRegistrationService $providerRegistrationService;
 
     public function __construct(
-        NotificationService $notificationService, 
+        NotificationService $notificationService,
         SmsIrService $smsIrService,
         ProviderRegistrationService $providerRegistrationService
     ) {
@@ -53,7 +53,7 @@ class AuthController extends Controller
 
     /**
      * Send OTP code to user's mobile number
-     * 
+     *
      * @OA\Post(
      *     path="/api/v1/auth/send-otp",
      *     summary="ارسال کد تایید (User)",
@@ -61,7 +61,7 @@ class AuthController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="mobile_number", type="string", example="09123456789")
+     *             @OA\Property(property="mobile_number", type="string", example="9123456789")
      *         )
      *     ),
      *     @OA\Response(
@@ -77,10 +77,10 @@ class AuthController extends Controller
     public function sendOtp(SendOtpRequest $request): JsonResponse
     {
         $mobile_number = ltrim($request->mobile_number, '0');
-        
+
         // Generate 6-digit OTP code
         $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        
+
         // Store OTP in database
         OtpCode::updateOrCreate(
             ['mobile_number' => $mobile_number],
@@ -112,7 +112,7 @@ class AuthController extends Controller
 
     /**
      * Verify OTP code
-     * 
+     *
      * @OA\Post(
      *     path="/api/v1/auth/verify-otp",
      *     summary="تایید کد ارسالی (User)",
@@ -120,7 +120,7 @@ class AuthController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="mobile_number", type="string", example="09123456789"),
+     *             @OA\Property(property="mobile_number", type="string", example="9123456789"),
      *             @OA\Property(property="code", type="string", example="123456")
      *         )
      *     ),
@@ -169,7 +169,7 @@ class AuthController extends Controller
         if ($user) {
             // Generate token for existing user
             $token = $user->createToken('api-token')->plainTextToken;
-            
+
             return response()->json([
                 'message' => 'ورود موفقیت‌آمیز',
                 'token' => $token,
@@ -185,7 +185,7 @@ class AuthController extends Controller
 
     /**
      * Register new user
-     * 
+     *
      * @OA\Post(
      *     path="/api/v1/auth/register",
      *     summary="ثبت نام کاربر جدید (User)",
@@ -194,7 +194,7 @@ class AuthController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="full_name", type="string", example="John Doe"),
-     *             @OA\Property(property="mobile_number", type="string", example="09123456789"),
+     *             @OA\Property(property="mobile_number", type="string", example="9123456789"),
      *             @OA\Property(property="username", type="string", example="johndoe"),
      *             @OA\Property(property="national_code", type="string", example="1234567890"),
      *             @OA\Property(property="password", type="string", example="password123"),
@@ -213,7 +213,7 @@ class AuthController extends Controller
      *                 type="object",
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="full_name", type="string", example="John Doe"),
-     *                 @OA\Property(property="mobile_number", type="string", example="09123456789"),
+     *                 @OA\Property(property="mobile_number", type="string", example="9123456789"),
      *                 @OA\Property(property="username", type="string", example="johndoe"),
      *                 @OA\Property(property="referral_code", type="string", example="ABC123"),
      *                 @OA\Property(property="is_admin", type="boolean", example=false),
@@ -399,7 +399,7 @@ class AuthController extends Controller
         do {
             $code = Str::random(8);
         } while (User::where('referral_code', $code)->exists());
-        
+
         return $code;
     }
 
@@ -411,7 +411,7 @@ class AuthController extends Controller
         do {
             $code = Str::random(10);
         } while (GiftCard::where('code', $code)->exists());
-        
+
         return $code;
     }
 
@@ -426,7 +426,7 @@ class AuthController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="full_name", type="string", example="Ali Ahmadi"),
-     *             @OA\Property(property="mobile_number", type="string", example="09123456789"),
+     *             @OA\Property(property="mobile_number", type="string", example="9123456789"),
      *             @OA\Property(property="username", type="string", example="alihamadi"),
      *             @OA\Property(property="national_code", type="string", example="1234567890"),
      *             @OA\Property(property="password", type="string", example="password123"),
@@ -690,4 +690,4 @@ class AuthController extends Controller
             'message' => 'با موفقیت خارج شدید'
         ]);
     }
-} 
+}

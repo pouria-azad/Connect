@@ -832,7 +832,7 @@
                                 "properties": {
                                     "mobile_number": {
                                         "type": "string",
-                                        "example": "09123456789"
+                                        "example": "9123456789"
                                     }
                                 },
                                 "type": "object"
@@ -880,7 +880,7 @@
                                 "properties": {
                                     "mobile_number": {
                                         "type": "string",
-                                        "example": "09123456789"
+                                        "example": "9123456789"
                                     },
                                     "code": {
                                         "type": "string",
@@ -952,7 +952,7 @@
                                     },
                                     "mobile_number": {
                                         "type": "string",
-                                        "example": "09123456789"
+                                        "example": "9123456789"
                                     },
                                     "username": {
                                         "type": "string",
@@ -1008,7 +1008,7 @@
                                                 },
                                                 "mobile_number": {
                                                     "type": "string",
-                                                    "example": "09123456789"
+                                                    "example": "9123456789"
                                                 },
                                                 "username": {
                                                     "type": "string",
@@ -1119,7 +1119,7 @@
                                     },
                                     "mobile_number": {
                                         "type": "string",
-                                        "example": "09123456789"
+                                        "example": "9123456789"
                                     },
                                     "username": {
                                         "type": "string",
